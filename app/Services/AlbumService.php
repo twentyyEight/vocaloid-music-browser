@@ -8,9 +8,12 @@ class AlbumService
 {
     public function getAlbumById($id)
     {
-        $url = "https://vocadb.net/api/albums/{$id}?fields=Tags,Tracks,WebLinks,PVs,MainPicture&lang=Romaji";
-        $response = Http::get($url);
+        $response = Http::get("https://vocadb.net/api/albums/{$id}?fields=Tags,Tracks,WebLinks,PVs,MainPicture&lang=Romaji");
         $json = $response->json();
+
+        if ($response->failed() || !$response->json()) {
+            abort(500, 'Error al obtener datos');
+        }
 
         $genres = [];
         foreach ($json['tags'] as $tag) {
@@ -43,9 +46,9 @@ class AlbumService
             'year' => $json['releaseDate']['year'] ?? null,
             'type' => $json['discType'] ?? null,
             'producers' => $json["artistString"] ?? null,
-            'genres' => $genres,
-            'links' => $links,
-            'tracks' => $tracks
+            'genres' => empty($genres) ? null : $genres,
+            'links' => empty($links) ? null : $links,
+            'tracks' => empty($tracks) ? null : $tracks
         ];
     }
 }

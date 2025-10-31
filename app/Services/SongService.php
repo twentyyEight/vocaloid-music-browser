@@ -49,10 +49,10 @@ class SongService
             'name' => $json['name'],
             'date' => $date,
             'type' => $json['songType'],
-            'producers' => $producers,
-            'vocalists' => $vocalists,
-            'genres' => $genres,
-            'links' => $links
+            'producers' => empty($producers) ? null : $producers,
+            'vocalists' => $vocalists ? null : $vocalists,
+            'genres' => empty($genres) ? null : $genres,
+            'links' => empty($links) ? null : $links
         ];
     }
 }
