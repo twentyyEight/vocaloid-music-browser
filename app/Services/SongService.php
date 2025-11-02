@@ -8,21 +8,31 @@ class SongService
 {
     public function getSongById($id)
     {
-        $response = Http::get("https://vocadb.net/api/songs/{$id}?fields=Albums,Artists,PVs,Tags,WebLinks&lang=Romaji");
+        $response = Http::get("https://vocadb.net/api/songs/{$id}?fields=Albums,Artists,PVs,Tags&lang=Romaji");
         $json = $response->json();
 
-        $date = date('d-m-Y', strtotime($json['publishDate']));
+        if ($response->failed() || !$response->json()) {
+            abort(500, 'Error al obtener datos');
+        }
 
         $producers = [];
         $vocalists = [];
         foreach ($json['artists'] as $artist) {
 
-            if ($artist['categories'] == 'Producer') {
-                array_push($producers, $artist['name']);
+            if ($artist['categories'] == 'Producer' || $artist['categories'] == 'Circle') {
+
+                $producers[] = [
+                    'name' => $artist['name'],
+                    'id' => $artist['id']
+                ];
             }
 
-            if ($artist['categories'] == 'Vocalist') {
-                array_push($vocalists, $artist['name']);
+            elseif ($artist['categories'] == 'Vocalist') {
+
+                $vocalists[] = [
+                    'name' => $artist['name'],
+                    'id' => $artist['id']
+                ];
             }
         }
 
@@ -30,29 +40,45 @@ class SongService
         foreach ($json['tags'] as $tag) {
 
             if ($tag['tag']['categoryName'] == 'Genres') {
-                array_push($genres, $tag['tag']['name']);
+
+                $genres[] = [
+                    'name' => $tag['tag']['name'],
+                    'id' => $tag['tag']['id']
+                ];
             }
         }
 
-        $links = [];
-        foreach ($json['webLinks'] as $link) {
+        $albumIds = collect($json['albums'])->pluck('id');
 
-            if ($link['category'] == 'Commercial' && !$link['disabled']) {
-                array_push($links, [
-                    'name' => $link['description'],
-                    'url' => $link['url']
-                ]);
+        // Peticiones concurrentes
+        $responses = Http::pool(
+            fn($pool) =>
+            $albumIds->map(
+                fn($albumId) =>
+                $pool->as($albumId)->get("https://vocadb.net/api/albums/{$albumId}?fields=MainPicture")
+            )->toArray()
+        );
+
+        // Procesar resultados
+        $albumCovers = [];
+        foreach ($responses as $albumId => $res) {
+            if ($res->successful()) {
+                $albumCovers[] = [
+                    'img' => $res['mainPicture']['urlSmallThumb'],
+                    'name' => $res['name'],
+                    'id' => $albumId,
+                ];
             }
         }
 
         return [
             'name' => $json['name'],
-            'date' => $date,
+            'date' => $json['publishDate'],
             'type' => $json['songType'],
             'producers' => empty($producers) ? null : $producers,
-            'vocalists' => $vocalists ? null : $vocalists,
+            'vocalists' => empty($vocalists) ? null : $vocalists,
             'genres' => empty($genres) ? null : $genres,
-            'links' => empty($links) ? null : $links
+            'albums' => empty($albumCovers) ? null : $albumCovers
         ];
     }
 }

@@ -16,7 +16,6 @@
         <p id="producers"></p>
         <p id="vocalists"></p>
         <p id="genres"></p>
-        <div id="links"></div>
         <div id="albums"></div>
 
     </div>
