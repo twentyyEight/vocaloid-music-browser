@@ -20,6 +20,8 @@ function setArtistData(id) {
 
             name.text(artist.name)
 
+            type.text(artist.type)
+
             description.text(artist.description)
 
             artist.songs.forEach(song => {
