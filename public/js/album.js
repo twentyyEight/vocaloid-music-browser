@@ -8,6 +8,9 @@ const genres = $('#genres')
 const buyLinks = $('#buy-links')
 const tracks = $('#tracks')
 
+const btn = $('button')
+let name
+
 function setAlbumData(id) {
     $.ajax({
         url: `/api/album/${id}`,
@@ -25,6 +28,7 @@ function setAlbumData(id) {
 
             // Nombre y año lanzamiento album
             nameYear.text(album.name + ' (' + album.year + ')')
+            name = album.name
 
             // Tipo de disco (album, sencillo, EP, etc)
             type.text(album.type)
@@ -53,6 +57,32 @@ function setAlbumData(id) {
     )
 }
 
+function saveAlbumData() {
+
+    const data = {
+        'id': id,
+        'name': name,
+        'artists': producers.text(),
+        'type': 'album'
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/store',
+        data: { data: data },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (respuesta) {
+            console.log(respuesta);
+        },
+        error: function (error) {
+            console.error(error)
+        }
+    })
+}
+
 $(function () {
     setAlbumData(id)
+    btn.click(saveAlbumData)
 })

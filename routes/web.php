@@ -5,11 +5,13 @@ use App\Http\Controllers\SongController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
 // Album Routes
 Route::get('/album/{id}', [AlbumController::class, 'index']);
@@ -27,14 +29,17 @@ Route::get('/api/genre/{id}', [GenreController::class, 'show']);
 Route::get('/artist/{id}', [ArtistController::class, 'index']);
 Route::get('/api/artist/{id}', [ArtistController::class, 'show']);
 
-// Login Routes
-Route::get('/login', [UserController::class, 'login'])->name('login');
-Route::post('login', [UserController::class, 'logincheck'])->name('logincheck');
+// Auth Routes
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logincheck', [AuthController::class, 'logincheck'])->name('logincheck');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/registercheck', [AuthController::class, 'registercheck'])->name('registercheck');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/redirect', [AuthController::class, 'redirection'])->name('redirection');
 
-// Register Routes
-Route::get('/signup', [UserController::class, 'signup'])->name('singup');
-Route::post('singup', [UserController::class, 'registercheck'])->name('registercheck');
-
-Route::get('redirect', [UserController::class, 'redirectUser'])->name('redirect');
-
-Route::get('logout', [UserController::class, 'logout'])->name('logout');
+// Protected Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::post('/store', [UserController::class, 'store']);
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin');
+});

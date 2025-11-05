@@ -75,6 +75,7 @@ class SongService
             'name' => $json['name'],
             'date' => $json['publishDate'],
             'type' => $json['songType'],
+            'artists' => $json['artistString'],
             'producers' => empty($producers) ? null : $producers,
             'vocalists' => empty($vocalists) ? null : $vocalists,
             'genres' => empty($genres) ? null : $genres,

@@ -7,6 +7,9 @@ const producers = $('#producers')
 const vocalists = $('#vocalists')
 const genres = $('#genres')
 const albums = $('#albums')
+const btn = $('button')
+
+let artists
 
 function setSongData(id) {
     $.ajax({
@@ -64,6 +67,8 @@ function setSongData(id) {
                 albums.append(link);
             })
 
+            artists = song.artists
+
         },
         error: function (error) {
             console.log(error)
@@ -72,6 +77,32 @@ function setSongData(id) {
     )
 }
 
+function saveSongData() {
+
+    const data = {
+        'id': id,
+        'name': name.text(),
+        'artists': artists,
+        'type': 'song'
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/store',
+        data: { data: data },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (respuesta) {
+            console.log(respuesta);
+        },
+        error: function (error) {
+            console.error(error)
+        }
+    })
+}
+
 $(function () {
     setSongData(id)
+    btn.click(saveSongData)
 })

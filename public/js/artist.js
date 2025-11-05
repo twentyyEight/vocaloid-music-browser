@@ -8,6 +8,8 @@ const genres = $('#genres')
 const songs = $('#songs')
 const albums = $('#albums')
 
+const btn = $('button')
+
 function setArtistData(id) {
     $.ajax({
         url: `/api/artist/${id}`,
@@ -49,8 +51,6 @@ function setArtistData(id) {
                 albums.append(a)
             });
 
-
-
         },
         error: function (error) {
             console.log(error)
@@ -59,6 +59,32 @@ function setArtistData(id) {
     )
 }
 
+function saveArtistData() {
+
+    const data = {
+        'id': id,
+        'name': name.text(),
+        'img': image.attr('src'),
+        'type': 'artist'
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/store',
+        data: { data: data },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (respuesta) {
+            console.log(respuesta);
+        },
+        error: function (error) {
+            console.error(error)
+        }
+    })
+}
+
 $(function () {
     setArtistData(id)
+    btn.click(saveArtistData)
 })

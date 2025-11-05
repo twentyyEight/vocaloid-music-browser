@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1 id="name"></h1>
-
-    <div id="songs"></div>
-
-    <a href="{{ route('logout') }}">Log out</a>
+    <a href="/register">Sign Up</a>
+    <a href="/login">Login</a>
 </body>
 </html>
