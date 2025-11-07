@@ -4,19 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
-    public function index()
+
+    protected $userService;
+
+    public function __construct(UserService $userService)
     {
-        return view('user');
+        $this->userService = $userService;
+    }
+
+    public function index($id)
+    {
+        return view('user', ['id' => $id]);
+    }
+
+    public function show($id)
+    {
+        $user = $this->userService->getUserById($id);
+        return $user;
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
         $data = $request->input('data');
-        $type = array_pop($data);
+
+        $type = $data['type'];
+        unset($data['type']);
 
         switch ($type) {
             case 'song':
@@ -36,9 +53,9 @@ class UserController extends Controller
                 $favs[] = $data;
                 $user->favorite_albums = json_encode($favs);
                 break;
-            
+
             default:
-            return;
+                return;
         }
 
         $user->save();

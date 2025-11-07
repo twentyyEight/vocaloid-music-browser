@@ -25,13 +25,13 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (Auth::attempt($credential)) {
-            return redirect()->route('redirect');
-        } else {
+        if (!Auth::attempt($credential)) {
             return back()->withErrors([
                 'login' => 'Las credenciales no coinciden con nuestros registros.',
             ])->withInput();
         }
+
+        return redirect()->route('redirect');
     }
 
     public function registercheck(Request $request)
@@ -45,17 +45,21 @@ class AuthController extends Controller
         $user = User::Create($validation);
         Auth::login($user);
 
-        return redirect()->route('redirection');
+        return redirect()->route('redirect');
     }
 
     public function redirection()
     {
-        if (Auth::check() && Auth::user()->role == 1) {
+        if (!Auth::check()) {
+            return redirect()->route('home');
+        }
+
+        if (Auth::user()->role == 1) {
             return redirect()->route('admin');
-        } else if (Auth::check() && Auth::user()->role == 0) {
+        }
+
+        if (Auth::user()->role == 0) {
             return redirect()->route('user');
-        } else {
-            return redirect()->route('login');
         }
     }
 

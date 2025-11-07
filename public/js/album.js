@@ -63,6 +63,7 @@ function saveAlbumData() {
         'id': id,
         'name': name,
         'artists': producers.text(),
+        'cover': cover.attr('src'),
         'type': 'album'
     }
 

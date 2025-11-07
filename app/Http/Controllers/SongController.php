@@ -15,14 +15,14 @@ class SongController extends Controller
         $this->songService = $songService;
     }
 
+    public function index($id)
+    {
+        return view('song', ['id' => $id]);
+    }
+
     public function show($id)
     {
         $song = $this->songService->getSongById($id);
         return response()->json($song);
-    }
-
-    public function index($id)
-    {
-        return view('song', ['id' => $id]);
     }
 }

@@ -13,7 +13,7 @@
 
         <button>Agregar a favoritos</button>
 
-        <img id="cover" src="" alt="" width="300" height="300">
+        <img id="cover" src="" alt="">
         <h1 id="name_year"></h1>
         <h3 id="type"></h3>
         <p id="producers"></p>

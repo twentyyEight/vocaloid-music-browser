@@ -35,11 +35,13 @@ Route::post('/logincheck', [AuthController::class, 'logincheck'])->name('loginch
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/registercheck', [AuthController::class, 'registercheck'])->name('registercheck');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::post('/redirect', [AuthController::class, 'redirection'])->name('redirection');
+Route::get('/redirect', [AuthController::class, 'redirection'])->name('redirect');
+
+Route::get('/user/{id}', [UserController::class, 'index'])->name('user');
+Route::get('/api/user/{id}', [UserController::class, 'show']);
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::post('/store', [UserController::class, 'store']);
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin');
 });

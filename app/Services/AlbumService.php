@@ -60,7 +60,7 @@ class AlbumService
 
 
         return [
-            'cover' => $json['mainPicture']['urlOriginal'] ?? null,
+            'cover' => $json['mainPicture']['urlThumb'] ?? null,
             'name' => $json['name'] ?? null,
             'year' => $json['releaseDate']['year'] ?? null,
             'type' => $json['discType'] ?? null,
