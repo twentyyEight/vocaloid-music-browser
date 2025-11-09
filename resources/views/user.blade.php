@@ -7,24 +7,31 @@
     <title>User</title>
 </head>
 
-<body data-id="{{ $id }}">
-    <h1 id="name"></h1>
+<body>
+
+    <h1 id="name">{{ $user['name'] }}</h1>
+
+    @if ($isUserProfile)
+    <button type="button">Acción especial</button>
+    @endif
 
     <h2>Favorite Songs:</h2>
-    <div id="songs"></div>
+    <div>
+        {{ $songs }}
+    </div>
 
     <h2>Favorite Albums:</h2>
-    <div id="albums"></div>
+    <div></div>
 
     <h2>Favorite Artists:</h2>
-    <div id="artists"></div>
+    <div></div>
 
     @auth
     <a href="{{ route('logout') }}">Log out</a>
     @endauth
 
-    <script type="module" src="{{ asset('js/user.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- <script type="module" src="{{ asset('js/user.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 </body>
 
 </html>

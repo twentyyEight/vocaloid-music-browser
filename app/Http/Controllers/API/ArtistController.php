@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\ArtistService;
@@ -15,6 +16,7 @@ class ArtistController extends Controller
         $this->artistService = $artistService;
     }
 
+    // temporal
     public function show($id)
     {
         $artist = $this->artistService->getArtistById($id);
@@ -23,6 +25,7 @@ class ArtistController extends Controller
 
     public function index($id)
     {
-        return view('artist', ['id' => $id]);
+        $artist = $this->artistService->getArtistById($id);
+        return view('artist', ['artist' => $artist]);
     }
 }

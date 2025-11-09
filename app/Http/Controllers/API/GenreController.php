@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\GenreService;
@@ -14,14 +15,16 @@ class GenreController extends Controller
         $this->genreService = $genreService;
     }
 
-    public function show($id)
+    // temporal
+    public function show($id, GenreService $genreService)
     {
-        $genre = $this->genreService->getGenreById($id);
+        $genre = $genreService->getGenreById($id);
         return response()->json($genre);
     }
 
     public function index($id)
     {
-        return view('genre', ['id' => $id]);
+        $genre = $this->genreService->getGenreById($id);
+        return view('genre', ['genre' => $genre]);
     }
 }

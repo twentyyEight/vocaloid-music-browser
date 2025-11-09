@@ -8,17 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login()
-    {
-        return view('login');
-    }
-
-    public function register()
-    {
-        return view('register');
-    }
-
-    public function logincheck(Request $request)
+    public function login(Request $request)
     {
         $credential = $request->validate([
             'email' => 'required|email',
@@ -34,7 +24,7 @@ class AuthController extends Controller
         return redirect()->route('redirect');
     }
 
-    public function registercheck(Request $request)
+    public function register(Request $request)
     {
         $validation = $request->validate([
             'name' => 'required|unique:users,name|min:4',

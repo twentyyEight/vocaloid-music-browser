@@ -17,11 +17,29 @@ class AlbumService
             abort(500, 'Error al obtener datos');
         }
 
+        $type = null;
+        switch ($json['discType']) {
+
+            case 'Album':
+                $type = 'Original Album';
+                break;
+            
+            case 'Compilation':
+                $type = 'Compilation Album';
+                break;
+            
+            default:
+                $type = $json['discType'];
+        }
+
         // Genero(s) album
         $genres = [];
         foreach ($json['tags'] as $tag) {
             if ($tag['tag']['categoryName'] == 'Genres') {
-                $genres[] = $tag['tag']['name'];
+                $genres[] = [
+                    'id' => $tag['tag']['id'],
+                    'name' => $tag['tag']['name']
+                ];
             }
         }
 
@@ -40,8 +58,9 @@ class AlbumService
         $tracks = [];
         foreach ($json['tracks'] as $track) {
             $tracks[] = [
+                'id' => $track['song']['id'],
                 'name' => $track['name'],
-                'producers' => $track['song']["artistString"]
+                'artists' => $track['song']["artistString"]
             ];
         }
 
@@ -57,14 +76,13 @@ class AlbumService
             }
         }*/
 
-
-
         return [
-            'cover' => $json['mainPicture']['urlThumb'] ?? null,
+            'id' => $json['id'],
+            'img' => $json['mainPicture']['urlThumb'] ?? null,
             'name' => $json['name'] ?? null,
             'year' => $json['releaseDate']['year'] ?? null,
-            'type' => $json['discType'] ?? null,
-            'producers' => $json["artistString"] ?? null,
+            'type' => $type ?? null,
+            'artists' => $json["artistString"] ?? null,
             'genres' => empty($genres) ? null : $genres,
             'links' => empty($links) ? null : $links,
             'tracks' => empty($tracks) ? null : $tracks,

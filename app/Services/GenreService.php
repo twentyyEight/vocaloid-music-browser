@@ -66,9 +66,9 @@ class GenreService
         }
 
         return [
-            'name' => $res['genre']['name'],
-            'description' => $res['genre']['description'],
-            'img' => $res['genre']['mainPicture']['urlOriginal'],
+            'name' => $res['genre']['name'] ?? null,
+            'description' => $res['genre']['description'] ?? null,
+            'img' => $res['genre']['mainPicture']['urlOriginal'] ?? null,
             'songs' => empty($songs) ? null : $songs,
             'albums' => empty($albums) ? null : $albums,
             'artists' => empty($artists) ? null : $artists

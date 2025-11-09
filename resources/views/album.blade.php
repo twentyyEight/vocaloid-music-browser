@@ -4,26 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title></title>
 </head>
 
 <body>
-    <div id="album" data-id="{{ $id }}">
+    @if(session('success'))
+    <p>{{ session('success') }}</p>
+    @endif
 
-        <button>Agregar a favoritos</button>
+    @if(session('error'))
+    <p>{{ session('error') }}</p>
+    @endif
 
-        <img id="cover" src="" alt="">
-        <h1 id="name_year"></h1>
-        <h3 id="type"></h3>
-        <p id="producers"></p>
-        <p id="genres"></p>
-        <div id="buy-links"></div>
-        <ul id="tracks"></ul>
+
+    @auth
+    <form action="{{ route('store.album', $album['id']) }}" method="POST">
+        @csrf
+        <button type="submit">Agregar a favoritos</button>
+    </form>
+    @endauth
+
+    <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
+    <h1>{{ $album['name'] }} ({{ $album['year']}})</h1>
+    <h3>{{ $album['type'] }}</h3>
+    <h4>{{ $album['artists'] }}</h4>
+
+    <div>
+        @foreach ($album['genres'] as $genre)
+        <a href="/genre/{{ $genre['id'] }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
+        @endforeach
     </div>
 
-    <script type="module" src="{{ asset('js/album.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <div>
+        @foreach ($album['links'] as $link)
+        <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
+        @endforeach
+    </div>
+
+    <ul>
+        @foreach ($album['tracks'] as $track)
+        <li><a href="/song/{{ $track['id'] }}">{{ $track['name'] }}<br>{{ $track['artists'] }}</a></li>
+        @endforeach
+    </ul>
 </body>
 
 </html>

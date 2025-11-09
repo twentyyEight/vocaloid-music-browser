@@ -58,10 +58,11 @@ class ArtistService
         }
 
         return [
-            'name' => $json['name'],
-            'type' => $json['artistType'],
-            'description' => $json['description'],
-            'img' => $json['mainPicture']['urlThumb'],
+            'id' => $json['id'] ?? null,
+            'name' => $json['name'] ?? null,
+            'type' => $json['artistType'] ?? null,
+            'description' => $json['description'] ?? null,
+            'img' => $json['mainPicture']['urlThumb'] ?? null,
             'genres' => empty($genres) ? null : $genres,
             'songs' => empty($popularSongs) ? null : $popularSongs,
             'albums' => empty($popularAlbums) ? null : $popularAlbums

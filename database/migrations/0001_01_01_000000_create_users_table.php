@@ -21,9 +21,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->string('role')->default('normal');
-            $table->json('favorite_songs')->nullable();
-            $table->json('favorite_albums')->nullable();
-            $table->json('favorite_artists')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

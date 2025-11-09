@@ -8,26 +8,35 @@ class SongService
 {
     public function getSongById($id)
     {
-        $response = Http::get("https://vocadb.net/api/songs/{$id}?fields=Albums,Artists,PVs,Tags&lang=Romaji");
+        $response = Http::get("https://vocadb.net/api/songs/{$id}?fields=Albums,Artists,PVs,Tags,MainPicture&lang=Romaji");
         $json = $response->json();
 
         if ($response->failed() || !$response->json()) {
             abort(500, 'Error al obtener datos');
         }
 
+        $type = null;
+        switch ($json['songType']) {
+
+            case 'Original':
+                $type = 'Original Song';
+                break;
+
+            default:
+                $type = $json['songType'];
+        }
+
         $producers = [];
         $vocalists = [];
         foreach ($json['artists'] as $artist) {
 
-            if ($artist['categories'] == 'Producer' || $artist['categories'] == 'Circle') {
+            if (str_contains($artist['categories'], 'Producer') || str_contains($artist['categories'], 'Circle')) {
 
                 $producers[] = [
                     'name' => $artist['name'],
-                    'id' => $artist['id']
+                    'id' => $artist['artist']['id']
                 ];
-            }
-
-            elseif ($artist['categories'] == 'Vocalist') {
+            } elseif ($artist['categories'] == 'Vocalist') {
 
                 $vocalists[] = [
                     'name' => $artist['name'],
@@ -72,14 +81,16 @@ class SongService
         }
 
         return [
-            'name' => $json['name'],
-            'date' => $json['publishDate'],
-            'type' => $json['songType'],
-            'artists' => $json['artistString'],
+            'id' => $json['id'] ?? null,
+            'name' => $json['name'] ?? null,
+            'date' => $json['publishDate'] ?? null,
+            'type' => $type ?? null,
+            'artists' => $json['artistString'] ?? null,
             'producers' => empty($producers) ? null : $producers,
             'vocalists' => empty($vocalists) ? null : $vocalists,
             'genres' => empty($genres) ? null : $genres,
-            'albums' => empty($albumCovers) ? null : $albumCovers
+            'albums' => empty($albumCovers) ? null : $albumCovers,
+            'img' => $json['mainPicture']['urlOriginal'] ?? null
         ];
     }
 }
