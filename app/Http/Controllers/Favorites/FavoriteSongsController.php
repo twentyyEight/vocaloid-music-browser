@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Favorites;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\FavoriteSongs;
@@ -21,7 +22,7 @@ class FavoriteSongsController extends Controller
             $userId = Auth::id();
 
             $song = $songService->getSongById($id);
-            
+
             FavoriteSongs::create([
                 'user_id' => $userId,
                 'song_id' => $id,
@@ -31,7 +32,6 @@ class FavoriteSongsController extends Controller
             ]);
 
             return back()->with('success', 'Guardado exitoso');
-
         } catch (\Exception $e) {
 
             Log::error($e->getMessage());
@@ -42,8 +42,20 @@ class FavoriteSongsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FavoriteSongs $favoriteSongs)
+    public function destroy($songId)
     {
-        //
+
+        $userId = Auth::id();
+
+        $deleted = FavoriteSongs::where('user_id', $userId)
+            ->where('song_id', $songId)
+            ->delete();
+
+
+        if ($deleted === 0) {
+            return back()->with('error', 'Error al eliminar la canción.');
+        }
+
+        return back()->with('success', 'Canción eliminada correctamente.');
     }
 }

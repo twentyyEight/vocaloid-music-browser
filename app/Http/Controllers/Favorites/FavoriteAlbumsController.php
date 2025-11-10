@@ -40,8 +40,19 @@ class FavoriteAlbumsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($albumId)
     {
-        //
+        $userId = Auth::id();
+
+        $deleted = FavoriteAlbums::where('user_id', $userId)
+            ->where('album_id', $albumId)
+            ->delete();
+
+
+        if ($deleted === 0) {
+            return back()->with('error', 'Error al eliminar el album.');
+        }
+
+        return back()->with('success', 'Album eliminado correctamente.');
     }
 }

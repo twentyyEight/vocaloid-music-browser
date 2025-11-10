@@ -42,8 +42,19 @@ class FavoriteArtistsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($artistId)
     {
-        //
+        $userId = Auth::id();
+
+        $deleted = FavoriteArtists::where('user_id', $userId)
+            ->where('artist_id', $artistId)
+            ->delete();
+
+
+        if ($deleted === 0) {
+            return back()->with('error', 'Error al eliminar el artista.');
+        }
+
+        return back()->with('success', 'Artista eliminado correctamente.');
     }
 }

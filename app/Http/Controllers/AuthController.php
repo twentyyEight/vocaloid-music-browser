@@ -45,11 +45,11 @@ class AuthController extends Controller
         }
 
         if (Auth::user()->role == 1) {
-            return redirect()->route('admin');
+            return redirect()->route('dashboard');
         }
 
         if (Auth::user()->role == 0) {
-            return redirect()->route('user');
+            return redirect()->route('profile');
         }
     }
 
