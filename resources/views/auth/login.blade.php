@@ -24,6 +24,8 @@
         <input type="email" name="email" placeholder="email" value="{{ old('email') }}"><br>
         <input type="password" name="password" placeholder="password" value="{{ old('password') }}"><br>
         <input type="submit" name="login" value="login">
+
+        <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
     </form>
 </body>
 

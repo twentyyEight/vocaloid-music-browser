@@ -25,7 +25,11 @@
                 <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->role }}</td>
+                @if ($user->role == 0)
+                <td>Usuario</td>
+                @else
+                <td>Administrador</td>
+                @endif
                 <td>{{ $user->created_at }}</td>
                 <td>{{ $user->updated_at }}</td>
 

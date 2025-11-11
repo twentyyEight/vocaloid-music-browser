@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\SongService;
+use App\Models\FavoriteSongs;
+use Illuminate\Support\Facades\Auth;
 
 class SongController extends Controller
 {
@@ -13,7 +15,17 @@ class SongController extends Controller
     public function index($id, SongService $songService)
     {
         $song = $songService->getSongById($id);
-        return view('song', ['song' => $song]);
+
+        if (Auth::check()) {
+
+            $userId = Auth::id();
+            $isFavorite = FavoriteSongs::where('user_id', $userId)->where('song_id', $id)->exists();
+            
+        } else {
+            $isFavorite = false;
+        }
+
+        return view('api.song', ['song' => $song, 'isFavorite' => $isFavorite]);
     }
 
     // temporal

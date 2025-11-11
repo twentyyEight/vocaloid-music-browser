@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>{{ $genre['name'] }}</title>
 </head>
 
 <body>
@@ -13,33 +13,37 @@
     <h1 id="name">{{ $genre['name'] }}</h1>
     <p id="description">{{ $genre['description'] }}</p>
 
-    <div id="songs">
+    @if ($genre['songs'])
+    <div>
         @foreach ($genre['songs'] as $song)
-        <a href="/song/{{ $song['id'] }}">
+        <a href="{{ route('song', $song['id']) }}">
             <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
             <p>{{ $song['name'] }}</p>
         </a>
         @endforeach
     </div>
-    <div id="artists">
+    @endif
+
+    @if ($genre['artists'])
+    <div>
         @foreach ($genre['artists'] as $artist)
-        <a href="/artist/{{ $artist['id'] }}">
+        <a href="{{ route('artist', $artist['id']) }}">
             <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
             <p>{{ $artist['name'] }}</p>
         </a>
         @endforeach
     </div>
-    <div id="albums">
+    @endif
+
+    @if ($genre['albums'])
+    <div>
         @foreach ($genre['albums'] as $album)
-        <a href="/album/{{ $album['id'] }}">
+        <a href="{{ route('album', $album['id']) }}">
             <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
             <p>{{ $album['name'] }}</p>
         </a>
         @endforeach
     </div>
-
-    <!-- <script type="module" src="{{ asset('js/genre.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+    @endif
 </body>
-
 </html>

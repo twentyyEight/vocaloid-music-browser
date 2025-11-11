@@ -25,6 +25,6 @@ class GenreController extends Controller
     public function index($id)
     {
         $genre = $this->genreService->getGenreById($id);
-        return view('genre', ['genre' => $genre]);
+        return view('api.genre', ['genre' => $genre]);
     }
 }

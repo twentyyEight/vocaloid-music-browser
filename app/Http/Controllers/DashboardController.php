@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -12,32 +13,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        if (!Auth::user()->role == 1) {
+            $userId = Auth::id();
+            return redirect()->route('profile', $userId);
+        }
+
         $users = User::select('id', 'name', 'email', 'role', 'created_at', 'updated_at')->get();
         return view('dashboard.index', compact('users'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

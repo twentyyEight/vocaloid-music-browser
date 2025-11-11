@@ -12,6 +12,27 @@
 
     @section('content')
 
+    <!-- <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ asset('assets/s1.jpg') }}" class="w-25">
+                <img src="{{ asset('assets/s2.jpg') }}" class="w-25">
+            </div>
+            <div class="carousel-item active">
+                <img src="{{ asset('assets/s3.jpg') }}" class="w-25">
+                <img src="{{ asset('assets/s4.jpg') }}" class="w-25">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div> -->
+
     @if(session('success'))
     <p>{{ session('success') }}</p>
     @endif

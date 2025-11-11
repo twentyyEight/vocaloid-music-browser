@@ -40,7 +40,7 @@ class SongService
 
                 $vocalists[] = [
                     'name' => $artist['name'],
-                    'id' => $artist['id']
+                    'id' => $artist['artist']['id']
                 ];
             }
         }
