@@ -15,13 +15,6 @@ class GenreController extends Controller
         $this->genreService = $genreService;
     }
 
-    // temporal
-    public function show($id, GenreService $genreService)
-    {
-        $genre = $genreService->getGenreById($id);
-        return response()->json($genre);
-    }
-
     public function index($id)
     {
         $genre = $this->genreService->getGenreById($id);

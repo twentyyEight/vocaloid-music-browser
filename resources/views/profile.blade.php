@@ -56,7 +56,7 @@
             <p>{{ $song['name'] }}</p>
             <p>{{ $song['artists'] }}</p>
         </a>
-        <form action="{{ route('destroy.song', $song['song_id']) }}" method="POST">
+        <form action="{{ route('song.delete', $song['song_id']) }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit">Eliminar</button>
@@ -74,7 +74,7 @@
             <p>{{ $album['name'] }}</p>
             <p>{{ $album['artists'] }}</p>
         </a>
-        <form action="{{ route('destroy.album', $album['album_id']) }}" method="POST">
+        <form action="{{ route('album.delete', $album['album_id']) }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit">Eliminar</button>
@@ -92,7 +92,7 @@
             <p>{{ $artist['name'] }}</p>
         </a>
         @endforeach
-        <form action="{{ route('destroy.artist', $artist['artist_id']) }}" method="POST">
+        <form action="{{ route('artist.delete', $artist['artist_id']) }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit">Eliminar</button>

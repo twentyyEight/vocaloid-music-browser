@@ -53,7 +53,7 @@ class AuthController extends Controller
 
     public function redirection()
     {
-        if (!Auth::check()) {
+        if (Auth::user()->role != 0 || Auth::user()->role != 1) {
             return redirect()->route('home');
         }
 

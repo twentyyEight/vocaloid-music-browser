@@ -18,12 +18,12 @@
 
     @auth
     @if (!$isFavorite)
-    <form action="{{ route('store.album', $album['id']) }}" method="POST">
+    <form action="{{ route('album.store', $album['id']) }}" method="POST">
         @csrf
         <button type="submit">Agregar a favoritos</button>
     </form>
     @else
-    <form action="{{ route('destroy.album', $album['id']) }}" method="POST">
+    <form action="{{ route('album.delete', $album['id']) }}" method="POST">
         @csrf
         @method('DELETE')
         <button type="submit">Eliminar de favoritos</button>
