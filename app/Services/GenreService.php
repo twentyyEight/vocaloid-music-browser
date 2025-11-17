@@ -8,12 +8,43 @@ class GenreService
 {
     public function getGenreById($id)
     {
-        // Llamada a API y retorna respuesta en json
+        // Llamada a API
         $responses = Http::pool(fn($pool) => [
-            $pool->as('genre')->get("https://vocadb.net/api/tags/{$id}?fields=Description,MainPicture&lang=Romaji"),
-            $pool->as('songs')->get("https://vocadb.net/api/songs?songTypes=Original&tagId%5B%5D={$id}&status=Approved&maxResults=10&sort=RatingScore&fields=MainPicture&lang=Romaji"),
-            $pool->as('artists')->get("https://vocadb.net/api/artists?artistTypes=Producers&tagId%5B%5D={$id}&status=Approved&maxResults=10&sort=FollowerCount&fields=MainPicture&lang=Romaji"),
-            $pool->as('albums')->get("https://vocadb.net/api/albums?discTypes=Album&tagId%5B%5D={$id}&status=Approved&maxResults=10&sort=RatingTotal&fields=MainPicture&lang=Romaji"),
+
+            // Info. el género
+            $pool->as('genre')->get("https://vocadb.net/api/tags/{$id}", [
+                'fields' => 'Description,MainPicture',
+                'lang' => 'Romaji'
+            ]),
+
+            // Canciones del género
+            $pool->as('songs')->get("https://vocadb.net/api/songs", [
+                'tagId[]' => $id,
+                'maxResults' => 10,
+                'sort' => 'RatingScore',
+                'fields' => 'MainPicture',
+                'lang' => 'Romaji'
+            ]),
+
+            // Artistas populares del género
+            $pool->as('artists')->get("https://vocadb.net/api/artists", [
+                'artistTypes' => 'Producer',
+                'tagId[]' => $id,
+                'maxResults' => 10,
+                'sort' => 'FollowerCount',
+                'fields' => 'MainPicture',
+                'lang' => 'Romaji'
+            ]),
+
+            // Albumes populares del género
+            $pool->as('albums')->get("https://vocadb.net/api/albums", [
+                'discTypes' => 'Album',
+                'tagId[]' => $id,
+                'maxResults' => 10,
+                'sort' => 'RatingTotal',
+                'fields' => 'MainPicture',
+                'lang' => 'Romaji'
+            ]),
         ]);
 
         // Manejo de errores
@@ -73,5 +104,55 @@ class GenreService
             'albums' => empty($albums) ? null : $albums,
             'artists' => empty($artists) ? null : $artists
         ];
+    }
+
+    public function getGenres($page)
+    {
+        $start = ($page - 1) * 100;
+
+        $res = Http::get("https://vocadb.net/api/tags", [
+            'categoryName' => 'Genres',
+            'maxResults' => 100,
+            'start' => $start,
+            'lang' => 'Romaji'
+        ]);
+
+        return $res['items'];
+    }
+
+    public function pagination()
+    {
+        $res = Http::get("https://vocadb.net/api/tags", [
+            'categoryName'   => 'Genres',
+            'maxResults'     => 1,
+            'getTotalCount'  => 'true'
+        ]);
+
+        $total = $res['totalCount'];
+
+        return ceil($total / 100);
+    }
+
+    public function autocomplete($query)
+    {
+        $res = Http::get('https://vocadb.net/api/tags', [
+            'nameMatchMode' => 'Auto',
+            'maxResults' => 10,
+            'categoryName' => 'Genres',
+            'query' => $query,
+            'allowChildren' => 'true',
+            'lang' => 'Romaji'
+        ]);
+
+        $sugg = [];
+
+        foreach ($res['items'] as $item) {
+            $sugg[] = [
+                'label' => $item['name'],
+                'id' => $item['id']
+            ];
+        }
+
+        return $sugg;
     }
 }

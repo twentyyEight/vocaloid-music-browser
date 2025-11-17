@@ -41,7 +41,7 @@
     @if ($artist['genres'])
     <div>
         @foreach ($artist['genres'] as $genre)
-        <a href="{{ route('genre', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
+        <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
         @endforeach
     </div>
     @endif
@@ -49,7 +49,7 @@
     @if ($artist['songs'])
     <div>
         @foreach ($artist['songs'] as $song)
-        <a href="{{ route('song', $song['id']) }}">{{ $song['name'] }}</a>
+        <a href="{{ route('song.show', $song['id']) }}">{{ $song['name'] }}</a>
         @endforeach
     </div>
     @endif
@@ -57,7 +57,7 @@
     @if ($artist['albums'])
     <div>
         @foreach ($artist['albums'] as $album)
-        <a href="{{ route('album', $album['id']) }}">
+        <a href="{{ route('album.show', $album['id']) }}">
             <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
             <p>{{ $album['name'] }}</p>
         </a>

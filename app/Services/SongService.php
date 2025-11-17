@@ -8,12 +8,16 @@ class SongService
 {
     public function getSongById($id)
     {
-        $response = Http::get("https://vocadb.net/api/songs/{$id}?fields=Albums,Artists,PVs,Tags,MainPicture&lang=Romaji");
-        $json = $response->json();
+        $response = Http::get("https://vocadb.net/api/songs/{$id}", [
+            'fields' => 'Albums,Artists,PVs,Tags,MainPicture',
+            'lang' => 'Romaji'
+        ]);
 
         if ($response->failed() || !$response->json()) {
             abort(500, 'Error al obtener datos');
         }
+
+        $json = $response->json();
 
         $type = null;
         switch ($json['songType']) {
@@ -92,5 +96,54 @@ class SongService
             'albums' => empty($albumCovers) ? null : $albumCovers,
             'img' => $json['mainPicture']['urlOriginal'] ?? null
         ];
+    }
+
+    public function getSongs($page)
+    {
+        $start = ($page - 1) * 100;
+
+        $res = Http::get("https://vocadb.net/api/songs", [
+            'maxResults' => 100,
+            'start' => $start,
+            'lang' => 'Romaji',
+            'songType' => 'Unspecified, Original, Remaster, Remix, Cover, Arrangement, Instrumental, Mashup, Live, Other, Rearrangement'
+        ]);
+
+        return $res['items'];
+    }
+
+    public function pagination()
+    {
+        $res = Http::get("https://vocadb.net/api/songs", [
+            'maxResults'     => 1,
+            'getTotalCount'  => 'true',
+            'songType' => 'Unspecified, Original, Remaster, Remix, Cover, Arrangement, Instrumental, Mashup, Live, Other, Rearrangement'
+        ]);
+
+        $total = $res['totalCount'];
+
+        return ceil($total / 100);
+    }
+
+    public function autocomplete($query)
+    {
+        $res = Http::get('https://vocadb.net/api/songs', [
+            'nameMatchMode' => 'Auto',
+            'maxResults' => 10,
+            'sort' => 'RatingScore',
+            'query' => $query,
+            'lang' => 'Romaji'
+        ]);
+
+        $sugg = [];
+
+        foreach ($res['items'] as $item) {
+            $sugg[] = [
+                'label' => $item['name'],
+                'id' => $item['id']
+            ];
+        }
+
+        return $sugg;
     }
 }

@@ -10,11 +10,23 @@ use App\Models\FavoriteSongs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Http;
+
 class SongController extends Controller
 {
 
-    // nombrar como show dps
-    public function index($id, SongService $songService)
+    public function index(SongService $songService, Request $request)
+    {
+        $page = $request->get('page', 1);
+        
+        $songs = $songService->getSongs($page);
+
+        $pages = $songService->pagination();
+
+        return view('api.songs.index', compact('songs', 'page', 'pages'));
+    }
+
+    public function show($id, SongService $songService)
     {
         $song = $songService->getSongById($id);
 
@@ -26,10 +38,10 @@ class SongController extends Controller
             $isFavorite = false;
         }
 
-        return view('api.song', ['song' => $song, 'isFavorite' => $isFavorite]);
+        return view('api.songs.show', ['song' => $song, 'isFavorite' => $isFavorite]);
     }
 
-    public function store($id, SongService $songService)
+    public function storeFavorite($id, SongService $songService)
     {
         try {
             $userId = Auth::id();
@@ -52,7 +64,7 @@ class SongController extends Controller
         }
     }
 
-    public function destroy($songId)
+    public function destroyFavorite($songId)
     {
 
         $userId = Auth::id();
@@ -67,5 +79,11 @@ class SongController extends Controller
         }
 
         return back()->with('success', 'Canción eliminada correctamente.');
+    }
+
+    public function autocomplete($query, SongService $songService)
+    {
+        $sugg = $songService->autocomplete($query);
+        return $sugg;
     }
 }

@@ -23,11 +23,11 @@ class AlbumService
             case 'Album':
                 $type = 'Original Album';
                 break;
-            
+
             case 'Compilation':
                 $type = 'Compilation Album';
                 break;
-            
+
             default:
                 $type = $json['discType'];
         }
@@ -88,5 +88,56 @@ class AlbumService
             'tracks' => empty($tracks) ? null : $tracks,
             //'pv' => empty($pvs) ? null : $pvs
         ];
+    }
+
+    public function autocomplete($query)
+    {
+        $res = Http::get('https://vocadb.net/api/albums', [
+            'nameMatchMode' => 'Auto',
+            'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other',
+            'maxResults' => 10,
+            'sort' => 'RatingAverage',
+            'query' => $query,
+            'lang' => 'Romaji'
+        ]);
+
+        $sugg = [];
+
+        foreach ($res['items'] as $item) {
+            $sugg[] = [
+                'label' => $item['name'],
+                'id' => $item['id']
+            ];
+        }
+
+        return $sugg;
+    }
+
+    public function getAlbums($page)
+    {
+        $start = ($page - 1) * 100;
+
+        $res = Http::get('https://vocadb.net/api/albums', [
+            'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other',
+            'maxResults' => 100,
+            'sort' => 'RatingAverage',
+            'start' => $start,
+            'lang' => 'Romaji',
+        ]);
+
+        return $res['items'];
+    }
+
+    public function pagination()
+    {
+        $res = Http::get("https://vocadb.net/api/artists", [
+            'maxResults'     => 1,
+            'getTotalCount'  => 'true',
+            'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other'
+        ]);
+
+        $total = $res['totalCount'];
+
+        return ceil($total / 100);
     }
 }

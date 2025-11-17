@@ -14,7 +14,18 @@ use Illuminate\Support\Facades\Http;
 
 class ArtistController extends Controller
 {
-    public function index($id, ArtistService $artistService)
+    public function index(ArtistService $artistService, Request $request)
+    {
+        $page = $request->get('page', 1);
+
+        $artists = $artistService->getArtists($page);
+
+        $pages = $artistService->pagination();
+
+        return view('api.artists.index', compact('artists', 'page', 'pages'));
+    }
+
+    public function show($id, ArtistService $artistService)
     {
         $artist = $artistService->getArtistById($id);
 
@@ -26,10 +37,10 @@ class ArtistController extends Controller
             $isFavorite = false;
         }
 
-        return view('api.artist', ['artist' => $artist, 'isFavorite' => $isFavorite]);
+        return view('api.artists.show', ['artist' => $artist, 'isFavorite' => $isFavorite]);
     }
 
-    public function store($id, ArtistService $artistService)
+    public function storeFavorite($id, ArtistService $artistService)
     {
         try {
             $userId = Auth::id();
@@ -51,7 +62,7 @@ class ArtistController extends Controller
         }
     }
 
-    public function destroy($artistId)
+    public function destroyFavorite($artistId)
     {
         $userId = Auth::id();
 
@@ -65,5 +76,11 @@ class ArtistController extends Controller
         }
 
         return back()->with('success', 'Artista eliminado correctamente.');
+    }
+
+    public function autocomplete($query, ArtistService $artistService)
+    {
+        $sugg = $artistService->autocomplete($query);
+        return $sugg;
     }
 }

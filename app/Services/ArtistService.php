@@ -49,7 +49,7 @@ class ArtistService
         foreach ($json['webLinks'] as $link) {
 
             if ($link['category'] == 'Official') {
-                
+
                 $links[] = [
                     'name' => $link['description'],
                     'url' => $link['url']
@@ -67,5 +67,58 @@ class ArtistService
             'songs' => empty($popularSongs) ? null : $popularSongs,
             'albums' => empty($popularAlbums) ? null : $popularAlbums
         ];
+    }
+
+    public function autocomplete($query)
+    {
+        $res = Http::get('https://vocadb.net/api/artists', [
+            'nameMatchMode' => 'Auto',
+            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE',
+            'maxResults' => 10,
+            'sort' => 'FollowerCount',
+            'query' => $query,
+            'lang' => 'Romaji',
+            'allowBaseVoicebanks' => 'false'
+        ]);
+
+        $sugg = [];
+
+        foreach ($res['items'] as $item) {
+            $sugg[] = [
+                'label' => $item['name'],
+                'id' => $item['id']
+            ];
+        }
+
+        return $sugg;
+    }
+
+    public function getArtists($page)
+    {
+        $start = ($page - 1) * 100;
+
+        $res = Http::get('https://vocadb.net/api/artists', [
+            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE',
+            'maxResults' => 100,
+            'sort' => 'FollowerCount',
+            'start' => $start,
+            'lang' => 'Romaji',
+            'allowBaseVoicebanks' => 'false'
+        ]);
+
+        return $res['items'];
+    }
+
+    public function pagination()
+    {
+        $res = Http::get("https://vocadb.net/api/artists", [
+            'maxResults'     => 1,
+            'getTotalCount'  => 'true',
+            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE'
+        ]);
+
+        $total = $res['totalCount'];
+
+        return ceil($total / 100);
     }
 }

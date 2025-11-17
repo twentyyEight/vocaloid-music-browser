@@ -10,10 +10,23 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\FavoriteAlbums;
 use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Http;
+
 class AlbumController extends Controller
 {
 
-    public function index($id, AlbumService $albumService)
+    public function index(AlbumService $albumService, Request $request)
+    {
+        $page = $request->get('page', 1);
+
+        $albums = $albumService->getAlbums($page);
+
+        $pages = $albumService->pagination();
+
+        return view('api.albums.index', compact('albums', 'page', 'pages'));
+    }
+
+    public function show($id, AlbumService $albumService)
     {
         $album = $albumService->getAlbumById($id);
 
@@ -25,10 +38,10 @@ class AlbumController extends Controller
             $isFavorite = false;
         }
 
-        return view('api.album', ['album' => $album, 'isFavorite' => $isFavorite]);
+        return view('api.albums.show', ['album' => $album, 'isFavorite' => $isFavorite]);
     }
 
-    public function store($id, AlbumService $albumService)
+    public function storeFavorite($id, AlbumService $albumService)
     {
         try {
             $userId = Auth::id();
@@ -51,10 +64,7 @@ class AlbumController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($albumId)
+    public function destroyFavorite($albumId)
     {
         $userId = Auth::id();
 
@@ -68,5 +78,11 @@ class AlbumController extends Controller
         }
 
         return back()->with('success', 'Album eliminado correctamente.');
+    }
+
+    public function autocomplete($query, AlbumService $albumService)
+    {
+        $sugg = $albumService->autocomplete($query);
+        return $sugg;
     }
 }
