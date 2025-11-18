@@ -9,7 +9,10 @@ class AlbumService
     public function getAlbumById($id)
     {
         // Llamada a API y retorna respuesta en json
-        $response = Http::get("https://vocadb.net/api/albums/{$id}?fields=Tags,Tracks,WebLinks,PVs,MainPicture&lang=Romaji");
+        $response = Http::get("https://vocadb.net/api/albums/{$id}", [
+            'fields' => 'Tags,Tracks,WebLinks,PVs,MainPicture',
+            'lang' => 'Romaji'
+        ]);
         $json = $response->json();
 
         // Respuesta en caso de error
@@ -65,16 +68,23 @@ class AlbumService
         }
 
         // Video promocional album
-        /*$pvs = [];
-        foreach ($json['pvs'] as $pv) {
-            if ($pv['service'] == 'Youtube' && !$pv['disabled']) {
-                $pvs[] = 'https://www.youtube.com/embed/' . $pv['pvId'];
+        $prioridades = [
+            ['Youtube',      'Original'],
+            ['NicoNicoDouga', 'Original'],
+            ['Youtube',      'Reprint'],
+            ['NicoNicoDouga', 'Reprint'],
+        ];
 
-            } elseif ($pv['service'] == 'NicoNicoDouga' && !$pv['disabled']) {
+        $video = null;
 
-                $pvs[] = 'https://embed.nicovideo.jp/watch/' . $pv['pvId'];
+        foreach ($prioridades as $prio) {
+            foreach ($json['pvs'] as $pv) {
+                if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
+                    $video = $pv['url'];
+                    break 2;
+                }
             }
-        }*/
+        }
 
         return [
             'id' => $json['id'],
@@ -86,7 +96,7 @@ class AlbumService
             'genres' => empty($genres) ? null : $genres,
             'links' => empty($links) ? null : $links,
             'tracks' => empty($tracks) ? null : $tracks,
-            //'pv' => empty($pvs) ? null : $pvs
+            'pv' => $video
         ];
     }
 
@@ -139,5 +149,44 @@ class AlbumService
         $total = $res['totalCount'];
 
         return ceil($total / 100);
+    }
+
+    public function getNewAndTopAlbums()
+    {
+        $responses = Http::pool(fn($pool) => [
+            $pool->as('new')->get("https://vocadb.net/api/albums/new", ['languagePreference' => 'Romaji']),
+            $pool->as('top')->get("https://vocadb.net/api/albums/top", [
+                'languagePreference' => 'Romaji',
+                'fields' => 'MainPicture'
+            ]),
+        ]);
+
+        $new = $responses['new']->json();
+        $top = $responses['top']->json();
+
+        $newAlbums = [];
+        foreach ($new as $n) {
+            $newAlbums[] = [
+                'id' => $n['id'],
+                'name' => $n['name'],
+                'artists' => $n['artistString'],
+                'img' => $n['mainPicture']['urlOriginal']
+            ];
+        }
+
+        $topAlbums = [];
+        foreach ($top as $t) {
+            $topAlbums[] = [
+                'id' => $t['id'],
+                'name' => $t['name'],
+                'artists' => $t['artistString'],
+                'img' => $t['mainPicture']['urlOriginal']
+            ];
+        }
+
+        return [
+            'topAlbums' => $topAlbums,
+            'newAlbums' => $newAlbums
+        ];
     }
 }

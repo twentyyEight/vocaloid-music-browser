@@ -37,6 +37,8 @@
     @endif
     @endauth
 
+    <p>{{ $song['pv'] }}</p>
+
     <h1>{{ $song['name'] }}</h1>
     <h3>{{ $song['type'] }}</h3>
     <p>{{ $song['date'] }}</p>

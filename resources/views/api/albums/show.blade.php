@@ -31,6 +31,8 @@
     @endif
     @endauth
 
+    <p>{{ $album['pv'] }}</p>
+
     <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
     <h1>{{ $album['name'] }} ({{ $album['year']}})</h1>
     <h3>{{ $album['type'] }}</h3>

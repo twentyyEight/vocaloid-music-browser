@@ -63,7 +63,6 @@ class SongService
 
         $albumIds = collect($json['albums'])->pluck('id');
 
-        // Peticiones concurrentes
         $responses = Http::pool(
             fn($pool) =>
             $albumIds->map(
@@ -72,7 +71,6 @@ class SongService
             )->toArray()
         );
 
-        // Procesar resultados
         $albumCovers = [];
         foreach ($responses as $albumId => $res) {
             if ($res->successful()) {
@@ -81,6 +79,24 @@ class SongService
                     'name' => $res['name'],
                     'id' => $albumId,
                 ];
+            }
+        }
+
+        $prioridades = [
+            ['Youtube',      'Original'],
+            ['NicoNicoDouga', 'Original'],
+            ['Youtube',      'Reprint'],
+            ['NicoNicoDouga', 'Reprint'],
+        ];
+
+        $video = null;
+
+        foreach ($prioridades as $prio) {
+            foreach ($json['pvs'] as $pv) {
+                if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
+                    $video = $pv['url'];
+                    break 2;
+                }
             }
         }
 
@@ -94,7 +110,8 @@ class SongService
             'vocalists' => empty($vocalists) ? null : $vocalists,
             'genres' => empty($genres) ? null : $genres,
             'albums' => empty($albumCovers) ? null : $albumCovers,
-            'img' => $json['mainPicture']['urlOriginal'] ?? null
+            'img' => $json['mainPicture']['urlOriginal'] ?? null,
+            'pv' => $video ?? null
         ];
     }
 
@@ -145,5 +162,50 @@ class SongService
         }
 
         return $sugg;
+    }
+
+    public function getNewAndTopSongs()
+    {
+        $responses = Http::pool(fn($pool) => [
+
+            $pool->as('new')->get('https://vocadb.net/api/songs/highlighted', [
+                'languagePreference' => 'Romaji',
+                'fields' => 'PVs, MainPicture'
+            ]),
+
+            $pool->as('top')->get("https://vocadb.net/api/songs/top-rated", [
+                'languagePreference' => 'Romaji',
+                'filterBy' => 'Popularity',
+                'fields' => 'MainPicture'
+            ]),
+        ]);
+
+        $new = $responses['new']->json();
+        $top = $responses['top']->json();
+
+        $newSongs = [];
+        foreach ($new as $n) {
+            $newSongs[] = [
+                'name' => $n['name'],
+                'artists' => $n["artistString"],
+                'img' => $n['mainPicture']['urlOriginal'],
+                'id' => $n['id']
+            ];
+        }
+
+        $topSongs = [];
+        foreach ($top as $t) {
+            $topSongs[] = [
+                'name' => $t['name'],
+                'artists' => $t['artistString'],
+                'id' => $t['id'],
+                'img' => $t['mainPicture']['urlOriginal']
+            ];
+        }
+
+        return [
+            'topSongs' => $topSongs,
+            'newSongs' => $newSongs
+        ];
     }
 }
