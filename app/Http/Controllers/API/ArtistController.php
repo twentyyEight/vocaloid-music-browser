@@ -18,9 +18,9 @@ class ArtistController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $artists = $artistService->getArtists($page);
-
-        $pages = $artistService->pagination();
+        $data = $artistService->getArtists($page);
+        $artists = $data['artists'];
+        $pages = $data['pages'];
 
         return view('api.artists.index', compact('artists', 'page', 'pages'));
     }

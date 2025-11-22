@@ -19,9 +19,9 @@ class AlbumController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $albums = $albumService->getAlbums($page);
-
-        $pages = $albumService->pagination();
+        $data = $albumService->getAlbums($page);
+        $albums = $data['albums'];
+        $pages = $data['pages'];
 
         return view('api.albums.index', compact('albums', 'page', 'pages'));
     }

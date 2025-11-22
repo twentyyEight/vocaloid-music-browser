@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\SongService;
+use App\Services\ArtistService;
+use App\Services\GenreService;
 use App\Models\FavoriteSongs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -15,15 +17,19 @@ use Illuminate\Support\Facades\Http;
 class SongController extends Controller
 {
 
-    public function index(SongService $songService, Request $request)
+    public function index(SongService $songService, Request $request, ArtistService $artistService, GenreService $genreService)
     {
         $page = $request->get('page', 1);
-        
-        $songs = $songService->getSongs($page);
+        $query = $request->input('query', '');
+        $types = $request->input('types') ?: 'Unspecified,Original,Remaster,Remix,Cover,Arrangement,Instrumental,Mashup,Other,Rearrangement';
+        $genres = $request->input('genres') ?: [];
+        $artists = $request->input('artists') ?: [];
 
-        $pages = $songService->pagination();
+        $data = $songService->getSongs($page, $query, $types, $genres, $artists);
 
-        return view('api.songs.index', compact('songs', 'page', 'pages'));
+        $songs = $data['songs'];
+        $pages = $data['pages'];
+        return view('api.songs.index', compact('songs', 'pages', 'page', 'genres'));
     }
 
     public function show($id, SongService $songService)

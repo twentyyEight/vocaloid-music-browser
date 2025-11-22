@@ -1,83 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $song['name'] }}</title>
-</head>
+@section('content')
 
-<body>
-    @extends('layouts.app')
+@if(session('success'))
+<p>{{ session('success') }}</p>
+@endif
 
-    @section('content')
+@if(session('error'))
+<p>{{ session('error') }}</p>
+@endif
 
-    @if(session('success'))
-    <p>{{ session('success') }}</p>
-    @endif
+<x-delete-btn type='hola'></x-delete-btn>
 
-    @if(session('error'))
-    <p>{{ session('error') }}</p>
-    @endif
+@auth
+@if (!$isFavorite)
+<form action="{{ route('song.store', $song['id']) }}" method="POST">
+    @csrf
+    <button type="submit">Agregar a favoritos</button>
+</form>
+@else
+<form action="{{ route('song.delete', $song['id']) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit">Eliminar de favoritos</button>
+</form>
+@endif
+@endauth
 
-    <x-delete-btn type='hola'></x-delete-btn>
+<p>{{ $song['pv'] }}</p>
 
-    @auth
-    @if (!$isFavorite)
-    <form action="{{ route('song.store', $song['id']) }}" method="POST">
-        @csrf
-        <button type="submit">Agregar a favoritos</button>
-    </form>
-    @else
-    <form action="{{ route('song.delete', $song['id']) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar de favoritos</button>
-    </form>
-    @endif
-    @endauth
+<h1>{{ $song['name'] }}</h1>
+<h3>{{ $song['type'] }}</h3>
+<p>{{ $song['date'] }}</p>
 
-    <p>{{ $song['pv'] }}</p>
+@if ($song['producers'])
+<div>
+    @foreach ($song['producers'] as $producer)
+    <a href="{{ route('artist.show', $producer['id']) }}">{{ $producer['name'] }}</a>@if (!$loop->last), @endif
+    @endforeach
+</div>
+@endif
 
-    <h1>{{ $song['name'] }}</h1>
-    <h3>{{ $song['type'] }}</h3>
-    <p>{{ $song['date'] }}</p>
+@if ($song['vocalists'])
+<div>
+    @foreach ($song['vocalists'] as $vocalist)
+    <a href="{{ route('artist.show', $vocalist['id']) }}">{{ $vocalist['name'] }}</a>@if (!$loop->last), @endif
+    @endforeach
+</div>
+@endif
 
-    @if ($song['producers'])
-    <div>
-        @foreach ($song['producers'] as $producer)
-        <a href="{{ route('artist.show', $producer['id']) }}">{{ $producer['name'] }}</a>@if (!$loop->last), @endif
-        @endforeach
-    </div>
-    @endif
+@if ($song['genres'])
+<div>
+    @foreach ($song['genres'] as $genre)
+    <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
+    @endforeach
+</div>
+@endif
 
-    @if ($song['vocalists'])
-    <div>
-        @foreach ($song['vocalists'] as $vocalist)
-        <a href="{{ route('artist.show', $vocalist['id']) }}">{{ $vocalist['name'] }}</a>@if (!$loop->last), @endif
-        @endforeach
-    </div>
-    @endif
-
-    @if ($song['genres'])
-    <div>
-        @foreach ($song['genres'] as $genre)
-        <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
-        @endforeach
-    </div>
-    @endif
-
-    @if ($song['albums'])
-    <div>
-        @foreach ($song['albums'] as $album)
-        <a href="{{ route('album.show', $album['id']) }}">
-            <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
-            <p>{{ $album['name'] }}</p>
-        </a>
-        @endforeach
-    </div>
-    @endif
-    @endsection
-</body>
-
-</html>
+@if ($song['albums'])
+<div>
+    @foreach ($song['albums'] as $album)
+    <a href="{{ route('album.show', $album['id']) }}">
+        <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
+        <p>{{ $album['name'] }}</p>
+    </a>
+    @endforeach
+</div>
+@endif
+@endsection

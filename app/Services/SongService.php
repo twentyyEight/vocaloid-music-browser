@@ -115,31 +115,56 @@ class SongService
         ];
     }
 
-    public function getSongs($page)
+    public function getSongs($page, $query, $types, $genres, $artists)
     {
         $start = ($page - 1) * 100;
 
-        $res = Http::get("https://vocadb.net/api/songs", [
+        $parameters = [
             'maxResults' => 100,
             'start' => $start,
             'lang' => 'Romaji',
-            'songType' => 'Unspecified, Original, Remaster, Remix, Cover, Arrangement, Instrumental, Mashup, Live, Other, Rearrangement'
-        ]);
+            'getTotalCount' => 'true',
+            'query' => $query,
+            'nameMatchMode' => 'Auto',
+            'sort' => 'PublishDate',
+            'songTypes' => $types,
+            'tagId[]' => [],
+            'artistId[]' => []
+        ];
 
-        return $res['items'];
-    }
+        if (!empty($genres)) {
+            foreach ($genres as $id) {
+                $parameters['tagId[]'][] = $id;
+            }
+        }
 
-    public function pagination()
-    {
-        $res = Http::get("https://vocadb.net/api/songs", [
-            'maxResults'     => 1,
-            'getTotalCount'  => 'true',
-            'songType' => 'Unspecified, Original, Remaster, Remix, Cover, Arrangement, Instrumental, Mashup, Live, Other, Rearrangement'
-        ]);
+        if (!empty($artists)) {
+            foreach ($artists as $id) {
+                $parameters['artistId[]'][] = $id;
+            }
+        }
+
+        $res = Http::get("https://vocadb.net/api/songs", $parameters);
+
+        $items = $res['items'];
+        $songs = [];
+
+        foreach ($items as $item) {
+            $songs[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'artists' => $item['artistString'],
+                'img' => $item['mainPicture']['urlOriginal'] ?? null,
+                'type' => $item['songType']
+            ];
+        }
 
         $total = $res['totalCount'];
 
-        return ceil($total / 100);
+        return [
+            'songs' => $songs,
+            'pages' => ceil($total / 100)
+        ];
     }
 
     public function autocomplete($query)
@@ -147,9 +172,10 @@ class SongService
         $res = Http::get('https://vocadb.net/api/songs', [
             'nameMatchMode' => 'Auto',
             'maxResults' => 10,
-            'sort' => 'RatingScore',
             'query' => $query,
-            'lang' => 'Romaji'
+            'lang' => 'Romaji',
+
+            'sort' => 'RatingScore',
         ]);
 
         $sugg = [];

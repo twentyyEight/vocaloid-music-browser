@@ -108,7 +108,7 @@ class AlbumService
             'maxResults' => 10,
             'sort' => 'RatingAverage',
             'query' => $query,
-            'lang' => 'Romaji'
+            'lang' => 'Romaji',
         ]);
 
         $sugg = [];
@@ -128,14 +128,34 @@ class AlbumService
         $start = ($page - 1) * 100;
 
         $res = Http::get('https://vocadb.net/api/albums', [
-            'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other',
+            //'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other',
             'maxResults' => 100,
-            'sort' => 'RatingAverage',
+            'sort' => 'ReleaseDate',
             'start' => $start,
             'lang' => 'Romaji',
+            'getTotalCount' => 'true',
+            'fields' => 'MainPicture'
         ]);
 
-        return $res['items'];
+        $items = $res['items'];
+        $albums = [];
+
+        foreach ($items as $item) {
+            $albums[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'artists' => $item['artistString'],
+                'img' => $item['mainPicture']['urlOriginal'] ?? null,
+                'type' => $item['discType']
+            ];
+        }
+
+        $total = $res['totalCount'];
+
+        return [
+            'albums' => $albums,
+            'pages' => ceil($total / 100)
+        ];
     }
 
     public function pagination()

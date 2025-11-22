@@ -103,22 +103,28 @@ class ArtistService
             'sort' => 'FollowerCount',
             'start' => $start,
             'lang' => 'Romaji',
-            'allowBaseVoicebanks' => 'false'
+            'allowBaseVoicebanks' => 'false',
+            'getTotalCount' => 'true'
         ]);
 
-        return $res['items'];
-    }
+        $items = $res['items'];
+        $artists = [];
 
-    public function pagination()
-    {
-        $res = Http::get("https://vocadb.net/api/artists", [
-            'maxResults'     => 1,
-            'getTotalCount'  => 'true',
-            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE'
-        ]);
+        foreach ($items as $item) {
+            $artists[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'img' => $item['mainPicture']['urlOriginal'] ?? null,
+            ];
+        }
 
         $total = $res['totalCount'];
 
-        return ceil($total / 100);
+        return [
+            'artists' => $artists,
+            'pages' => ceil($total / 100)
+        ];
+
+        return $res['items'];
     }
 }
