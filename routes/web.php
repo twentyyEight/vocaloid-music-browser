@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'home')->name('home');
 
 // Album Routes
+Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');
 Route::get('/albums/{id}', [AlbumController::class, 'show'])->name('album.show');
 Route::get('/albums/autocomplete/{query}', [AlbumController::class, 'autocomplete']);
 
 // Song Routes
-Route::get('/songs', [SongController::class, 'index']);
+Route::get('/songs', [SongController::class, 'index'])->name('song.index');
 Route::get('/songs/{id}', [SongController::class, 'show'])->name('song.show');
 Route::get('/songs/autocomplete/{query}', [SongController::class, 'autocomplete']);
 
@@ -27,6 +28,7 @@ Route::get('/genres/{id}', [GenreController::class, 'show'])->name('genre.show')
 Route::get('/genres/autocomplete/{query}', [GenreController::class, 'autocomplete']);
 
 // Artist Routes
+Route::get('/artists', [ArtistController::class, 'index'])->name('artist.index');
 Route::get('/artists/{id}', [ArtistController::class, 'show'])->name('artist.show');
 Route::get('/artists/autocomplete/{query}', [ArtistController::class, 'autocomplete']);
 

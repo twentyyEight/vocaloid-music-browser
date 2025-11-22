@@ -106,7 +106,7 @@ class GenreService
         ];
     }
 
-    public function getGenres($page)
+    public function getGenres($page, $query)
     {
         $start = ($page - 1) * 100;
 
@@ -114,23 +114,30 @@ class GenreService
             'categoryName' => 'Genres',
             'maxResults' => 100,
             'start' => $start,
-            'lang' => 'Romaji'
+            'lang' => 'Romaji',
+            'fields' => 'MainPicture',
+            'query' => $query,
+            'nameMatchMode' => 'Auto',
+            'getTotalCount' => 'true'
         ]);
 
-        return $res['items'];
-    }
+        $items = $res['items'];
+        $genres = [];
 
-    public function pagination()
-    {
-        $res = Http::get("https://vocadb.net/api/tags", [
-            'categoryName'   => 'Genres',
-            'maxResults'     => 1,
-            'getTotalCount'  => 'true'
-        ]);
+        foreach ($items as $item) {
+            $genres[] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'img' => $item['mainPicture']['urlOriginal'] ?? null
+            ];
+        }
 
         $total = $res['totalCount'];
 
-        return ceil($total / 100);
+        return [
+            'genres' => $genres,
+            'pages' => ceil($total / 100)
+        ];
     }
 
     public function autocomplete($query)
@@ -138,10 +145,10 @@ class GenreService
         $res = Http::get('https://vocadb.net/api/tags', [
             'nameMatchMode' => 'Auto',
             'maxResults' => 10,
-            'categoryName' => 'Genres',
             'query' => $query,
+            'lang' => 'Romaji',
+            'categoryName' => 'Genres',
             'allowChildren' => 'true',
-            'lang' => 'Romaji'
         ]);
 
         $sugg = [];

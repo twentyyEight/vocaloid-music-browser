@@ -1,26 +1,17 @@
-<div>
+@extends('layouts.app')
+
+@section('content')
+
+<form action="{{ route('genre.index') }}" method="GET">
+    <input type="text" placeholder="Buscar género..." name="query">
+    <button type="submit">Buscar</button>
+</form>
+
+<div class="genres">
     @foreach ($genres as $genre)
-    {{ $genre['name'] }}
+    <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>
     @endforeach
 </div>
 
-<ul class="pagination">
-
-    {{-- Página anterior --}}
-    <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
-        <a class="page-link" href="?page={{ $page - 1 }}">«</a>
-    </li>
-
-    {{-- Números dinámicos --}}
-    @for ($i = max(1, $page - 2); $i <= min($pages, $page + 2); $i++)
-        <li class="page-item {{ $page == $i ? 'active' : '' }}">
-        <a class="page-link" href="?page={{ $i }}">{{ $i }}</a>
-        </li>
-        @endfor
-
-        {{-- Página siguiente --}}
-        <li class="page-item {{ $page == $pages ? 'disabled' : '' }}">
-            <a class="page-link" href="?page={{ $page + 1 }}">»</a>
-        </li>
-
-</ul>
+<x-pagination :page="$page" :pages="$pages" />
+@endsection

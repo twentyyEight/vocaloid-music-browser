@@ -15,11 +15,13 @@ class GenreController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $genres = $genreService->getGenres($page);
+        $query = $request->input('query', '');
 
-        $pages = $genreService->pagination();
+        $data = $genreService->getGenres($page, $query);
+        $genres = $data['genres'];
+        $pages = $data['pages'];
 
-        return view('api.genres.index', compact('genres', 'page', 'pages'));
+        return view('api.genres.index', compact('genres', 'pages', 'page'));
     }
 
     public function show($id, GenreService $genreService)
