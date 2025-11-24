@@ -3,10 +3,10 @@
 @section('content')
 <form action="{{ route('song.index') }}" method="GET">
 
-    <input type="text" placeholder="Buscar canción..." name="query">
+    <input type="text" placeholder="Buscar canción..." name="name" value="{{ request('name') }}">
 
     <h3>Tipo de canción</h3>
-    <input type="hidden" id="type" name="types">
+    <input type="hidden" id="types" name="types" value="{{ request('types')}}">
 
     <button type="button" class="type" value="Original">Canción original</button>
     <button type="button" class="type" value="Remaster">Remasterización</button>
@@ -27,6 +27,12 @@
     <input type="text" id="artists">
     <div id="selected_artists"></div>
 
+    <label for="beforeDate">Publicada antes de:</label>
+    <input type="date" name="beforeDate" placeholder="Ingresa una fecha" value="{{ request('beforeDate') }}">
+
+    <label for="afterDate">Publicada después de:</label>
+    <input type="date" name="afterDate" placeholder="Ingresa una fecha" value="{{ request('afterDate') }}">
+
     <button type="submit">Buscar</button>
 </form>
 
@@ -40,5 +46,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/songs.js') }}"></script>
+<script type="module" src="{{ asset('js/songs/index.js') }}"></script>
 @endpush

@@ -115,7 +115,7 @@ class SongService
         ];
     }
 
-    public function getSongs($page, $query, $types, $genres, $artists)
+    public function getSongs($page, $name, $types, $genres, $artists, $beforeDate, $afterDate)
     {
         $start = ($page - 1) * 100;
 
@@ -124,17 +124,19 @@ class SongService
             'start' => $start,
             'lang' => 'Romaji',
             'getTotalCount' => 'true',
-            'query' => $query,
+            'query' => $name,
             'nameMatchMode' => 'Auto',
             'sort' => 'PublishDate',
             'songTypes' => $types,
             'tagId[]' => [],
-            'artistId[]' => []
+            'artistId[]' => [],
+            'beforeDate' => $beforeDate,
+            'afterDate' => $afterDate
         ];
 
         if (!empty($genres)) {
-            foreach ($genres as $id) {
-                $parameters['tagId[]'][] = $id;
+            foreach ($genres as $genre) {
+                $parameters['tagId[]'][] = $genre;
             }
         }
 

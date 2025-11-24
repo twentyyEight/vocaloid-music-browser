@@ -17,19 +17,28 @@ use Illuminate\Support\Facades\Http;
 class SongController extends Controller
 {
 
-    public function index(SongService $songService, Request $request, ArtistService $artistService, GenreService $genreService)
+    public function index(SongService $songService, Request $request)
     {
+        // Obtener datos de formulario
         $page = $request->get('page', 1);
-        $query = $request->input('query', '');
+        $name = $request->input('name', null);
         $types = $request->input('types') ?: 'Unspecified,Original,Remaster,Remix,Cover,Arrangement,Instrumental,Mashup,Other,Rearrangement';
+        
         $genres = $request->input('genres') ?: [];
+
         $artists = $request->input('artists') ?: [];
+        $beforeDate = $request->input('beforeDate', null);
+        $afterDate = $request->input('afterDate', null);
 
-        $data = $songService->getSongs($page, $query, $types, $genres, $artists);
+        // Llamado a API con datos del formulario
+        $data = $songService->getSongs($page, $name, $types, $genres, $artists, $beforeDate, $afterDate);
 
+        // Recepción datos API
         $songs = $data['songs'];
         $pages = $data['pages'];
-        return view('api.songs.index', compact('songs', 'pages', 'page', 'genres'));
+
+        #dd($request->all());
+        return view('api.songs.index', compact('songs', 'pages', 'page', 'genres', 'types'));
     }
 
     public function show($id, SongService $songService)
