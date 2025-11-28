@@ -103,8 +103,8 @@ class AlbumService
     public function autocomplete($query)
     {
         $res = Http::get('https://vocadb.net/api/albums', [
-            'nameMatchMode' => 'Auto',
-            'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other',
+            'nameMatchMode' => 'StartsWith',
+            'discTypes' => 'Unknown',
             'maxResults' => 10,
             'sort' => 'RatingAverage',
             'query' => $query,
@@ -123,19 +123,41 @@ class AlbumService
         return $sugg;
     }
 
-    public function getAlbums($page)
+    public function getAlbums($page, $name, $type, $genres, $artists, $beforeDate, $afterDate, $sort)
     {
         $start = ($page - 1) * 100;
 
-        $res = Http::get('https://vocadb.net/api/albums', [
-            //'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other',
+        $parameters = [
+            'discTypes' => $type,
             'maxResults' => 100,
-            'sort' => 'ReleaseDate',
+            'sort' => $sort,
             'start' => $start,
             'lang' => 'Romaji',
             'getTotalCount' => 'true',
-            'fields' => 'MainPicture'
-        ]);
+            'fields' => 'MainPicture',
+            'tagId[]' => [],
+            'artistId[]' => [],
+            'beforeDate' => $beforeDate,
+            'afterDate' => $afterDate,
+            'query' => $name,
+            'nameMatchMode' => 'StartsWith'
+        ];
+
+        if (!empty($genres)) {
+            foreach ($genres as $genre) {
+                $parameters['tagId[]'][] = $genre;
+            }
+        }
+
+        if (!empty($artists)) {
+            foreach ($artists as $id) {
+                $parameters['artistId[]'][] = $id;
+            }
+        }
+
+        $res = Http::get('https://vocadb.net/api/albums', $parameters);
+
+        #dd($res);
 
         $items = $res['items'];
         $albums = [];
@@ -156,19 +178,6 @@ class AlbumService
             'albums' => $albums,
             'pages' => ceil($total / 100)
         ];
-    }
-
-    public function pagination()
-    {
-        $res = Http::get("https://vocadb.net/api/artists", [
-            'maxResults'     => 1,
-            'getTotalCount'  => 'true',
-            'discTypes' => 'Unknown, Album, Single, EP, SplitAlbum, Compilation, Fanmade, Instrumental, Other'
-        ]);
-
-        $total = $res['totalCount'];
-
-        return ceil($total / 100);
     }
 
     public function getNewAndTopAlbums()

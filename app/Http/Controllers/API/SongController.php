@@ -22,23 +22,22 @@ class SongController extends Controller
         // Obtener datos de formulario
         $page = $request->get('page', 1);
         $name = $request->input('name', null);
-        $types = $request->input('types') ?: 'Unspecified,Original,Remaster,Remix,Cover,Arrangement,Instrumental,Mashup,Other,Rearrangement';
-        
+        $type = $request->input('type') ?: 'Unspecified,Original,Remaster,Remix,Cover,Arrangement,Instrumental,Mashup,Other,Rearrangement';
         $genres = $request->input('genres') ?: [];
-
         $artists = $request->input('artists') ?: [];
         $beforeDate = $request->input('beforeDate', null);
         $afterDate = $request->input('afterDate', null);
+        $sort = $request->input('sort', 'PublishDate');
 
         // Llamado a API con datos del formulario
-        $data = $songService->getSongs($page, $name, $types, $genres, $artists, $beforeDate, $afterDate);
+        $data = $songService->getSongs($page, $name, $type, $genres, $artists, $beforeDate, $afterDate, $sort);
 
         // Recepción datos API
         $songs = $data['songs'];
         $pages = $data['pages'];
 
         #dd($request->all());
-        return view('api.songs.index', compact('songs', 'pages', 'page', 'genres', 'types'));
+        return view('api.songs.index', compact('songs', 'pages', 'page', 'genres', 'type'));
     }
 
     public function show($id, SongService $songService)

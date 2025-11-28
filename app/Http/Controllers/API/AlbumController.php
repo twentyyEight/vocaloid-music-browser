@@ -18,8 +18,16 @@ class AlbumController extends Controller
     public function index(AlbumService $albumService, Request $request)
     {
         $page = $request->get('page', 1);
+        $name = $request->input('name', null);
+        $type = $request->input('type', 'Unknown');
+        $genres = $request->input('genres') ?: [];
+        $artists = $request->input('artists') ?: [];
+        $beforeDate = $request->input('beforeDate', null);
+        $afterDate = $request->input('afterDate', null);
+        $sort = $request->input('sort', 'ReleaseDate');
 
-        $data = $albumService->getAlbums($page);
+        $data = $albumService->getAlbums($page, $name, $type, $genres, $artists, $beforeDate, $afterDate, $sort);
+
         $albums = $data['albums'];
         $pages = $data['pages'];
 

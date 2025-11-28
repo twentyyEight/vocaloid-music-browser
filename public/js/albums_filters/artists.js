@@ -1,18 +1,30 @@
 export function artistsHandler() {
 
     let selectedArtists = []
+    const inputValue = JSON.parse($('#artists_ids').val())
 
-    const stored = sessionStorage.getItem('selectedArtists');
-    if (stored) {
+    if (inputValue.length) {
+
+        const stored = sessionStorage.getItem('selectedArtistsAlbums');
         selectedArtists = JSON.parse(stored);
         renderSelectedArtists();
+
+    } else {
+        sessionStorage.removeItem('selectedArtistsAlbums')
     }
 
     $('#artists').autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: `/artists/autocomplete/${request.term}`,
+                beforeSend: function () {
+                    $('.loading_artists').show()
+                    $(':submit').prop('disabled', true)
+                },
                 success: function (data) {
+
+                    $('.loading_artists').hide()
+                    $(':submit').prop('disabled', false)
                     response(data);
                 },
                 error: function (error) {
@@ -34,8 +46,10 @@ export function artistsHandler() {
 
             renderSelectedArtists()
 
-            sessionStorage.setItem('selectedArtists', JSON.stringify(selectedArtists));
+            sessionStorage.setItem('selectedArtistsAlbums', JSON.stringify(selectedArtists));
 
+            $('#filters').submit()
+            
             $('#artists').val('')
             return false
         }
@@ -59,10 +73,11 @@ export function artistsHandler() {
         });
     }
 
-    $('.remove-artist').click(function () {
+    $(document).on('click', '.remove-artist', function () {
         const id = $(this).attr('id')
         selectedArtists = selectedArtists.filter(g => g.id != id)
-        sessionStorage.setItem('selectedArtists', JSON.stringify(selectedArtists));
+        sessionStorage.setItem('selectedArtistsAlbums', JSON.stringify(selectedArtists));
         renderSelectedArtists()
+        $('#filters').submit()
     })
 }

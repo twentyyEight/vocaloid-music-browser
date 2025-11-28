@@ -115,7 +115,7 @@ class SongService
         ];
     }
 
-    public function getSongs($page, $name, $types, $genres, $artists, $beforeDate, $afterDate)
+    public function getSongs($page, $name, $type, $genres, $artists, $beforeDate, $afterDate, $sort)
     {
         $start = ($page - 1) * 100;
 
@@ -125,9 +125,9 @@ class SongService
             'lang' => 'Romaji',
             'getTotalCount' => 'true',
             'query' => $name,
-            'nameMatchMode' => 'Auto',
-            'sort' => 'PublishDate',
-            'songTypes' => $types,
+            'nameMatchMode' => 'StartsWith',
+            'sort' => $sort,
+            'songTypes' => $type,
             'tagId[]' => [],
             'artistId[]' => [],
             'beforeDate' => $beforeDate,
@@ -172,11 +172,10 @@ class SongService
     public function autocomplete($query)
     {
         $res = Http::get('https://vocadb.net/api/songs', [
-            'nameMatchMode' => 'Auto',
+            'nameMatchMode' => 'StartsWith',
             'maxResults' => 10,
             'query' => $query,
             'lang' => 'Romaji',
-
             'sort' => 'RatingScore',
         ]);
 

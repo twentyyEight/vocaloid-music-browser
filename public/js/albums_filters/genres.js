@@ -1,18 +1,31 @@
 export function genresHandler() {
 
     let selectedGenres = [];
+    const inputValue = JSON.parse($('#genres_ids').val())
 
-    const stored = sessionStorage.getItem('selectedGenres');
-    if (stored) {
+    if (inputValue.length) {
+
+        const stored = sessionStorage.getItem('selectedGenresAlbums');
         selectedGenres = JSON.parse(stored);
         renderSelectedGenres();
+
+    } else {
+        sessionStorage.removeItem('selectedGenresAlbums')
+
     }
 
     $('#genres').autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: `/genres/autocomplete/${request.term}`,
+                beforeSend: function () {
+                    $('.loading_genres').show()
+                    $(':submit').prop('disabled', true)
+                },
                 success: function (data) {
+
+                    $('.loading_genres').hide()
+                    $(':submit').prop('disabled', false)
                     response(data);
                 },
                 error: function (error) {
@@ -34,8 +47,9 @@ export function genresHandler() {
 
             renderSelectedGenres();
 
+            sessionStorage.setItem('selectedGenresAlbums', JSON.stringify(selectedGenres));
 
-            sessionStorage.setItem('selectedGenres', JSON.stringify(selectedGenres));
+            $('#filters').submit()
 
             $('#genres').val('');
             return false;
@@ -59,11 +73,12 @@ export function genresHandler() {
         });
     }
 
-    $('.remove-genre').click(function () {
+    $(document).on('click', '.remove-genre', function () {
         const id = $(this).attr('id')
         selectedGenres = selectedGenres.filter(g => g.id != id)
-        sessionStorage.setItem('selectedGenres', JSON.stringify(selectedGenres))
+        sessionStorage.setItem('selectedGenresAlbums', JSON.stringify(selectedGenres))
         renderSelectedGenres()
+        $('#filters').submit()
     })
 }
 
