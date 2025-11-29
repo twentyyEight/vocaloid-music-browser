@@ -117,7 +117,7 @@ class GenreService
             'lang' => 'Romaji',
             'fields' => 'MainPicture',
             'query' => $query,
-            'nameMatchMode' => 'Auto',
+            'nameMatchMode' => 'StartsWith',
             'getTotalCount' => 'true'
         ]);
 
@@ -143,7 +143,7 @@ class GenreService
     public function autocomplete($query)
     {
         $res = Http::get('https://vocadb.net/api/tags', [
-            'nameMatchMode' => 'Auto',
+            'nameMatchMode' => 'StartsWith',
             'maxResults' => 10,
             'query' => $query,
             'lang' => 'Romaji',

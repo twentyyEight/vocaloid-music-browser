@@ -17,8 +17,13 @@ class ArtistController extends Controller
     public function index(ArtistService $artistService, Request $request)
     {
         $page = $request->get('page', 1);
+        $name = $request->input('name', null);
+        $type = $request->input('type', null);
+        $sort = $request->input('sort', 'FollowerCount');
+        $genres = $request->input('genres') ?: [];
 
-        $data = $artistService->getArtists($page);
+        $data = $artistService->getArtists($page, $type, $sort, $genres, $name);
+
         $artists = $data['artists'];
         $pages = $data['pages'];
 

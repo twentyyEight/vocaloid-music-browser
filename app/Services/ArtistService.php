@@ -72,7 +72,7 @@ class ArtistService
     public function autocomplete($query)
     {
         $res = Http::get('https://vocadb.net/api/artists', [
-            'nameMatchMode' => 'Auto',
+            'nameMatchMode' => 'StartsWith',
             'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE',
             'maxResults' => 10,
             'sort' => 'FollowerCount',
@@ -93,19 +93,30 @@ class ArtistService
         return $sugg;
     }
 
-    public function getArtists($page)
+    public function getArtists($page, $type, $sort, $genres, $name)
     {
         $start = ($page - 1) * 100;
 
-        $res = Http::get('https://vocadb.net/api/artists', [
-            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE',
+        $parameters = [
+            'artistTypes' => $type,
             'maxResults' => 100,
-            'sort' => 'FollowerCount',
+            'sort' => $sort,
             'start' => $start,
             'lang' => 'Romaji',
             'allowBaseVoicebanks' => 'false',
-            'getTotalCount' => 'true'
-        ]);
+            'getTotalCount' => 'true',
+            'tagId[]' => [],
+            'query' => $name,
+            'nameMatchMode' => 'StartsWith'
+        ];
+
+        if (!empty($genres)) {
+            foreach ($genres as $genre) {
+                $parameters['tagId[]'][] = $genre;
+            }
+        }
+
+        $res = Http::get('https://vocadb.net/api/artists', $parameters);
 
         $items = $res['items'];
         $artists = [];
