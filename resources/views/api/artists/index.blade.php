@@ -39,7 +39,7 @@
     <h2>Género</h2>
     <input type="hidden" id="genres_ids" value='@json(request("genres", []))'>
     <input type="text" id="genres">
-    <p style="display: none;" class="loading_genres">Buscando...</p>
+    <p style="display: none;" id="loading_genres">Buscando...</p>
     <div id="selected_genres"></div>
 
     <label for="sort">Ordenar por:</label>
@@ -48,9 +48,6 @@
         <option value="Name" {{ request('sort') == 'Name' ? 'selected' : '' }}>Nombre</option>
     </select>
 </form>
-
-
-<p style="display: none;" id="loading">Cargando resultados...</p>
 
 <div class="artists">
     @foreach ($artists as $artist)

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
 <form action="{{ route('genre.index') }}" method="GET">
     <input type="text" placeholder="Buscar género..." name="query">
     <button type="submit">Buscar</button>

@@ -6,13 +6,9 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\SongService;
-use App\Services\ArtistService;
-use App\Services\GenreService;
 use App\Models\FavoriteSongs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
-use Illuminate\Support\Facades\Http;
 
 class SongController extends Controller
 {

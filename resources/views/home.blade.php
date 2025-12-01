@@ -10,6 +10,12 @@
 
 <input type="text" id="search">
 <p style="display: none;">Buscando...</p>
+
+<h2>Canciones nuevas</h2>
+@foreach ($songs['new'] as $song)
+<p>{{ $song['name'] }} <br> {{ $song['artists'] }}</p>
+<p>{{ $song['pv'] }}</p>
+@endforeach
 @endsection
 
 @push('scripts')

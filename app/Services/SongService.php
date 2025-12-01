@@ -216,7 +216,8 @@ class SongService
                 'name' => $n['name'],
                 'artists' => $n["artistString"],
                 'img' => $n['mainPicture']['urlOriginal'],
-                'id' => $n['id']
+                'id' => $n['id'],
+                'pv' => $n['pvs']['url']
             ];
         }
 
@@ -231,8 +232,8 @@ class SongService
         }
 
         return [
-            'topSongs' => $topSongs,
-            'newSongs' => $newSongs
+            'top' => $topSongs,
+            'new' => $newSongs
         ];
     }
 }

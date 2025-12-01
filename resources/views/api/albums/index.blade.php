@@ -9,7 +9,7 @@
     <h3>Tipo de álbum</h3>
     <input type="hidden" id="type" name="type" value="{{ request('type')}}">
 
-    <button type="button" class="type" value="Unknown">Todos</button>
+    <button id="default" type="button" class="type" value="Unknown">Todos</button>
     <button type="button" class="type" value="Album">Album original</button>
     <button type="button" class="type" value="EP">EP</button>
     <button type="button" class="type" value="Compilation">Compilación</button>
@@ -19,13 +19,13 @@
     <h3>Género</h3>
     <input type="hidden" id="genres_ids" value='@json(request("genres", []))'>
     <input type="text" id="genres">
-    <p style="display: none;" class="loading_genres">Buscando...</p>
+    <p style="display: none;" id="loading_genres">Buscando...</p>
     <div id="selected_genres"></div>
 
     <h3>Artista</h3>
     <input type="hidden" id="artists_ids" value='@json(request("artists", []))'>
     <input type="text" id="artists">
-    <p style="display: none;" class="loading_artists">Buscando...</p>
+    <p style="display: none;" id="loading_artists">Buscando...</p>
     <div id="selected_artists"></div>
 
     <label for="beforeDate">Publicada antes de:</label>
@@ -42,9 +42,7 @@
     </select>
 </form>
 
-<h2 id="loading">Cargando...</h2>
-
-<div id="albums" style="display: none;">
+<div id="albums">
     @foreach ($albums as $album)
     <a href="{{ route('album.show', $album['id']) }}">{{ $album['name'] }}</a>
     @endforeach
@@ -53,6 +51,4 @@
 <x-pagination :page="$page" :pages="$pages" />
 @endsection
 
-@push('scripts')
-<script type="module" src="{{ asset('js/albums_filters/index.js') }}"></script>
-@endpush
+@vite('resources/js/index.js')

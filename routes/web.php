@@ -7,10 +7,11 @@ use App\Http\Controllers\API\ArtistController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [HomeController::class, 'index']);
 
 // Album Routes
 Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');

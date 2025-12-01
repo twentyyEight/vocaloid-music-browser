@@ -1,5 +1,4 @@
 export function typeHandler() {
-
     let selectedType = $('#type').val()
 
     if (selectedType) {
@@ -12,7 +11,7 @@ export function typeHandler() {
         })
 
     } else {
-        $('.type[value="Unknown"]')
+        $('#default')
             .css('background-color', 'red')
     }
 
@@ -26,5 +25,4 @@ export function typeHandler() {
         $('#type').val(value)
         $(this).closest('form').submit()
     })
-
-} 
+}
