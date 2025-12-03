@@ -1,0 +1,51 @@
+nav {
+    background-color: #373b3e;
+    padding-inline: 20px;
+    padding-block: 10px;
+    width: 100%;
+
+    #nav-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    img {
+        filter: invert(1);
+        height: 30px;
+        width: fit-content;
+    }
+
+    a {
+        color: white;
+    }
+
+    ul {
+        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 15px;
+    }
+
+    .nav-item {
+        background-color: #282b2e;
+        list-style: none;
+        padding: 10px 20px;
+        display: flex;
+        border-radius: 10px;
+        flex-direction: column;
+    }
+
+    #explorar-header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #explorar-dropdown {
+        background-color: #282b2e;
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        margin-top: 10px;
+        height: 100%;
+    }
+}

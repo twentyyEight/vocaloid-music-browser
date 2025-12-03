@@ -216,8 +216,7 @@ class SongService
                 'name' => $n['name'],
                 'artists' => $n["artistString"],
                 'img' => $n['mainPicture']['urlOriginal'],
-                'id' => $n['id'],
-                'pv' => $n['pvs']['url']
+                'id' => $n['id']
             ];
         }
 

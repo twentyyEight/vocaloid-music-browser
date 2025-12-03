@@ -11,7 +11,7 @@ use App\Http\Controllers\HomeController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Album Routes
 Route::get('/albums', [AlbumController::class, 'index'])->name('album.index');

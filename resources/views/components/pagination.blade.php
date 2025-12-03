@@ -1,5 +1,5 @@
 @props(['page', 'pages'])
-<ul class="pagination">
+<ul class="pagination" id="pagination">
 
     <li class="page-item {{ $page == 1 ? 'disabled' : '' }}">
         <a class="page-link" href="?page=1">«« Primera</a>

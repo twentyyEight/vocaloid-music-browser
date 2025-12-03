@@ -199,7 +199,7 @@ class AlbumService
                 'id' => $n['id'],
                 'name' => $n['name'],
                 'artists' => $n['artistString'],
-                'img' => $n['mainPicture']['urlOriginal']
+                #'img' => $n['mainPicture']['urlOriginal']
             ];
         }
 
