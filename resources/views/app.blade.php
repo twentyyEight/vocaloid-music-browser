@@ -8,42 +8,49 @@
 </head>
 
 <body>
-    <nav>
-        <div id="nav-header">
-            <a href="{{ route('home') }}">vocaloid music browser</a>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('home') }}">vocaloid music browser</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ms-auto" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Explorar
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('song.index') }}">Canciones</a></li>
+                            <li><a class="dropdown-item" href="{{ route('album.index') }}">Albumes</a></li>
+                            <li><a class="dropdown-item" href="{{ route('artist.index') }}">Artistas</a></li>
+                            <li><a class="dropdown-item" href="{{ route('genre.index') }}">Géneros</a></li>
+                        </ul>
+                    </li>
+                    @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Registrarse</a>
+                    </li>
+                    @endguest
 
-            <img src="{{ asset('images/menu.png') }}" alt="menu" id="menu" class="nav-icon">
-            <img src="{{ asset('images/x.png') }}" alt="close" id="close" class="nav-icon">
-        </div>
-
-        <ul id="nav-content">
-            @guest
-            <li class="nav-item"><a href="{{ route('register') }}">Registro</a></li>
-            <li class="nav-item"><a href="{{ route('login') }}">Iniciar Sesión</a></li>
-            @endguest
-
-            @auth
-            <li class="nav-item"><a href="{{ route('profile', ['id' => auth()->id()]) }}">Perfil</a></li>
-            <li class="nav-item"><a href="{{ route('logout') }}">Log out</a></li>
-            @endauth
-
-            <li id="explorar">
-                <a class="nav-item" href="#" id="explorar-header">
-                    <span>Explorar</span>
-                    <img src="{{ asset('images/flecha.png') }}" alt="down" id="arrow">
-                </a>
-                <ul id="explorar-dropdown">
-                    <a href="{{ route('song.index') }}">Canciones</a>
-                    <a href="{{ route('album.index') }}">Albumes</a>
-                    <a href="{{ route('artist.index') }}">Artistas</a>
-                    <a href="{{ route('genre.index') }}">Géneros</a>
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                    </li>
+                    @endauth
                 </ul>
-            </li>
-        </ul>
+            </div>
+        </div>
     </nav>
     @yield('content')
 
-    @vite(['resources/js/app.js', 'resources/js/nav.js', 'resources/scss/nav.scss'])
+    @vite(['resources/js/app.js', 'resources/scss/nav.scss'])
 </body>
 
 </html>

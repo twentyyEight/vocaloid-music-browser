@@ -1,6 +1,6 @@
 $(function () {
 
-    $('#close, #explorar-dropdown, #nav-content').hide()
+    $('#close, #explorar-dropdown').hide()
 
     /* Abrir navbar en mobiles */
     let isNavOpen = false
@@ -12,12 +12,12 @@ $(function () {
         if (isNavOpen) {
             $('#close').show()
             $('#menu').hide()
+            $('#nav-content').slideDown(200)
         } else {
             $('#close').hide()
             $('#menu').show()
+            $('#nav-content').slideUp(200)
         }
-
-        $('#nav-content').slideToggle(200)
     })
 
     /* Abrir 'Explorar' dropdown */
