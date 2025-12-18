@@ -1,9 +1,6 @@
-import { typeHandler } from "./modules/type.js"
 import { tagsHandler } from "./modules/tags.js"
 
 $(function () {
-
-    typeHandler()
 
     // Maneja el filtro 'Género'
     tagsHandler({
@@ -30,19 +27,20 @@ $(function () {
         this.form.submit();
     });
 
-    // Envio de input name
-    // si aprieta enter
-    $('#name').on('keydown', function (e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            $(this).closest('form').submit();
-        }
-    });
 
-    // o el boton 'buscar'
-    $('#search').on('click', function () {
-        $('#name').closest('form').submit();
-    });
+    $('.type').on('change', function () {
+        const type = this.value
+        console.log(type)
 
+        const $select = $('#options');
 
+        // resetear selección
+        $select.val('');
+
+        // ocultar todas menos la primera
+        $select.find('option:not(:first)').hide();
+
+        // mostrar solo las que coinciden
+        $select.find(`option[data-type="${type}"]`).show();
+    })
 })

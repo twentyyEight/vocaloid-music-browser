@@ -4,8 +4,3 @@ import 'bootstrap';
 
 // SCSS
 import '../scss/app.scss';
-
-// Jquery
-import $ from 'jquery';
-window.$ = $;
-window.jQuery = $;

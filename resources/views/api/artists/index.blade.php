@@ -1,43 +1,48 @@
-@extends('layouts.app')
+@extends('app')
 
 @section('content')
 <form action="{{ route('artist.index') }}" method="GET" id="filters">
     <input type="text" name="name" placeholder="Buscar por nombre..." id="name" value="{{ request('name') }}">
-    <button type="button" id="search">Buscar</button>
+    <button type="submit">Buscar</button>
 
     <h2>Tipo de artista</h2>
+    <label>
+        <input type="radio" name="type" value="producer" class="type">
+        Productor
+    </label>
 
-    <label for="producers">Productores</label>
-    <select class="type">
-        <option value=""></option>
-        <option value="Producer" {{ request('type') == 'Producer' ? 'selected' : '' }}>Productor musical</option>
-        <option value="CoverArtist" {{ request('type') == 'CoverArtist' ? 'selected' : '' }}>Artista de covers</option>
-        <option value="Circle" {{ request('type') == 'Circle' ? 'selected' : '' }}>Círculo</option>
-        <option value="OtherGroup" {{ request('type') == 'OtherGroup' ? 'selected' : '' }}>Otros grupos</option>
-    </select>
+    <label>
+        <input type="radio" name="type" value="vocalist" class="type">
+        Vocalista
+    </label>
 
-    <label for="vocalist">Vocalistas</label>
-    <select class="type">
+    <select id="options">
         <option value=""></option>
-        <option value="Vocaloid" {{ request('type') == 'Vocaloid' ? 'selected' : '' }}>Vocaloid</option>
-        <option value="UTAU" {{ request('type') == 'UTAU' ? 'selected' : '' }}>UTAU</option>
-        <option value="SynthesizerV" {{ request('type') == 'SynthesizerV' ? 'selected' : '' }}>Synthesizer V</option>
-        <option value="CeVIO" {{ request('type') == 'CeVIO' ? 'selected' : '' }}>CeVIO</option>
-        <option value="NEUTRINO" {{ request('type') == 'NEUTRINO' ? 'selected' : '' }}>NEUTRINO</option>
-        <option value="VoiSona" {{ request('type') == 'VoiSona' ? 'selected' : '' }}>VoiSona</option>
-        <option value="NewType" {{ request('v') == 'NewType' ? 'selected' : '' }}>NewType</option>
-        <option value="Voiceroid" {{ request('vocalist') == 'Voiceroid' ? 'selected' : '' }}>Voiceroid</option>
-        <option value="VOICEVOX" {{ request('vocalist') == 'VOICEVOX' ? 'selected' : '' }}>VOICEVOX</option>
-        <option value="ACEVirtualSinger" {{ request('vocalist') == 'ACEVirtualSinger' ? 'selected' : '' }}>ACE Virtual Singer</option>
-        <option value="AIVOICE" {{ request('vocalist') == 'AIVOICE' ? 'selected' : '' }}>AI VOICE</option>
-        <option value="OtherVoiceSynthesizer" {{ request('vocalist') == 'OtherVoiceSynthesizer' ? 'selected' : '' }}>Otros sintetizadores de voz</option>
-        <option value="OtherVocalist" {{ request('vocalist') == 'OtherVocalist' ? 'selected' : '' }}>Otros vocalistas</option>
+
+        <option value="Producer" data-type="producer" {{ request('type') == 'Producer' ? 'selected' : '' }}>Productor musical</option>
+        <option value="CoverArtist" data-type="producer" {{ request('type') == 'CoverArtist' ? 'selected' : '' }}>Artista de covers</option>
+        <option value="Circle" data-type="producer" {{ request('type') == 'Circle' ? 'selected' : '' }}>Círculo</option>
+        <option value="OtherGroup" data-type="producer" {{ request('type') == 'OtherGroup' ? 'selected' : '' }}>Otros grupos</option>
+
+        <option value="Vocaloid" data-type="vocalist" {{ request('type') == 'Vocaloid' ? 'selected' : '' }}>Vocaloid</option>
+        <option value="UTAU" data-type="vocalist" {{ request('type') == 'UTAU' ? 'selected' : '' }}>UTAU</option>
+        <option value="SynthesizerV" data-type="vocalist" {{ request('type') == 'SynthesizerV' ? 'selected' : '' }}>Synthesizer V</option>
+        <option value="CeVIO" data-type="vocalist" {{ request('type') == 'CeVIO' ? 'selected' : '' }}>CeVIO</option>
+        <option value="NEUTRINO" data-type="vocalist" {{ request('type') == 'NEUTRINO' ? 'selected' : '' }}>NEUTRINO</option>
+        <option value="VoiSona" data-type="vocalist" {{ request('type') == 'VoiSona' ? 'selected' : '' }}>VoiSona</option>
+        <option value="NewType" data-type="vocalist" {{ request('v') == 'NewType' ? 'selected' : '' }}>NewType</option>
+        <option value="Voiceroid" data-type="vocalist" {{ request('vocalist') == 'Voiceroid' ? 'selected' : '' }}>Voiceroid</option>
+        <option value="VOICEVOX" data-type="vocalist" {{ request('vocalist') == 'VOICEVOX' ? 'selected' : '' }}>VOICEVOX</option>
+        <option value="ACEVirtualSinger" data-type="vocalist" {{ request('vocalist') == 'ACEVirtualSinger' ? 'selected' : '' }}>ACE Virtual Singer</option>
+        <option value="AIVOICE" data-type="vocalist" {{ request('vocalist') == 'AIVOICE' ? 'selected' : '' }}>AI VOICE</option>
+        <option value="OtherVoiceSynthesizer" data-type="vocalist" {{ request('vocalist') == 'OtherVoiceSynthesizer' ? 'selected' : '' }}>Otros sintetizadores de voz</option>
+        <option value="OtherVocalist" data-type="vocalist" {{ request('vocalist') == 'OtherVocalist' ? 'selected' : '' }}>Otros vocalistas</option>
     </select>
 
     <input type="hidden" name="type" id="type_hidden" value="{{ request('type') }}">
 
     <h2>Género</h2>
-    <input type="hidden" id="genres_ids" value='@json(request("genres", []))'>
+    <input type="hidden" id="genres_ids" value='@json(request("genres", null))'>
     <input type="text" id="genres">
     <p style="display: none;" id="loading_genres">Buscando...</p>
     <div id="selected_genres"></div>
@@ -58,6 +63,4 @@
 <x-pagination :page="$page" :pages="$pages" />
 @endsection
 
-@push('scripts')
-<script type="module" src="{{ asset('js/artists_filters/index.js') }}"></script>
-@endpush
+@vite('resources/js/index.js')

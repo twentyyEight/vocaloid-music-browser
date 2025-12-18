@@ -8,10 +8,9 @@ export function tagsHandler({
 }) {
 
     let selectedItems = []
-    const inputValue = JSON.parse($(hiddenInputId).val())
+    const inputValue = JSON.parse($(hiddenInputId).val() ?? null)
 
-    if (inputValue.length) {
-
+    if (inputValue) {
         const stored = sessionStorage.getItem(sessionStorageName);
         selectedItems = JSON.parse(stored);
         renderSelectedItems();

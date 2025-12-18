@@ -1,0 +1,15 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    .page-item.active .page-link {
+        background-color: #137a7f;
+        color: white;
+    }
+
+    .page-link {
+        color: #137a7f;
+        font-size: 20px;
+    }
+}

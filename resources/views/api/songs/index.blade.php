@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('app')
 
 @section('content')
 <form action="{{ route('song.index') }}" method="GET" id="filters">
@@ -7,28 +7,32 @@
     <button type="button" id="search">Buscar</button>
 
     <h3>Tipo de canción</h3>
+    <label for="type">Tipo de canción</label>
     <input type="hidden" id="type" name="type" value="{{ request('type')}}">
 
-    <button id="default" type="button" class="type" value="">Todos</button>
-    <button type="button" class="type" value="Original">Canción original</button>
-    <button type="button" class="type" value="Remaster">Remasterización</button>
-    <button type="button" class="type" value="Remix">Remix</button>
-    <button type="button" class="type" value="Cover">Cover</button>
-    <button type="button" class="type" value="Arragement">Arreglo</button>
-    <button type="button" class="type" value="Instrumental">Instrumental</button>
-    <button type="button" class="type" value="Mashup">Mashup</button>
-    <button type="button" class="type" value="Rearragement">Rearreglo</button>
-    <button type="button" class="type" value="Other">Otro</button>
-    <button type="button" class="type" value="Unspecified">Sin especificar</button>
+    <select name="type" id="type">
+        <option value=""></option>
+        <option value="Original" {{ request('type') == 'Original' ? 'selected' : '' }}>Original</option>
+        <option value="Remaster" {{ request('type') == 'Remaster' ? 'selected' : '' }}>Remasterización</option>
+        <option value="Remix" {{ request('type') == 'Remix' ? 'selected' : '' }}>Remix</option>
+        <option value="Cover" {{ request('type') == 'Cover' ? 'selected' : '' }}>Cover</option>
+        <option value="Arragement" {{ request('type') == 'Arragement' ? 'selected' : '' }}>Arreglo</option>
+        <option value="Instrumental" {{ request('type') == 'Instrumental' ? 'selected' : '' }}>Instrumental</option>
+        <option value="Mashup" {{ request('type') == 'Mashup' ? 'selected' : '' }}>Mashup</option>
+        <option value="Rearragement" {{ request('type') == 'Rearragement' ? 'selected' : '' }}>Rearreglo</option>
+        <option value="Other" {{ request('type') == 'Other' ? 'selected' : '' }}>Otro</option>
+        <option value="Unspecified" {{ request('type') == 'Unspecified' ? 'selected' : '' }}>Sin especificar</option>
+    </select>
+
 
     <h3>Género</h3>
-    <input type="hidden" id="genres_ids" value='@json(request("genres", []))'>
+    <input type="hidden" id="genres_ids" value='@json(request("genres", null))'>
     <input type="text" id="genres">
     <p style="display: none;" id="loading_genres">Buscando...</p>
     <div id="selected_genres"></div>
 
     <h3>Artista</h3>
-    <input type="hidden" id="artists_ids" value='@json(request("artists", []))'>
+    <input type="hidden" id="artists_ids" value='@json(request("artists", null))'>
     <input type="text" id="artists">
     <p style="display: none;" id="loading_artists">Buscando...</p>
     <div id="selected_artists"></div>

@@ -1,0 +1,25 @@
+#input-container {
+    display: flex;
+    gap: 5px;
+    position: relative;
+
+    input {
+        background-color: rgb(230, 229, 229);
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    button {
+        background: transparent;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+
+        .bi {
+            font-size: 25px;
+            color: gray;
+        }
+    }
+}

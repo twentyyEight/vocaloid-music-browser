@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('app')
 
 @section('content')
 <form action="{{ route('album.index') }}" method="GET" id="filters">
@@ -6,24 +6,26 @@
     <input type="text" placeholder="Buscar por nombre..." name="name" id="name" value="{{ request('name') }}">
     <button type="button" id="search">Buscar</button>
 
-    <h3>Tipo de álbum</h3>
+    <label for="type">Tipo de álbum</label>
     <input type="hidden" id="type" name="type" value="{{ request('type')}}">
 
-    <button id="default" type="button" class="type" value="Unknown">Todos</button>
-    <button type="button" class="type" value="Album">Album original</button>
-    <button type="button" class="type" value="EP">EP</button>
-    <button type="button" class="type" value="Compilation">Compilación</button>
-    <button type="button" class="type" value="SplitAlbum">Album compartido</button>
-    <button type="button" class="type" value="Other">Otro</button>
+    <select name="type" id="type">
+        <option value=""></option>
+        <option value="Album" {{ request('type') == 'Album' ? 'selected' : '' }}>Original</option>
+        <option value="EP" {{ request('type') == 'EP' ? 'selected' : '' }}>EP</option>
+        <option value="Compilation" {{ request('type') == 'Compilation' ? 'selected' : '' }}>Compilación</option>
+        <option value="SplitAlbum" {{ request('type') == 'SplitAlbum' ? 'selected' : '' }}>Álbum compartido</option>
+        <option value="Other" {{ request('type') == 'Other' ? 'selected' : '' }}>Otro</option>
+    </select>
 
     <h3>Género</h3>
-    <input type="hidden" id="genres_ids" value='@json(request("genres", []))'>
+    <input type="hidden" id="genres_ids" value='@json(request("genres", null))'>
     <input type="text" id="genres">
     <p style="display: none;" id="loading_genres">Buscando...</p>
     <div id="selected_genres"></div>
 
     <h3>Artista</h3>
-    <input type="hidden" id="artists_ids" value='@json(request("artists", []))'>
+    <input type="hidden" id="artists_ids" value='@json(request("artists", null))'>
     <input type="text" id="artists">
     <p style="display: none;" id="loading_artists">Buscando...</p>
     <div id="selected_artists"></div>
