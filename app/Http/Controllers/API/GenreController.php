@@ -20,8 +20,9 @@ class GenreController extends Controller
         $data = $genreService->getGenres($page, $query);
         $genres = $data['genres'];
         $pages = $data['pages'];
+        $total = $data['total'];
 
-        return view('api.genres.index', compact('genres', 'pages', 'page'));
+        return view('api.genres.index', compact('genres', 'pages', 'page', 'total'));
     }
 
     public function show($id, GenreService $genreService)

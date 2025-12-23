@@ -136,7 +136,8 @@ class GenreService
 
         return [
             'genres' => $genres,
-            'pages' => ceil($total / 100)
+            'pages' => ceil($total / 100),
+            'total' => $total
         ];
     }
 

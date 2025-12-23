@@ -107,7 +107,8 @@ class ArtistService
             'getTotalCount' => 'true',
             'tagId[]' => [],
             'query' => $name,
-            'nameMatchMode' => 'StartsWith'
+            'nameMatchMode' => 'StartsWith',
+            'fields' => 'MainPicture'
         ];
 
         if (!empty($genres)) {
@@ -133,9 +134,8 @@ class ArtistService
 
         return [
             'artists' => $artists,
-            'pages' => ceil($total / 100)
+            'pages' => ceil($total / 100),
+            'total' => $total
         ];
-
-        return $res['items'];
     }
 }

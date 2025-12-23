@@ -31,9 +31,9 @@ class SongController extends Controller
         // Recepción datos API
         $songs = $data['songs'];
         $pages = $data['pages'];
+        $total = $data['total'];
 
-        #dd($request->all());
-        return view('api.songs.index', compact('songs', 'pages', 'page', 'genres', 'type'));
+        return view('api.songs.index', compact('songs', 'pages', 'page', 'total'));
     }
 
     public function show($id, SongService $songService)

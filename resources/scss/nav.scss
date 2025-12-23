@@ -8,6 +8,10 @@
         color: white;
     }
 
+    .navbar-brand {
+        font-size: 16px;
+    }
+
     .dropdown-menu {
         background-color: #50565b;
     }
@@ -18,7 +22,19 @@
         }
     }
 
+    .navbar-toggler {
+        border: none;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: none;
+        outline: none;
+    }
+
+
     .navbar-toggler-icon {
         filter: invert(1);
+        padding: 0;
+        font-size: 16px;
     }
 }

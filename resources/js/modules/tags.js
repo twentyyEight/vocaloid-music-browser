@@ -7,8 +7,10 @@ export function tagsHandler({
     loading
 }) {
 
+
     let selectedItems = []
-    const inputValue = JSON.parse($(hiddenInputId).val() ?? null)
+    const raw = $(hiddenInputId).val()
+    const inputValue = raw  === '[]' || raw === undefined  ? null : JSON.parse(raw)
 
     if (inputValue) {
         const stored = sessionStorage.getItem(sessionStorageName);
@@ -51,8 +53,6 @@ export function tagsHandler({
 
             sessionStorage.setItem(sessionStorageName, JSON.stringify(selectedItems));
 
-            $('#filters').submit()
-
             $(inputId).val('')
             return false
         }
@@ -66,7 +66,7 @@ export function tagsHandler({
 
             $(selectedWrapperId).append(
                 `
-                <div>
+                <div class="tag">
                     <input type="hidden" name="${name}[]" value="${i.id}">
                     <p>${i.name}</p>
                     <button type="button" class="remove" id=${i.id}>X</button>
@@ -82,6 +82,5 @@ export function tagsHandler({
         selectedItems = selectedItems.filter(i => i.id != id)
         sessionStorage.setItem(sessionStorageName, JSON.stringify(selectedItems));
         renderSelectedItems()
-        $('#filters').submit()
     })
 }

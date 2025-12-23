@@ -1,66 +1,99 @@
 @extends('app')
 
 @section('content')
-<form action="{{ route('artist.index') }}" method="GET" id="filters">
-    <input type="text" name="name" placeholder="Buscar por nombre..." id="name" value="{{ request('name') }}">
-    <button type="submit">Buscar</button>
+<div id="container">
+    <h1>Artistas</h1>
+    <p>{{ $total }} resultados</p>
+    <form action="{{ route('artist.index') }}" method="GET" id="form">
 
-    <h2>Tipo de artista</h2>
-    <label>
-        <input type="radio" name="type" value="producer" class="type">
-        Productor
-    </label>
+        <div id="controls">
+            <x-input-name :value="request('name', '')" />
 
-    <label>
-        <input type="radio" name="type" value="vocalist" class="type">
-        Vocalista
-    </label>
+            <button type="button" id="open_filters">
+                <i class="bi bi-funnel-fill"></i>
+            </button>
+        </div>
 
-    <select id="options">
-        <option value=""></option>
+        <div id="overlay"></div>
+        <div id="filters">
 
-        <option value="Producer" data-type="producer" {{ request('type') == 'Producer' ? 'selected' : '' }}>Productor musical</option>
-        <option value="CoverArtist" data-type="producer" {{ request('type') == 'CoverArtist' ? 'selected' : '' }}>Artista de covers</option>
-        <option value="Circle" data-type="producer" {{ request('type') == 'Circle' ? 'selected' : '' }}>Círculo</option>
-        <option value="OtherGroup" data-type="producer" {{ request('type') == 'OtherGroup' ? 'selected' : '' }}>Otros grupos</option>
+            <div id="filters-header">
+                <h2>Filtros</h2>
+                <i class="bi bi-x-lg" id="close_filters"></i>
+            </div>
 
-        <option value="Vocaloid" data-type="vocalist" {{ request('type') == 'Vocaloid' ? 'selected' : '' }}>Vocaloid</option>
-        <option value="UTAU" data-type="vocalist" {{ request('type') == 'UTAU' ? 'selected' : '' }}>UTAU</option>
-        <option value="SynthesizerV" data-type="vocalist" {{ request('type') == 'SynthesizerV' ? 'selected' : '' }}>Synthesizer V</option>
-        <option value="CeVIO" data-type="vocalist" {{ request('type') == 'CeVIO' ? 'selected' : '' }}>CeVIO</option>
-        <option value="NEUTRINO" data-type="vocalist" {{ request('type') == 'NEUTRINO' ? 'selected' : '' }}>NEUTRINO</option>
-        <option value="VoiSona" data-type="vocalist" {{ request('type') == 'VoiSona' ? 'selected' : '' }}>VoiSona</option>
-        <option value="NewType" data-type="vocalist" {{ request('v') == 'NewType' ? 'selected' : '' }}>NewType</option>
-        <option value="Voiceroid" data-type="vocalist" {{ request('vocalist') == 'Voiceroid' ? 'selected' : '' }}>Voiceroid</option>
-        <option value="VOICEVOX" data-type="vocalist" {{ request('vocalist') == 'VOICEVOX' ? 'selected' : '' }}>VOICEVOX</option>
-        <option value="ACEVirtualSinger" data-type="vocalist" {{ request('vocalist') == 'ACEVirtualSinger' ? 'selected' : '' }}>ACE Virtual Singer</option>
-        <option value="AIVOICE" data-type="vocalist" {{ request('vocalist') == 'AIVOICE' ? 'selected' : '' }}>AI VOICE</option>
-        <option value="OtherVoiceSynthesizer" data-type="vocalist" {{ request('vocalist') == 'OtherVoiceSynthesizer' ? 'selected' : '' }}>Otros sintetizadores de voz</option>
-        <option value="OtherVocalist" data-type="vocalist" {{ request('vocalist') == 'OtherVocalist' ? 'selected' : '' }}>Otros vocalistas</option>
-    </select>
+            <div id="filters-body">
+                <x-sort
+                    :value="request('sort')"
+                    :options="[
+            ['value' => 'FollowerCount', 'label' => 'Popularidad'],
+            ['value' => 'Name', 'label' => 'Nombre'],
+        ]" />
+                <x-type
+                    label="artista"
+                    :value="request('type')"
+                    :options="[
+            ['value' => 'Producer', 'label' => 'Productor musical', 'data' => 'producer'],
+            ['value' => 'CoverArtist', 'label' => 'Artista de covers', 'data' => 'producer'],
+            ['value' => 'Circle', 'label' => 'Círculo', 'data' => 'producer'],
+            ['value' => 'OtherGroup', 'label' => 'Otros grupos', 'data' => 'producer'],
 
-    <input type="hidden" name="type" id="type_hidden" value="{{ request('type') }}">
+            ['value' => 'Vocaloid', 'label' => 'Vocaloid', 'data' => 'vocalist'],
+            ['value' => 'UTAU', 'label' => 'UTAU', 'data' => 'vocalist'],
+            ['value' => 'SynthesizerV', 'label' => 'Synthesizer V', 'data' => 'vocalist'],
+            ['value' => 'CeVIO', 'label' => 'CeVIO', 'data' => 'vocalist'],
+            ['value' => 'NEUTRINO', 'label' => 'NEUTRINO', 'data' => 'vocalist'],
+            ['value' => 'VoiSona', 'label' => 'VoiSona', 'data' => 'vocalist'],
+            ['value' => 'NewType', 'label' => 'NewType', 'data' => 'vocalist'],
+            ['value' => 'Voiceroid', 'label' => 'Voiceroid', 'data' => 'vocalist'],
+            ['value' => 'VOICEVOX', 'label' => 'VOICEVOX', 'data' => 'vocalist'],
+            ['value' => 'ACEVirtualSinger', 'label' => 'ACE Virtual Singer', 'data' => 'vocalist'],
+            ['value' => 'AIVOICE', 'label' => 'AI VOICE', 'data' => 'vocalist'],
+            ['value' => 'OtherVoiceSynthesizer', 'label' => 'Otros sintetizadores de voz', 'data' => 'vocalist'],
+            ['value' => 'OtherVocalist', 'label' => 'Otros vocalistas', 'data' => 'vocalist'],
+        ]">
+                    <label>
+                        <input type="radio" value="producer" class="type-artist" checked>
+                        Productor
+                    </label>
 
-    <h2>Género</h2>
-    <input type="hidden" id="genres_ids" value='@json(request("genres", null))'>
-    <input type="text" id="genres">
-    <p style="display: none;" id="loading_genres">Buscando...</p>
-    <div id="selected_genres"></div>
+                    <label>
+                        <input type="radio" value="vocalist" class="type-artist">
+                        Vocalista
+                    </label>
+                </x-type>
 
-    <label for="sort">Ordenar por:</label>
-    <select name="sort" id="sort">
-        <option value="FollowerCount" {{ request('sort') == 'RatingTotal' ? 'selected' : '' }}>Popularidad</option>
-        <option value="Name" {{ request('sort') == 'Name' ? 'selected' : '' }}>Nombre</option>
-    </select>
-</form>
+                <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
 
-<div class="artists">
-    @foreach ($artists as $artist)
-    <a href="{{ route('artist.show', $artist['id']) }}">{{ $artist['name'] }}</a>
-    @endforeach
+                <div id="filters-btns">
+                    <button type="submit">Aplicar filtros</button>
+                    <a href="{{ route('song.index') }}">Limpiar filtros</a>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="page" id="page" value="{{ $page }}">
+    </form>
+
+    <div id="artists">
+        @foreach ($artists as $artist)
+        <a href="{{ route('artist.show', $artist['id']) }}">
+            <div class="artist-img">
+                <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
+            </div>
+            <p>{{ $artist['name'] }}</p>
+        </a>
+        @endforeach
+    </div>
+
+    <x-pagination :page="$page" :pages="$pages" />
 </div>
-
-<x-pagination :page="$page" :pages="$pages" />
 @endsection
 
+@push('styles')
+@vite(['resources/scss/artists/index.scss', 'resources/scss/form.scss'])
+@endpush
+
+@push('scripts')
 @vite('resources/js/index.js')
+@endpush

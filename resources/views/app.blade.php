@@ -7,6 +7,15 @@
     <title>Vocaloid Music Browser</title>
     <link rel="stylesheet"
         href="{{ Vite::asset('node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}">
+    @vite([
+        'resources/scss/app.scss',
+        'resources/scss/nav.scss',
+        'resources/js/app.js',
+    ])
+
+    @stack('styles')
+    @stack('scripts')
+
 </head>
 
 <body>
@@ -50,14 +59,10 @@
             </div>
         </div>
     </nav>
-    @yield('content')
 
-    @vite([
-    'resources/js/app.js',
-    'resources/js/index.js',
-    'resources/scss/app.scss',
-    'resources/scss/nav.scss'
-    ])
+    <div id="content">
+        @yield('content')
+    </div>
 
     <script src="{{ Vite::asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ Vite::asset('node_modules/jquery-ui/dist/jquery-ui.min.js') }}"></script>

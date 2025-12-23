@@ -1,63 +1,89 @@
 @extends('app')
 
 @section('content')
-<form action="{{ route('song.index') }}" method="GET" id="filters">
+<h1>Canciones</h1>
+<p>{{ $total }} resultados</p>
+<div id="browse">
+    <form action="{{ route('song.index') }}" method="GET" id="form">
 
-    <input type="text" placeholder="Buscar por nombre..." name="name" id="name" value="{{ request('name') }}">
-    <button type="button" id="search">Buscar</button>
+        <div id="controls">
+            <x-input-name :value="request('name', '')" />
+            <button type="button" id="open_filters">
+                <i class="bi bi-funnel-fill"></i>
+            </button>
+        </div>
 
-    <h3>Tipo de canción</h3>
-    <label for="type">Tipo de canción</label>
-    <input type="hidden" id="type" name="type" value="{{ request('type')}}">
+        <div id="overlay"></div>
+        <div id="filters">
 
-    <select name="type" id="type">
-        <option value=""></option>
-        <option value="Original" {{ request('type') == 'Original' ? 'selected' : '' }}>Original</option>
-        <option value="Remaster" {{ request('type') == 'Remaster' ? 'selected' : '' }}>Remasterización</option>
-        <option value="Remix" {{ request('type') == 'Remix' ? 'selected' : '' }}>Remix</option>
-        <option value="Cover" {{ request('type') == 'Cover' ? 'selected' : '' }}>Cover</option>
-        <option value="Arragement" {{ request('type') == 'Arragement' ? 'selected' : '' }}>Arreglo</option>
-        <option value="Instrumental" {{ request('type') == 'Instrumental' ? 'selected' : '' }}>Instrumental</option>
-        <option value="Mashup" {{ request('type') == 'Mashup' ? 'selected' : '' }}>Mashup</option>
-        <option value="Rearragement" {{ request('type') == 'Rearragement' ? 'selected' : '' }}>Rearreglo</option>
-        <option value="Other" {{ request('type') == 'Other' ? 'selected' : '' }}>Otro</option>
-        <option value="Unspecified" {{ request('type') == 'Unspecified' ? 'selected' : '' }}>Sin especificar</option>
-    </select>
+            <div id="filters-header">
+                <h2>Filtros</h2>
+                <i class="bi bi-x-lg" id="close_filters"></i>
+            </div>
 
+            <div id="filters-body">
+                <x-sort
+                    :value="request('sort')"
+                    :options="[
+            ['value' => 'PublishDate', 'label' => 'Fecha de lanzamiento'],
+            ['value' => 'Name', 'label' => 'Nombre'],
+            ['value' => 'RatingScore', 'label' => 'Popularidad']]" />
 
-    <h3>Género</h3>
-    <input type="hidden" id="genres_ids" value='@json(request("genres", null))'>
-    <input type="text" id="genres">
-    <p style="display: none;" id="loading_genres">Buscando...</p>
-    <div id="selected_genres"></div>
+                <x-type
+                    label="canción" :value="request('type')"
+                    :options="[
+            ['value' => 'Original',        'label' => 'Original'],
+            ['value' => 'Remaster',        'label' => 'Remasterización'],
+            ['value' => 'Remix',           'label' => 'Remix'],
+            ['value' => 'Cover',           'label' => 'Cover'],
+            ['value' => 'Arragement',      'label' => 'Arreglo'],
+            ['value' => 'Instrumental',    'label' => 'Instrumental'],
+            ['value' => 'Mashup',          'label' => 'Mashup'],
+            ['value' => 'Rearragement',    'label' => 'Rearreglo'],
+            ['value' => 'Other',           'label' => 'Otro'],
+            ['value' => 'Unspecified',     'label' => 'Sin especificar']]" />
 
-    <h3>Artista</h3>
-    <input type="hidden" id="artists_ids" value='@json(request("artists", null))'>
-    <input type="text" id="artists">
-    <p style="display: none;" id="loading_artists">Buscando...</p>
-    <div id="selected_artists"></div>
+                <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
 
-    <label for="beforeDate">Publicada antes de:</label>
-    <input type="date" name="beforeDate" placeholder="Ingresa una fecha" value="{{ request('beforeDate') }}">
+                <x-tags name="artists" label="Artistas" :value="request('artists', null)" />
 
-    <label for="afterDate">Publicada después de:</label>
-    <input type="date" name="afterDate" placeholder="Ingresa una fecha" value="{{ request('afterDate') }}">
+                <x-input-dates :value_before="request('beforeDate')" :value_after="request('afterDate')" />
+            </div>
 
-    <label for="sort">Ordenar por:</label>
-    <select name="sort" id="sort">
-        <option value="PublishDate" {{ request('sort') == 'PublishDate' ? 'selected' : '' }}>Fecha de lanzamiento</option>
-        <option value="Name" {{ request('sort') == 'Name' ? 'selected' : '' }}>Nombre</option>
-        <option value="RatingScore" {{ request('sort') == 'RatingScore' ? 'selected' : '' }}>Popularidad</option>
-    </select>
-</form>
+            <div id="filters-btns">
+                <button type="submit">Aplicar filtros</button>
+                <a href="{{ route('song.index') }}">Limpiar filtros</a>
+            </div>
+        </div>
 
-<div id="songs">
-    @foreach ($songs as $song)
-    <a href="{{ route('song.show', $song['id']) }}">{{ $song['name'] }}</a>
-    @endforeach
+        <input type="hidden" name="page" id="page" value="{{ $page }}">
+    </form>
+
+    <div id="songs">
+        @foreach ($songs as $song)
+        <a href="{{ route('song.show', $song['id']) }}">
+            @if ($song['img'])
+            <div class="img-container">
+                <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
+            </div>
+            @else
+            <div class="icon-container">
+                <i class="bi bi-card-image"></i>
+            </div>
+            @endif
+            <p>{{ $song['name'] }}</p>
+            <p>{{ $song['artists'] }}</p>
+        </a>
+        @endforeach
+    </div>
 </div>
-
 <x-pagination :page="$page" :pages="$pages" />
 @endsection
 
+@push('styles')
+@vite(['resources/scss/songs/index.scss', 'resources/scss/form.scss'])
+@endpush
+
+@push('scripts')
 @vite('resources/js/index.js')
+@endpush

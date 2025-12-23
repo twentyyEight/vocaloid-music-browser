@@ -176,7 +176,8 @@ class AlbumService
 
         return [
             'albums' => $albums,
-            'pages' => ceil($total / 100)
+            'pages' => ceil($total / 100),
+            'total' => $total
         ];
     }
 

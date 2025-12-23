@@ -7,9 +7,9 @@ $(function () {
         inputId: '#genres',
         hiddenInputId: '#genres_ids',
         name: 'genres',
-        selectedWrapperId: '#selected_genres',
         sessionStorageName: 'selectedGenres',
-        loading: '#loading_genres'
+        loading: '#loading_genres',
+        selectedWrapperId: '#selected_genres'
     })
 
     // Maneja el filtro 'Artistas'
@@ -17,30 +17,61 @@ $(function () {
         inputId: '#artists',
         hiddenInputId: '#artists_ids',
         name: 'artists',
-        selectedWrapperId: '#selected_artists',
         sessionStorageName: 'selectedArtists',
-        loading: '#loading_artists'
+        loading: '#loading_artists',
+        selectedWrapperId: '#selected_artists'
     })
 
-    // Envio de inputs type date y orden de resultados
-    $('input[type="date"], #sort').on('change', function () {
-        this.form.submit();
+    // Maneja las opciones a mostrar en 'Tipo de artista'
+    function updateSelectByRadio(type) {
+        const $select = $('#types');
+
+        $select.val('');
+        $select.find('option:not(:first)').hide();
+        $select.find(`option[data-type="${type}"]`).show();
+    }
+
+    $(document).on('change', '.type-artist', function () {
+        $('.type-artist').not(this).prop('checked', false); // permite seleccionar solo un radio, ya que ellos no utilizan 'name'
+        updateSelectByRadio(this.value);
     });
 
+    const checked = $('.type-artist:checked').val();
+    if (checked) {
+        updateSelectByRadio(checked);
+    }
 
-    $('.type').on('change', function () {
-        const type = this.value
-        console.log(type)
+    // Maneja el envio del value de los select
+    $('#types').on('change', function () {
+        $('#type').val(this.value)
+    })
 
-        const $select = $('#options');
+    // Maneja la paginación
+    $('.pagination').on('click', '.page-link', function () {
+        const page = $(this).data('page');
 
-        // resetear selección
-        $select.val('');
+        if (!page) return;
 
-        // ocultar todas menos la primera
-        $select.find('option:not(:first)').hide();
+        $('#page').val(page);
+        $('#form').trigger('submit')
+    });
 
-        // mostrar solo las que coinciden
-        $select.find(`option[data-type="${type}"]`).show();
+    // Maneja la aparición de los filtros en moviles
+    let isOpen = false
+    $('#filters, #overlay').hide();
+    $('#open_filters').on('click', function () {
+
+        isOpen = !isOpen
+
+        if (isOpen) {
+            $('#filters, #overlay').show();
+        } else {
+            $('#filters, #overlay').hide();
+        }
+
+    })
+
+    $('#close_filters').on('click', function () {
+        $('#filters, #overlay').hide();
     })
 })

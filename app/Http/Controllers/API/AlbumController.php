@@ -30,8 +30,9 @@ class AlbumController extends Controller
 
         $albums = $data['albums'];
         $pages = $data['pages'];
+        $total = $data['total'];
 
-        return view('api.albums.index', compact('albums', 'page', 'pages'));
+        return view('api.albums.index', compact('albums', 'page', 'pages', 'total'));
     }
 
     public function show($id, AlbumService $albumService)

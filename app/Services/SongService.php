@@ -131,7 +131,8 @@ class SongService
             'tagId[]' => [],
             'artistId[]' => [],
             'beforeDate' => $beforeDate,
-            'afterDate' => $afterDate
+            'afterDate' => $afterDate,
+            'fields' => 'MainPicture'
         ];
 
         if (!empty($genres)) {
@@ -157,7 +158,6 @@ class SongService
                 'name' => $item['name'],
                 'artists' => $item['artistString'],
                 'img' => $item['mainPicture']['urlOriginal'] ?? null,
-                'type' => $item['songType']
             ];
         }
 
@@ -165,7 +165,8 @@ class SongService
 
         return [
             'songs' => $songs,
-            'pages' => ceil($total / 100)
+            'pages' => ceil($total / 100),
+            'total' => $total
         ];
     }
 

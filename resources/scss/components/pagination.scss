@@ -1,15 +1,14 @@
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 
     .page-item.active .page-link {
-        background-color: #137a7f;
+        background-color: #52c7ad;
         color: white;
+        border-color: transparent;
     }
 
     .page-link {
-        color: #137a7f;
-        font-size: 20px;
+        color: #52c7ad;
     }
 }

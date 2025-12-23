@@ -1,0 +1,24 @@
+#albums {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr;
+
+    .album-cover,
+    .icon-container {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 10px;
+    }
+
+    .icon-container {
+        background-color: rgb(208, 208, 208);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .bi-card-image {
+            color: gray;
+            font-size: 40px;
+        }
+    }
+}
