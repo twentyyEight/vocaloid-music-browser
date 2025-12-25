@@ -10,7 +10,7 @@ export function tagsHandler({
 
     let selectedItems = []
     const raw = $(hiddenInputId).val()
-    const inputValue = raw  === '[]' || raw === undefined  ? null : JSON.parse(raw)
+    const inputValue = raw === '[]' || raw === undefined ? null : JSON.parse(raw)
 
     if (inputValue) {
         const stored = sessionStorage.getItem(sessionStorageName);
@@ -69,14 +69,16 @@ export function tagsHandler({
                 <div class="tag">
                     <input type="hidden" name="${name}[]" value="${i.id}">
                     <p>${i.name}</p>
-                    <button type="button" class="remove" id=${i.id}>X</button>
+                    <button class="remove_tag" id=${i.id}>
+                        <i class="bi bi-x"></i>
+                    </button>
                 </div>
                 `
             )
         });
     }
 
-    $(document).on('click', '.remove', function () {
+    $(document).on('click', '.remove_tag', function () {
 
         const id = $(this).attr('id')
         selectedItems = selectedItems.filter(i => i.id != id)

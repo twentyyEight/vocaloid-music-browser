@@ -10,17 +10,3 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-body {
-    height: 100vh;
-    font-size: 22px;
-    position: relative;
-}
-
-p {
-    margin: 0;
-}
-
-a {
-    text-decoration: none;
-}
-

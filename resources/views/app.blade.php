@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vocaloid Music Browser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <link rel="stylesheet"
         href="{{ Vite::asset('node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}">
     @vite([
-        'resources/scss/app.scss',
-        'resources/scss/nav.scss',
-        'resources/js/app.js',
+    'resources/scss/app.scss',
+    'resources/scss/nav.scss',
+    'resources/js/app.js',
     ])
 
     @stack('styles')

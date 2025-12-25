@@ -1,7 +1,33 @@
+#title-page {
+    line-height: 1.2;
+    margin-bottom: 5px;
+
+    h1 {
+        font-size: 30px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+}
+
 #albums {
     display: grid;
     gap: 15px;
     grid-template-columns: 1fr;
+    margin-block: 20px;
+
+    @media (min-width: 576px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (min-width: 992px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
 
     .album-cover,
     .icon-container {
@@ -19,6 +45,23 @@
         .bi-card-image {
             color: gray;
             font-size: 40px;
+        }
+    }
+
+    .album-data {
+        line-height: 1.2;
+
+        .album-title {
+            font-weight: 600;
+            color: black;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .album-artists {
+            color: rgb(117, 117, 117);
+            font-size: 16px;
+            margin-top: 3px;
         }
     }
 }

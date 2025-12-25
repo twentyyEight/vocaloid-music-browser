@@ -1,24 +1,73 @@
 #container {
-    width: 100%;
+    //width: 100%;
+
+    #title-page {
+        line-height: 1.2;
+        margin-bottom: 5px;
+
+        h1 {
+            font-size: 30px;
+        }
+
+        p {
+            font-size: 15px;
+            font-weight: 200;
+        }
+
+        @media (min-width: 1200px) {
+
+            h1 {
+                font-size: 60px;
+            }
+
+            p {
+                font-size: 25px;
+            }
+        }
+    }
 
     #artists {
         display: grid;
-        grid-template-columns: repeat(2, 48.5%);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         width: 100%;
         gap: 10px;
         margin-block: 20px;
-    }
 
-    .artist-img {
-        width: 100%;
-        aspect-ratio: 1 / 1;
+        @media (min-width: 576px) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
 
-        img {
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        @media (min-width: 992px) {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+
+        .artist-img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 5px;
-            object-position: top;
+            aspect-ratio: 1 / 1;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 5px;
+                object-position: top;
+            }
+        }
+
+        p {
+            font-size: 16px;
+            color: black;
+            margin-top: 3px;
+            text-align: center;
+            font-weight: 400;
         }
     }
 }

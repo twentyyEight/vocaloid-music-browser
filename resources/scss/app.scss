@@ -2,13 +2,15 @@
 
 body {
     background-color: #F4F4F4;
+    font-family: "Vend Sans", sans-serif;
 }
 
 a {
     text-decoration: none;
 }
 
-ul {
+ul,
+button {
     padding: 0;
 }
 
@@ -28,22 +30,36 @@ input {
     border: 0;
 }
 
-input {
+input,
+select {
     background-color: #eeeeee;
-    padding: 5px 10px;
     border-radius: 5px;
-    width: max-content;
+    width: 100%;
+}
+
+input {
+    padding: 5px 10px;
+}
+
+select {
+    border-color: transparent;
+    padding: 5px;
 }
 
 #content {
     padding-inline: 20px;
+
+    @media (min-width: 992px) {
+        padding-inline: 80px;
+    }
 }
 
-p, form {
+p,
+form,
+h1 {
     margin: 0;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
+button {
+    background: transparent;
 }

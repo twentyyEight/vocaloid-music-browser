@@ -1,9 +1,21 @@
 #container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 15px;
     width: 100%;
+
+    #title-page {
+        line-height: 1.2;
+        margin-bottom: 5px;
+
+        h1 {
+            font-size: 30px;
+        }
+
+        p {
+            font-size: 15px;
+        }
+    }
 
     #genres {
         display: grid;

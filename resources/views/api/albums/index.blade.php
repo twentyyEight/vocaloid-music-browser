@@ -1,8 +1,11 @@
 @extends('app')
 
 @section('content')
-<h1>Albumes</h1>
-<p>{{ $total }} resultados</p>
+<div id="title-page">
+    <h1>Albumes</h1>
+    <p>{{ $total }} resultados</p>
+</div>
+
 <form action="{{ route('album.index') }}" method="GET" id="form">
 
     <div id="controls">
@@ -65,8 +68,10 @@
             <i class="bi bi-card-image"></i>
         </div>
         @endif
-        <p>{{ $album['name'] }}</p>
-        <p>{{ $album['artists'] }}</p>
+        <div class="album-data">
+            <p class="album-title">{{ $album['name'] }}</p>
+            <p class="album-artists">{{ $album['artists'] }}</p>
+        </div>
     </a>
     @endforeach
 </div>

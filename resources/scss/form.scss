@@ -34,7 +34,7 @@
         }
 
         #filters {
-            position: fixed;
+            //position: fixed;
             background-color: white;
             border-radius: 10px;
             inset: 10px;
@@ -60,6 +60,30 @@
                 flex-direction: column;
                 gap: 10px;
                 margin-bottom: 10px;
+
+                #selected_genres,
+                #selected_artists {
+                    display: flex;
+                    gap: 5px;
+                    margin-top: 7px;
+                    height: max-content;
+                    flex-wrap: wrap;
+                }
+
+                .tag {
+                    display: flex;
+                    background-color: #52c7ad;
+                    color: white;
+                    gap: 5px;
+                    width: max-content;
+                    padding: 4px 8px;
+                    border-radius: 5px;
+                    white-space: nowrap;
+
+                    .remove_tag {
+                        filter: invert(1);
+                    }
+                }
             }
 
             #filters-btns {
@@ -67,8 +91,26 @@
                 flex-direction: column;
                 flex-shrink: 0;
                 padding-top: 3px;
-                gap: 10px;
+                gap: 5px;
                 margin-top: auto;
+
+                #apply {
+                    background-color: #52c7ad;
+                    color: white;
+                }
+
+                #reset {
+                    color: #52c7ad;
+                    border: 1px solid #52c7ad;
+                    text-align: center;
+                }
+
+                #apply,
+                #reset {
+                    border-radius: 5px;
+                    padding-block: 4px;
+                }
+
             }
         }
     }

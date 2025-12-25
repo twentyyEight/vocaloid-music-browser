@@ -1,8 +1,10 @@
 @extends('app')
 
 @section('content')
-<h1>Canciones</h1>
-<p>{{ $total }} resultados</p>
+<div id="title-page">
+    <h1>Canciones</h1>
+    <p>{{ $total }} resultados</p>
+</div>
 <div id="browse">
     <form action="{{ route('song.index') }}" method="GET" id="form">
 
@@ -51,8 +53,8 @@
             </div>
 
             <div id="filters-btns">
-                <button type="submit">Aplicar filtros</button>
-                <a href="{{ route('song.index') }}">Limpiar filtros</a>
+                <button type="submit" id="apply">Aplicar filtros</button>
+                <a href="{{ route('song.index') }}" id="reset">Limpiar filtros</a>
             </div>
         </div>
 
@@ -71,8 +73,10 @@
                 <i class="bi bi-card-image"></i>
             </div>
             @endif
-            <p>{{ $song['name'] }}</p>
-            <p>{{ $song['artists'] }}</p>
+            <div class="song-data">
+                <p class="song-title">{{ $song['name'] }}</p>
+                <p class="song-artists">{{ $song['artists'] }}</p>
+            </div>
         </a>
         @endforeach
     </div>

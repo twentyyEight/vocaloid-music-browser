@@ -57,21 +57,16 @@ $(function () {
     });
 
     // Maneja la aparición de los filtros en moviles
-    let isOpen = false
+
     $('#filters, #overlay').hide();
+
     $('#open_filters').on('click', function () {
-
-        isOpen = !isOpen
-
-        if (isOpen) {
-            $('#filters, #overlay').show();
-        } else {
-            $('#filters, #overlay').hide();
-        }
-
+        $('#filters, #overlay').show();
+        $('body').css('overflow', 'hidden');
     })
 
     $('#close_filters').on('click', function () {
         $('#filters, #overlay').hide();
+        $('body').css('overflow', 'auto');
     })
 })

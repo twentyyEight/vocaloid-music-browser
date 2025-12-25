@@ -2,8 +2,11 @@
 
 @section('content')
 <div id="container">
-    <h1>Artistas</h1>
-    <p>{{ $total }} resultados</p>
+    <div id="title-page">
+        <h1>Artistas</h1>
+        <p>{{ $total }} resultados</p>
+    </div>
+
     <form action="{{ route('artist.index') }}" method="GET" id="form">
 
         <div id="controls">

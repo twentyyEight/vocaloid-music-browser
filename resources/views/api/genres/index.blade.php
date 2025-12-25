@@ -3,8 +3,10 @@
 @section('content')
 <div id="container">
 
-    <h1>Géneros</h1>
-    <p>{{ $total }} resultados</p>
+    <div id="title-page">
+        <h1>Géneros</h1>
+        <p>{{ $total }} resultados</p>
+    </div>
 
     <form action="{{ route('genre.index') }}" method="GET">
         <x-input-name :value="request('name', '')" />
