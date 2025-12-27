@@ -22,7 +22,7 @@ class GenreController extends Controller
         $pages = $data['pages'];
         $total = $data['total'];
 
-        return view('api.genres.index', compact('genres', 'pages', 'page', 'total'));
+        return view('content.genres.index', compact('genres', 'pages', 'page', 'total'));
     }
 
     public function show($id, GenreService $genreService)

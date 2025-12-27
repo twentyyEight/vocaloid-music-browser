@@ -27,6 +27,3 @@
         </button>
     </li>
 </ul>
-@push('styles')
-@vite(['resources/scss/components/pagination.scss'])
-@endpush

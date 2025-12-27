@@ -2,12 +2,13 @@
 <div>
     <div id="tag-container">
         <label for="{{ $name }}">{{ $label }}</label>
-        <input type="text" id="{{ $name }}">
+        <div id="input-container">
+            <input type="text" id="{{ $name }}">
+            <x-antdesign-loading-3-quarters-o id="loading_{{ $name }}" class="loading" style="display: none;" />
+        </div>
     </div>
-    <p style="display: none;" id="loading_{{ $name }}">Buscando...</p>
 
     <input type="hidden" id="{{ $name }}_ids" value='@json($value)'>
 
-    <div id="selected_{{ $name }}"></div>
+    <div id="selected_{{ $name }}" class="selected_tags"></div>
 </div>
-@vite(['resources/scss/components/tags.scss'])

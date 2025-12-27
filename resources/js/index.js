@@ -37,14 +37,10 @@ $(function () {
     });
 
     const checked = $('.type-artist:checked').val();
-    if (checked) {
-        updateSelectByRadio(checked);
-    }
-
+    if (checked) updateSelectByRadio(checked);
+    
     // Maneja el envio del value de los select
-    $('#types').on('change', function () {
-        $('#type').val(this.value)
-    })
+    $('#types').on('change', function () {$('#type').val(this.value)})
 
     // Maneja la paginación
     $('.pagination').on('click', '.page-link', function () {
@@ -56,9 +52,7 @@ $(function () {
         $('#form').trigger('submit')
     });
 
-    // Maneja la aparición de los filtros en moviles
-
-    $('#filters, #overlay').hide();
+    // Maneja la apartura de los filtros en moviles
 
     $('#open_filters').on('click', function () {
         $('#filters, #overlay').show();
@@ -69,4 +63,26 @@ $(function () {
         $('#filters, #overlay').hide();
         $('body').css('overflow', 'auto');
     })
+
+    // Maneja la posición de los filtros en moviles y pc
+    function filtersPosition() {
+        if ($(window).width() >= 992) {
+            $('#filters-header').insertBefore('#controls')
+            $('#filters').show();
+            $('#open_filters, #close_filters, #overlay').hide()
+            $('#filters').css('position', '')
+        } else {
+            $('#filters-header').prependTo('#filters')
+            $('#filters, #overlay').hide();
+            $('#open_filters, #close_filters').show()
+            $('#filters').css('position', 'fixed')
+        }
+    }
+
+    filtersPosition()
+
+    $(window).on('resize', function () {
+        filtersPosition()
+    });
+
 })

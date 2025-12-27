@@ -2,11 +2,12 @@
 
 @section('content')
 <div id="title-page">
-    <h1>Canciones</h1>
+    <h1>Albumes</h1>
     <p>{{ $total }} resultados</p>
 </div>
-<div id="browse">
-    <form action="{{ route('song.index') }}" method="GET" id="form">
+
+<div id="container">
+    <form action="{{ route('album.index') }}" method="GET" id="form">
 
         <div id="controls">
             <x-input-name :value="request('name', '')" />
@@ -17,7 +18,6 @@
 
         <div id="overlay"></div>
         <div id="filters">
-
             <div id="filters-header">
                 <h2>Filtros</h2>
                 <i class="bi bi-x-lg" id="close_filters"></i>
@@ -27,23 +27,21 @@
                 <x-sort
                     :value="request('sort')"
                     :options="[
-            ['value' => 'PublishDate', 'label' => 'Fecha de lanzamiento'],
+            ['value' => 'ReleaseDate', 'label' => 'Fecha de lanzamiento'],
             ['value' => 'Name', 'label' => 'Nombre'],
-            ['value' => 'RatingScore', 'label' => 'Popularidad']]" />
+            ['value' => 'RatingTotal', 'label' => 'Popularidad'],
+        ]" />
 
                 <x-type
-                    label="canción" :value="request('type')"
+                    label="álbum"
+                    :value="request('type')"
                     :options="[
-            ['value' => 'Original',        'label' => 'Original'],
-            ['value' => 'Remaster',        'label' => 'Remasterización'],
-            ['value' => 'Remix',           'label' => 'Remix'],
-            ['value' => 'Cover',           'label' => 'Cover'],
-            ['value' => 'Arragement',      'label' => 'Arreglo'],
-            ['value' => 'Instrumental',    'label' => 'Instrumental'],
-            ['value' => 'Mashup',          'label' => 'Mashup'],
-            ['value' => 'Rearragement',    'label' => 'Rearreglo'],
-            ['value' => 'Other',           'label' => 'Otro'],
-            ['value' => 'Unspecified',     'label' => 'Sin especificar']]" />
+            ['value' => 'Album',        'label' => 'Original'],
+            ['value' => 'EP',           'label' => 'EP'],
+            ['value' => 'Compilation',  'label' => 'Compilación'],
+            ['value' => 'SplitAlbum',   'label' => 'Álbum compartido'],
+            ['value' => 'Other',        'label' => 'Otro'],
+        ]" />
 
                 <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
 
@@ -61,31 +59,30 @@
         <input type="hidden" name="page" id="page" value="{{ $page }}">
     </form>
 
-    <div id="songs">
-        @foreach ($songs as $song)
-        <a href="{{ route('song.show', $song['id']) }}">
-            @if ($song['img'])
+    <div id="albums">
+        @foreach ($albums as $album)
+        <a href="{{ route('album.show', $album['id']) }}">
             <div class="img-container">
-                <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
+                @if ($album['img'])
+                <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
+                @else
+                <x-carbon-no-image class="no-img" />
+                @endif
             </div>
-            @else
-            <div class="icon-container">
-                <i class="bi bi-card-image"></i>
-            </div>
-            @endif
-            <div class="song-data">
-                <p class="song-title">{{ $song['name'] }}</p>
-                <p class="song-artists">{{ $song['artists'] }}</p>
+            <div class="album-data">
+                <p class="album-title">{{ $album['name'] }}</p>
+                <p class="album-artists">{{ $album['artists'] }}</p>
             </div>
         </a>
         @endforeach
     </div>
 </div>
+
 <x-pagination :page="$page" :pages="$pages" />
 @endsection
 
 @push('styles')
-@vite(['resources/scss/songs/index.scss', 'resources/scss/form.scss'])
+@vite(['resources/scss/albums/index.scss'])
 @endpush
 
 @push('scripts')

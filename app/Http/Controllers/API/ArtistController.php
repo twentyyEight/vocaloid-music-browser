@@ -28,7 +28,7 @@ class ArtistController extends Controller
         $pages = $data['pages'];
         $total = $data['total'];
 
-        return view('api.artists.index', compact('artists', 'page', 'pages', 'total'));
+        return view('content.artists.index', compact('artists', 'page', 'pages', 'total'));
     }
 
     public function show($id, ArtistService $artistService)

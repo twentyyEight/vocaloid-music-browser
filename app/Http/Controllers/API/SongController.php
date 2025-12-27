@@ -33,7 +33,7 @@ class SongController extends Controller
         $pages = $data['pages'];
         $total = $data['total'];
 
-        return view('api.songs.index', compact('songs', 'pages', 'page', 'total'));
+        return view('content.songs.index', compact('songs', 'pages', 'page', 'total'));
     }
 
     public function show($id, SongService $songService)

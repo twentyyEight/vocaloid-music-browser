@@ -1,3 +1,5 @@
+@use 'components/navbar';
+
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 body {
@@ -9,8 +11,7 @@ a {
     text-decoration: none;
 }
 
-ul,
-button {
+ul {
     padding: 0;
 }
 
@@ -18,48 +19,40 @@ li {
     list-style: none;
 }
 
-form {
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    width: 100%;
-}
-
-button,
 input {
-    border: 0;
-}
-
-input,
-select {
+    padding: 5px 10px;
     background-color: #eeeeee;
     border-radius: 5px;
     width: 100%;
-}
-
-input {
-    padding: 5px 10px;
+    border: 0;
 }
 
 select {
     border-color: transparent;
     padding: 5px;
-}
-
-#content {
-    padding-inline: 20px;
-
-    @media (min-width: 992px) {
-        padding-inline: 80px;
-    }
+    background-color: #eeeeee;
+    border-radius: 5px;
+    width: 100%;
 }
 
 p,
-form,
-h1 {
+h1,
+h2 {
     margin: 0;
 }
 
 button {
     background: transparent;
+    padding: 0;
+    border: 0;
+}
+
+
+
+#content {
+    padding-inline: 20px;
+
+    @media (min-width: 768px) {
+        padding-inline: 40px;
+    }
 }

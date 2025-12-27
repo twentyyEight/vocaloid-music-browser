@@ -1,12 +1,12 @@
 @extends('app')
 
 @section('content')
-<div id="container">
-    <div id="title-page">
-        <h1>Artistas</h1>
-        <p>{{ $total }} resultados</p>
-    </div>
 
+<div id="title-page">
+    <h1>Artistas</h1>
+    <p>{{ $total }} resultados</p>
+</div>
+<div id="container">
     <form action="{{ route('artist.index') }}" method="GET" id="form">
 
         <div id="controls">
@@ -55,22 +55,25 @@
             ['value' => 'OtherVoiceSynthesizer', 'label' => 'Otros sintetizadores de voz', 'data' => 'vocalist'],
             ['value' => 'OtherVocalist', 'label' => 'Otros vocalistas', 'data' => 'vocalist'],
         ]">
-                    <label>
-                        <input type="radio" value="producer" class="type-artist" checked>
-                        Productor
-                    </label>
 
-                    <label>
-                        <input type="radio" value="vocalist" class="type-artist">
-                        Vocalista
-                    </label>
+                    <div id="switch-type">
+                        <label>
+                            <input type="radio" value="producer" class="type-artist" checked>
+                            <span>Productor</span>
+                        </label>
+
+                        <label>
+                            <input type="radio" value="vocalist" class="type-artist">
+                            <span>Vocalista</span>
+                        </label>
+                    </div>
                 </x-type>
 
                 <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
 
                 <div id="filters-btns">
-                    <button type="submit">Aplicar filtros</button>
-                    <a href="{{ route('song.index') }}">Limpiar filtros</a>
+                    <button type="submit" id="apply">Aplicar filtros</button>
+                    <a href="{{ route('song.index') }}" id="reset">Limpiar filtros</a>
                 </div>
             </div>
         </div>
@@ -81,20 +84,25 @@
     <div id="artists">
         @foreach ($artists as $artist)
         <a href="{{ route('artist.show', $artist['id']) }}">
-            <div class="artist-img">
+            <div class="img-container">
+                @if ($artist['img'])
                 <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
+                @else
+                <x-carbon-no-image class="no-img" />
+                @endif
             </div>
             <p>{{ $artist['name'] }}</p>
         </a>
         @endforeach
     </div>
-
-    <x-pagination :page="$page" :pages="$pages" />
 </div>
+
+<x-pagination :page="$page" :pages="$pages" />
+
 @endsection
 
 @push('styles')
-@vite(['resources/scss/artists/index.scss', 'resources/scss/form.scss'])
+@vite(['resources/scss/artists/index.scss'])
 @endpush
 
 @push('scripts')

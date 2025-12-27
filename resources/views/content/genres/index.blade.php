@@ -1,12 +1,12 @@
 @extends('app')
 
 @section('content')
-<div id="container">
+<div id="title-page">
+    <h1>Géneros</h1>
+    <p>{{ $total }} resultados</p>
+</div>
 
-    <div id="title-page">
-        <h1>Géneros</h1>
-        <p>{{ $total }} resultados</p>
-    </div>
+<div id="browse">
 
     <form action="{{ route('genre.index') }}" method="GET">
         <x-input-name :value="request('name', '')" />
@@ -28,13 +28,12 @@
         </a>
         @endforeach
     </div>
-
-    <x-pagination :page="$page" :pages="$pages" />
 </div>
+<x-pagination :page="$page" :pages="$pages" />
 @endsection
 
 @push('styles')
-@vite(['resources/scss/genres/index.scss', 'resources/scss/form.scss'])
+@vite(['resources/scss/genres/index.scss'])
 @endpush
 
 @push('scripts')

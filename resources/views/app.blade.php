@@ -11,9 +11,7 @@
     <link rel="stylesheet"
         href="{{ Vite::asset('node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}">
     @vite([
-    'resources/scss/app.scss',
-    'resources/scss/nav.scss',
-    'resources/js/app.js',
+    'resources/js/app.js'
     ])
 
     @stack('styles')

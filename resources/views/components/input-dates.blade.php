@@ -8,4 +8,3 @@
     <label for="afterDate">Publicada después de:</label>
     <input type="date" name="afterDate" id="afterDate" value="{{ request('afterDate') }}" class="date">
 </div>
-@vite(['resources/scss/components/input-dates.scss'])
