@@ -19,36 +19,63 @@ class SongService
 
         $json = $response->json();
 
+        // Tipo de canción
         $type = null;
         switch ($json['songType']) {
 
             case 'Original':
-                $type = 'Original Song';
+                $type = 'Canción original';
                 break;
 
             default:
                 $type = $json['songType'];
         }
 
-        $producers = [];
-        $vocalists = [];
+        // Artistas
+        $credits = [];
         foreach ($json['artists'] as $artist) {
 
-            if (str_contains($artist['categories'], 'Producer') || str_contains($artist['categories'], 'Circle')) {
+            if ($artist['artist']['artistType'] !== 'Illustrator' && $artist['artist']['artistType'] !== 'Animator' && $artist['categories'] !== 'Illustrator' && $artist['categories'] !== 'Animator') {
 
-                $producers[] = [
-                    'name' => $artist['name'],
-                    'id' => $artist['artist']['id']
-                ];
-            } elseif ($artist['categories'] == 'Vocalist') {
+                $roles = null;
 
-                $vocalists[] = [
+                if ($artist['roles'] === 'Default') {
+                    $roles = $artist['categories'];
+                } else {
+                    $roles = $artist['roles'];
+                }
+
+                $credits[] = [
+                    'id' => $artist['artist']['id'],
                     'name' => $artist['name'],
-                    'id' => $artist['artist']['id']
+                    'roles' => $roles,
+                    'img' => null
                 ];
             }
         }
 
+        $creditsIds = collect($credits)->pluck('id');
+
+        $res = Http::pool(
+            fn($pool) =>
+            $creditsIds->map(
+                fn($creditsId) =>
+                $pool->as($creditsId)->get("https://vocadb.net/api/artists/{$creditsId}?fields=MainPicture")
+            )->toArray()
+        );
+
+        foreach ($res as $creditsId => $r) {
+            if ($r->successful()) {
+                foreach ($credits as &$credit) {
+                    if ($credit['id'] === $creditsId) {
+                        $credit['img'] = $r['mainPicture']['urlSmallThumb'] ?? null;
+                    }
+                }
+                unset($credit);
+            }
+        }
+
+        // Géneros
         $genres = [];
         foreach ($json['tags'] as $tag) {
 
@@ -61,6 +88,7 @@ class SongService
             }
         }
 
+        // Albumes de la canción
         $albumIds = collect($json['albums'])->pluck('id');
 
         $responses = Http::pool(
@@ -75,13 +103,14 @@ class SongService
         foreach ($responses as $albumId => $res) {
             if ($res->successful()) {
                 $albumCovers[] = [
-                    'img' => $res['mainPicture']['urlSmallThumb'],
+                    'img' => $res['mainPicture']['urlSmallThumb'] ?? null,
                     'name' => $res['name'],
                     'id' => $albumId,
                 ];
             }
         }
 
+        // Video
         $prioridades = [
             ['Youtube',      'Original'],
             ['NicoNicoDouga', 'Original'],
@@ -94,24 +123,39 @@ class SongService
         foreach ($prioridades as $prio) {
             foreach ($json['pvs'] as $pv) {
                 if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
-                    $video = $pv['url'];
+                    $video = [
+                        'url' => $pv['pvId'],
+                        'service' => $pv['service']
+                    ];
                     break 2;
                 }
             }
         }
 
+        // Fecha de lanzamiento
+        $date = date('d-m-Y', strtotime($json['publishDate']));
+
+        // Duración
+        $segs = $json["lengthSeconds"];
+
+        $min = floor($segs / 60);
+        $sec = $segs % 60;
+
+        $format = sprintf('%02d:%02d', $min, $sec);
+
+
         return [
             'id' => $json['id'] ?? null,
             'name' => $json['name'] ?? null,
-            'date' => $json['publishDate'] ?? null,
+            'date' => $date ?? null,
             'type' => $type ?? null,
             'artists' => $json['artistString'] ?? null,
-            'producers' => empty($producers) ? null : $producers,
-            'vocalists' => empty($vocalists) ? null : $vocalists,
+            'credits' => empty($credits) ? null : $credits,
             'genres' => empty($genres) ? null : $genres,
             'albums' => empty($albumCovers) ? null : $albumCovers,
             'img' => $json['mainPicture']['urlOriginal'] ?? null,
-            'pv' => $video ?? null
+            'pv' => $video ?? null,
+            'duration' => $format ?? null
         ];
     }
 

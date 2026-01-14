@@ -1,15 +1,26 @@
+@use '../abstracts/variables' as *;
+
 .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 40px;
 
     .page-item.active .page-link {
-        background-color: #52c7ad;
+        background-color: $color;
         color: white;
         border-color: transparent;
     }
 
-    .page-link {
-        color: #52c7ad;
+    .page-item.disabled .page-link {
+        background-color: #1e1e1e;
+    }
+
+    .page-item .page-link {
+        background-color: #353535;
+        border-color: #1e1e1e;
+        color: white;
+        font-size: 18px;
+        padding-inline: 20px;
+        padding-block: 10px;
     }
 }

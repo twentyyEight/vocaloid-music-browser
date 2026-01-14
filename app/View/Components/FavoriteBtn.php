@@ -6,16 +6,14 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class DeleteBtn extends Component
+class FavoriteBtn extends Component
 {
-    public $type;
-
     /**
      * Create a new component instance.
      */
-    public function __construct($type)
+    public function __construct()
     {
-        $this->type = $type;
+        //
     }
 
     /**
@@ -23,6 +21,6 @@ class DeleteBtn extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.delete-btn');
+        return view('components.favorite-btn');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Music;
 
 use App\Http\Controllers\Controller;
 
@@ -22,13 +22,13 @@ class GenreController extends Controller
         $pages = $data['pages'];
         $total = $data['total'];
 
-        return view('content.genres.index', compact('genres', 'pages', 'page', 'total'));
+        return view('music.genres.index', compact('genres', 'pages', 'page', 'total'));
     }
 
     public function show($id, GenreService $genreService)
     {
         $genre = $genreService->getGenreById($id);
-        return view('api.genres.show', ['genre' => $genre]);
+        return view('music.genres.show', ['genre' => $genre]);
     }
 
     public function autocomplete($query, GenreService $genreService)

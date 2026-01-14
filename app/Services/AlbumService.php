@@ -24,11 +24,11 @@ class AlbumService
         switch ($json['discType']) {
 
             case 'Album':
-                $type = 'Original Album';
+                $type = 'Album Original';
                 break;
 
             case 'Compilation':
-                $type = 'Compilation Album';
+                $type = 'Album Compilatorio';
                 break;
 
             default:
@@ -80,17 +80,27 @@ class AlbumService
         foreach ($prioridades as $prio) {
             foreach ($json['pvs'] as $pv) {
                 if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
-                    $video = $pv['url'];
+                    $video = $pv['pvId'];
                     break 2;
                 }
             }
+        }
+
+        // Fecha de lanzamiento
+        $date = null;
+
+        if ($json['releaseDate']['isEmpty'] === false) {
+
+            $date .= $json['releaseDate']['day'] . '-';
+            $date .= str_pad($json['releaseDate']['month'], 2, '0', STR_PAD_LEFT) . '-';
+            $date .= $json['releaseDate']['year'];
         }
 
         return [
             'id' => $json['id'],
             'img' => $json['mainPicture']['urlThumb'] ?? null,
             'name' => $json['name'] ?? null,
-            'year' => $json['releaseDate']['year'] ?? null,
+            'date' => $date,
             'type' => $type ?? null,
             'artists' => $json["artistString"] ?? null,
             'genres' => empty($genres) ? null : $genres,

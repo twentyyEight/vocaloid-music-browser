@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    @extends('layouts.app')
+    @extends('app')
 
     @section('content')
 

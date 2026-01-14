@@ -11,31 +11,31 @@
 
         <div id="controls">
             <x-input-name :value="request('name', '')" />
-
-            <button type="button" id="open_filters">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#filtersModal" id="open_filters">
                 <i class="bi bi-funnel-fill"></i>
             </button>
         </div>
 
-        <div id="overlay"></div>
-        <div id="filters">
+        <div class="modal fade" id="filtersModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
 
-            <div id="filters-header">
-                <h2>Filtros</h2>
-                <i class="bi bi-x-lg" id="close_filters"></i>
-            </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Filtros</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
-            <div id="filters-body">
-                <x-sort
-                    :value="request('sort')"
-                    :options="[
+                    <div class="modal-body">
+                        <x-sort
+                            :value="request('sort')"
+                            :options="[
             ['value' => 'FollowerCount', 'label' => 'Popularidad'],
             ['value' => 'Name', 'label' => 'Nombre'],
         ]" />
-                <x-type
-                    label="artista"
-                    :value="request('type')"
-                    :options="[
+                        <x-type
+                            label="artista"
+                            :value="request('type')"
+                            :options="[
             ['value' => 'Producer', 'label' => 'Productor musical', 'data' => 'producer'],
             ['value' => 'CoverArtist', 'label' => 'Artista de covers', 'data' => 'producer'],
             ['value' => 'Circle', 'label' => 'Círculo', 'data' => 'producer'],
@@ -56,24 +56,26 @@
             ['value' => 'OtherVocalist', 'label' => 'Otros vocalistas', 'data' => 'vocalist'],
         ]">
 
-                    <div id="switch-type">
-                        <label>
-                            <input type="radio" value="producer" class="type-artist" checked>
-                            <span>Productor</span>
-                        </label>
+                            <div id="switch-type">
+                                <label>
+                                    <input type="radio" value="producer" class="type-artist" checked>
+                                    <span>Productor</span>
+                                </label>
 
-                        <label>
-                            <input type="radio" value="vocalist" class="type-artist">
-                            <span>Vocalista</span>
-                        </label>
+                                <label>
+                                    <input type="radio" value="vocalist" class="type-artist">
+                                    <span>Vocalista</span>
+                                </label>
+                            </div>
+                        </x-type>
+
+                        <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
                     </div>
-                </x-type>
 
-                <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
-
-                <div id="filters-btns">
-                    <button type="submit" id="apply">Aplicar filtros</button>
-                    <a href="{{ route('song.index') }}" id="reset">Limpiar filtros</a>
+                    <div class="modal-footer">
+                        <button type="submit" id="apply">Aplicar filtros</button>
+                        <a href="{{ route('song.index') }}" id="reset">Limpiar filtros</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,7 +104,7 @@
 @endsection
 
 @push('styles')
-@vite(['resources/scss/artists/index.scss'])
+@vite(['resources/scss/pages/artists/index.scss'])
 @endpush
 
 @push('scripts')

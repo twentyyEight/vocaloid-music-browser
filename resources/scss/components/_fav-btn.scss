@@ -1,0 +1,27 @@
+@mixin btn-fav {
+    color: white;
+    padding: 7px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 5px;
+    width: 100%;
+
+    @media (min-width: 992px) {
+        width: fit-content;
+    }
+}
+
+.fav {
+    background-color: palevioletred;
+    @include btn-fav;
+
+    &:hover {
+        background-color: rgb(195, 83, 120);
+    }
+}
+
+.delete-fav {
+    background-color: indianred;
+    @include btn-fav;
+}

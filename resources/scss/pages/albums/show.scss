@@ -1,0 +1,79 @@
+@use '/resources/scss/abstracts/variables' as *;
+
+#container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    #album {
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 1200px) {
+            flex-direction: row;
+        }
+
+        img {
+            height: 50vh;
+            width: fit-content;
+            align-items: center;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        #album-info {
+
+            h1 {
+                //font-size: 24px;
+            }
+
+            h2 {
+                //font-size: 18px;
+                color: #afafaf;
+                font-weight: 400;
+            }
+
+            #album-type {
+                font-weight: 600;
+            }
+
+            #btn-links {
+                background-color: $color;
+                width: 100%;
+                border-radius: 5px;
+                color: white;
+                padding-block: 4px;
+                margin-bottom: 8px;
+            }
+
+            .modal-header {
+                padding: 10px 15px 0 15px;
+                border-bottom: 0;
+            }
+
+            .modal-body {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+            }
+
+        }
+    }
+
+    #tracks {
+        margin-block: 15px;
+        
+        a {
+            color: white;
+            
+            .track-artist {
+                color: #afafaf;
+            }
+        }
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+}

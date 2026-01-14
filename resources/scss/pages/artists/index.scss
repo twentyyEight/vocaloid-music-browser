@@ -1,10 +1,10 @@
-@use '../components/mixins';
-@use '../components/form';
-@use '../components/pagination';
-@use '../components/tags';
+@use '/resources/scss/abstracts/mixins' as *;
+@use '/resources/scss/components/form';
+@use '/resources/scss/components/pagination';
+@use '/resources/scss/components/tags';
 
 #container {
-    @include mixins.grid;
+    @include grid;
 
     @media (min-width: 992px) {
         grid-template-columns: 25% 1fr;
@@ -88,7 +88,7 @@
         .img-container {
             aspect-ratio: 1 / 1;
             border-radius: 5px;
-            @include mixins.img-container;
+            @include img-container;
 
             img {
                 width: 100%;
@@ -99,7 +99,7 @@
             }
 
             .no-img {
-                @include mixins.no-img
+                @include no-img
             }
         }
 

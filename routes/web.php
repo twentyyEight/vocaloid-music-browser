@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\AlbumController;
-use App\Http\Controllers\API\SongController;
-use App\Http\Controllers\API\GenreController;
-use App\Http\Controllers\API\ArtistController;
+use App\Http\Controllers\Music\AlbumController;
+use App\Http\Controllers\Music\SongController;
+use App\Http\Controllers\Music\GenreController;
+use App\Http\Controllers\Music\ArtistController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;

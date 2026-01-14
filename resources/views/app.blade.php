@@ -5,11 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vocaloid Music Browser</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Syriac:wght@100..900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet"
         href="{{ Vite::asset('node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}">
+
     @vite([
     'resources/js/app.js'
     ])
@@ -41,19 +44,19 @@
                     </li>
                     @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Iniciar Sesión</a>
+                        <a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Registrarse</a>
+                        <a class="nav-link" href="{{ route('register') }}">Registrarse</a>
                     </li>
                     @endguest
 
                     @auth
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Perfil</a>
+                        <a class="nav-link" href="{{ route('profile', ['id' => auth()->id()]) }}">Perfil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar Sesión</a>
+                        <a class="nav-link" href="{{ route('logout') }}">Cerrar Sesión</a>
                     </li>
                     @endauth
                 </ul>

@@ -1,0 +1,305 @@
+@use '/resources/scss/components/fav-btn';
+@use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/abstracts/mixins' as *;
+
+// Estilos generales
+#genres-song {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+    a {
+        background-color: $color;
+        color: white;
+        padding: 3px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: #13757a;
+        }
+    }
+}
+
+#info-song {
+    p {
+        color: rgb(190, 190, 190);
+    }
+}
+
+// Celulares
+#page-song {
+    height: 100vh;
+    padding-bottom: 20px;
+
+    #hero {
+        position: relative;
+        @include center;
+        aspect-ratio: 16 / 9;
+        border-bottom: 1px solid #5d5d5d;
+
+        #thumbail-song {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            @include center;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                background-color: black;
+                filter: brightness(0.25) blur(6px);
+            }
+
+            #no-img {
+                height: 50%;
+            }
+        }
+
+        #video-song {
+            position: absolute;
+            inset: 0;
+            padding: 15px;
+
+            iframe {
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+    #body-song {
+        padding-inline: 40px;
+        margin-block: 20px;
+
+        #info-song {
+
+            h1,
+            h5 {
+                margin: 0;
+            }
+        }
+
+        #credits {
+            margin-top: 20px;
+
+            #credits-container {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: 10px;
+                padding: 0;
+                background-color: transparent;
+                margin-top: 15px;
+
+                .credit {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 15px;
+
+                    .credit-img-container {
+                        aspect-ratio: 1 / 1;
+                        width: 16%;
+
+                        img,
+                        .bi-person-fill {
+                            width: 100%;
+                            height: 100%;
+                            border-radius: 5px;
+                        }
+
+                        img {
+                            object-fit: cover;
+                            object-position: top;
+                            background-color: white;
+                        }
+
+                        .bi-person-fill {
+                            background-color: #5d5d5d;
+                            font-size: 45px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+
+                    .credit-artist {
+                        a {
+                            font-weight: 700;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #albums-song {
+            margin-top: 20px;
+
+            #container-albums-song {
+                display: flex;
+                gap: 5px;
+                overflow-x: auto;
+                width: 100%;
+                flex-direction: row;
+                margin-top: 15px;
+
+                a {
+                    flex: 0 0 auto;
+                    height: 18vh;
+                    display: flex;
+                }
+
+                img,
+                .no-img-container {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 5px;
+                }
+
+                img {
+                    object-fit: cover;
+                }
+
+                .album-cover {
+                    background-color: white;
+                }
+
+                .no-img-container {
+                    background: #5d5d5d;
+                    @include center;
+                    aspect-ratio: 1 / 1;
+                    padding: 20px;
+                }
+            }
+        }
+    }
+}
+
+// Tablets
+@media (min-width: 768px) {
+    #page-song {
+        #body-song {
+            #credits {
+                #credits-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+        }
+    }
+}
+
+// Computadores
+@media (min-width: 992px) {
+
+    #page-song {
+        position: relative;
+        height: 0;
+
+        #hero {
+            height: 400px;
+            margin-bottom: 20px;
+            width: 100%;
+
+            #thumbail-song {
+                height: 100%;
+            }
+
+            #hero-content {
+                position: absolute;
+                top: 50%;
+                transform: translate(0%, -50%);
+                z-index: 1;
+                padding-inline: 100px;
+                display: flex;
+                gap: 20px;
+                padding-inline: 50px;
+
+                #video-song {
+                    aspect-ratio: 16 / 9;
+                    position: static;
+                    padding: 0;
+
+                    iframe {
+                        width: 500px;
+                    }
+                }
+
+                #info-song {
+                    display: flex;
+                    flex-direction: column;
+
+                    h1 {
+                        margin: 0;
+                    }
+
+                    h5 {
+                        font-weight: 400;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        #body-song {
+            padding-inline: 100px;
+
+            #credits {
+                #credits-container {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+
+            #albums-song {
+
+                #header-albums-song {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    #arrow-right,
+                    #arrow-left {
+                        height: 4vh;
+                        cursor: pointer;
+                    }
+                }
+
+                #container-albums-song {
+                    gap: 10px;
+                    overflow-x: hidden;
+
+                    .album-cover,
+                    .no-img-container {
+                        height: 17vh;
+                        border-radius: 5px;
+
+                        &:hover {
+                            filter: brightness(0.5);
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    #page-song {
+        #hero {
+            #hero-content {
+                #video-song {
+                    iframe {
+                        width: 600px;
+                    }
+                }
+            }
+        }
+    }
+}

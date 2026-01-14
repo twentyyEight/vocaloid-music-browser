@@ -1,0 +1,39 @@
+@mixin field {
+    background-color: 	#545454;
+    border-radius: 5px;
+    width: 100%;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    color: white;
+}
+
+body {
+    background-color: #282828;
+    font-family: "Noto Sans Syriac", sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+input {
+    padding: 5px 10px;
+    @include field;
+}
+
+select {
+    padding: 5px;
+    @include field;
+}
+
+button {
+    background: transparent;
+}
+
+p {
+    margin: 0;
+}

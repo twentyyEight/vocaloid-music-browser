@@ -1,0 +1,18 @@
+@mixin center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin grid-list {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr;
+    margin-bottom: 20px;
+}
+
+@mixin img-container {
+    background-color: 	#545454;
+    width: 100%;
+    @include center;
+}

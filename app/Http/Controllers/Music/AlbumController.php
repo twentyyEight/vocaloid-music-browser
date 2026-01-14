@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Music;
 
 use App\Http\Controllers\Controller;
 
@@ -32,7 +32,7 @@ class AlbumController extends Controller
         $pages = $data['pages'];
         $total = $data['total'];
 
-        return view('content.albums.index', compact('albums', 'page', 'pages', 'total'));
+        return view('music.albums.index', compact('albums', 'page', 'pages', 'total'));
     }
 
     public function show($id, AlbumService $albumService)
@@ -47,7 +47,7 @@ class AlbumController extends Controller
             $isFavorite = false;
         }
 
-        return view('api.albums.show', ['album' => $album, 'isFavorite' => $isFavorite]);
+        return view('music.albums.show', ['album' => $album, 'isFavorite' => $isFavorite]);
     }
 
     public function storeFavorite($id, AlbumService $albumService)
