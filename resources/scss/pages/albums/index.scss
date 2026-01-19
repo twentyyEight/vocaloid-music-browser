@@ -1,11 +1,14 @@
-@use '/resources/scss/abstracts/mixins';
-@use '/resources/scss/components/form';
-@use '/resources/scss/components/pagination';
-@use '/resources/scss/components/tags';
-@use '/resources/scss/components/input-dates';
+@use '/resources/scss/abstracts/mixins' as *;
+@use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/components/filters/form';
+@use '/resources/scss/components/filters/tags';
+@use '/resources/scss/components/filters/input-dates';
+@use '/resources/scss/components/cards/card-album';
 
 #container {
-    @include mixins.grid;
+    display: grid;
+    padding-inline: 20px;
+    gap: 20px;
 
     @media (min-width: 992px) {
         grid-template-columns: 25% 1fr;
@@ -16,7 +19,7 @@
     }
 
     #albums {
-        @include mixins.grid-list;
+        @include grid-list;
 
         @media (min-width: 576px) {
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -30,38 +33,12 @@
             grid-template-columns: repeat(5, minmax(0, 1fr));
         }
 
-        .img-container {
-            aspect-ratio: 1 / 1;
-            border-radius: 10px;
-            @include mixins.img-container;
-
-            img {
-                width: 100%;
-                border-radius: 10px;
-                object-fit: cover;
-                height: 100%;
-            }
-
-            .no-img {
-                @include mixins.no-img
-            }
+        img {
+            object-fit: cover;
         }
 
-        .album-data {
-            line-height: 1.2;
-
-            .album-title {
-                font-weight: 600;
-                color: black;
-                margin-top: 10px;
-                font-size: 18px;
-            }
-
-            .album-artists {
-                color: rgb(117, 117, 117);
-                font-size: 17px;
-                margin-top: 3px;
-            }
+        .no-img {
+            padding: 50px;
         }
     }
 

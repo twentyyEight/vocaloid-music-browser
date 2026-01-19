@@ -1,0 +1,19 @@
+@use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/abstracts/mixins' as *;
+@use './title-artists';
+
+.card-album {
+
+    .img-container {
+        aspect-ratio: 1/1;
+
+        img {
+            @include img-full-border;
+        }
+
+        .no-img {
+            background-color: $gray;
+            border-radius: 5px;
+        }
+    }
+}

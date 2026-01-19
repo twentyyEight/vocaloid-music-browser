@@ -6,9 +6,9 @@
     <p>{{ $total }} resultados</p>
 </div>
 
-<div id="browse">
+<div id="page-genres">
 
-    <form action="{{ route('genre.index') }}" method="GET">
+    <form action="{{ route('genre.index') }}" method="GET" id="form">
         <x-input-name :value="request('name', '')" />
 
         <input type="hidden" name="page" id="page" value="{{ $page }}">
@@ -17,12 +17,10 @@
     <div id="genres">
         @foreach ($genres as $genre)
         <a href="{{ route('genre.show', $genre['id']) }}">
-
-            @php
-            $color = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-            @endphp
-
-            <div class="genre-container" style="background-color: {{ $color }};">
+            <div class="genre-container" style="--genre-color: {{ $genre['color'] }};">
+                @if ($genre['img'])
+                <img src="{{ $genre['img'] }}" alt="{{ $genre['name'] }}">
+                @endif
                 <p>{{ $genre['name'] }}</p>
             </div>
         </a>
@@ -33,7 +31,7 @@
 @endsection
 
 @push('styles')
-@vite(['resources/scss/genres/index.scss'])
+@vite(['resources/scss/pages/genres/index.scss'])
 @endpush
 
 @push('scripts')

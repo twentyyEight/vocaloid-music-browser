@@ -11,8 +11,8 @@
     margin-bottom: 20px;
 }
 
-@mixin img-container {
-    background-color: 	#545454;
+@mixin img-full-border {
     width: 100%;
-    @include center;
+    height: 100%;
+    border-radius: 5px;
 }

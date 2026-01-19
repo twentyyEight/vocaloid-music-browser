@@ -1,0 +1,142 @@
+@use './input-name';
+@use '../pagination';
+@use '/resources/scss/abstracts/variables' as *;
+
+.ui-widget {
+    background-color: #282828;
+    color: white;
+    border-radius: 10px;
+}
+
+form {
+    background-color: #353535;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    margin-right: 10px;
+    position: relative;
+    font-size: 14px;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    #controls {
+        display: flex;
+        width: 100%;
+        gap: 5px;
+
+        #name-container {
+            flex: 1;
+        }
+
+        #open_filters {
+            background-color: $color;
+            border-radius: 5px;
+            width: 35px;
+            height: 35px;
+        }
+    }
+
+    #filtersModal {
+        .modal-content {
+            background-color: #353535;
+
+            .modal-header {
+                border-bottom: 0;
+
+                .btn-close {
+                    background-color: white;
+                }
+            }
+
+            .modal-body {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .selected_tags {
+                    display: flex;
+                    gap: 5px;
+                    margin-top: 7px;
+                    height: max-content;
+                    flex-wrap: wrap;
+                }
+
+                .tag {
+                    display: flex;
+                    background-color: $color;
+                    color: white;
+                    gap: 5px;
+                    width: max-content;
+                    padding: 4px 8px;
+                    border-radius: 5px;
+                    white-space: nowrap;
+
+                    .remove_tag {
+                        filter: invert(1);
+                    }
+                }
+            }
+
+            .modal-footer {
+                border-top: 0;
+
+                #apply {
+                    background-color: $color;
+                    margin-top: 15px;
+                    margin-bottom: 5px;
+
+                    &:hover {
+                        background-color: $color-hover;
+                    }
+
+                    &:active {
+                        background-color: $color-click;
+                    }
+                }
+
+                #reset {
+                    border: 2px solid $color;
+                    text-align: center;
+                    color: $color;
+                    font-weight: 500;
+
+                    &:hover {
+                        background-color: #199ea51e;
+                    }
+
+                    &:active {
+                        background-color: #199ea56e;
+                    }
+                }
+
+                #apply,
+                #reset {
+                    border-radius: 5px;
+                    padding-block: 5px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    form {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 992px) {
+    form {
+        padding-block: 20px;
+        padding-inline: 25px;
+    }
+}
+
+@media (min-width: 1200px) {
+    form {
+        font-size: 18px;
+    }
+}

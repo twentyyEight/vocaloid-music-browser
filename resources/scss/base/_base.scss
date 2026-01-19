@@ -1,5 +1,5 @@
 @mixin field {
-    background-color: 	#545454;
+    background-color: #545454;
     border-radius: 5px;
     width: 100%;
 }
@@ -34,6 +34,10 @@ button {
     background: transparent;
 }
 
-p {
+p,
+h1,
+h2,
+h3,
+h5 {
     margin: 0;
 }

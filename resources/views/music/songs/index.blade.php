@@ -5,6 +5,7 @@
     <h1>Canciones</h1>
     <p>{{ $total }} resultados</p>
 </div>
+
 <div id="page-songs">
 
     <!-- Filtros -->
@@ -17,7 +18,7 @@
             </button>
         </div>
 
-        <div class="modal fade" id="filtersModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+        <div class="modal fade" id="filtersModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
 
@@ -67,7 +68,8 @@
     <!-- Resultados -->
     <div id="songs">
         @foreach ($songs as $song)
-        <a href="{{ route('song.show', $song['id']) }}">
+        <a href="{{ route('song.show', $song['id']) }}" class="card-song">
+
             <div class="img-container">
                 @if ($song['img'])
                 <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
@@ -75,9 +77,10 @@
                 <x-carbon-no-image class="no-img" />
                 @endif
             </div>
-            <div class="data-song">
-                <p class="title-song">{{ $song['name'] }}</p>
-                <p class="artists-song">{{ $song['artists'] }}</p>
+
+            <div class="data">
+                <p class="title">{{ $song['name'] }}</p>
+                <p class="artists">{{ $song['artists'] }}</p>
             </div>
         </a>
         @endforeach

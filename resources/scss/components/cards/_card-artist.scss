@@ -1,0 +1,19 @@
+@use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/abstracts/mixins' as *;
+
+.card-artist {
+    .img-container {
+        aspect-ratio: 1/1;
+
+        img,
+        .bi-person-fill {
+            @include img-full-border;
+        }
+
+        .bi-person-fill {
+            background-color: $gray;
+            font-size: 45px;
+            @include center;
+        }
+    }
+}

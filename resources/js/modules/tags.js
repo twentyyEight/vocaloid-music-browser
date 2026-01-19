@@ -7,20 +7,29 @@ export function tagsHandler({
     loading
 }) {
 
+    let selectedTags = []
 
-    let selectedItems = []
-    const raw = $(hiddenInputId).val()
-    const inputValue = raw === '[]' || raw === undefined ? null : JSON.parse(raw)
+    const inputValue = $(hiddenInputId).val()
+    const tags_ids = inputValue === '[]' || inputValue === undefined ? null : JSON.parse(inputValue)
 
-    if (inputValue) {
-        const stored = sessionStorage.getItem(sessionStorageName);
-        selectedItems = JSON.parse(stored);
-        renderSelectedItems();
+    if (tags_ids) {
+
+        const tagsStored = sessionStorage.getItem(sessionStorageName)
+        selectedTags = tagsStored ? JSON.parse(tagsStored) : []
+
+        tags_ids.forEach(id => {
+            if (!selectedTags.find(t => t.id === Number(id))) {
+                selectedTags.push({ id: id, name: null })
+            }
+        })
+
+        namingTags(selectedTags)
 
     } else {
         sessionStorage.removeItem(sessionStorageName)
     }
 
+    // Cuando selecciona el tag en el form
     $(inputId).autocomplete({
         source: function (request, response) {
             $.ajax({
@@ -29,8 +38,10 @@ export function tagsHandler({
                     $(loading).show()
                 },
                 success: function (data) {
-                    $(loading).hide()
                     response(data);
+                },
+                complete: function () {
+                    $(loading).hide()
                 },
                 error: function (error) {
                     console.error(error)
@@ -45,24 +56,39 @@ export function tagsHandler({
                 name: ui.item.label
             }
 
-            if (!selectedItems.find(i => i.id === item.id)) {
-                selectedItems.push(item)
+            if (!selectedTags.find(i => i.id === item.id)) {
+                selectedTags.push(item)
             }
 
             renderSelectedItems()
 
-            sessionStorage.setItem(sessionStorageName, JSON.stringify(selectedItems));
+            sessionStorage.setItem(sessionStorageName, JSON.stringify(selectedTags));
 
             $(inputId).val('')
             return false
         }
     })
 
+    async function namingTags(tags) {
+        for (const t of tags) {
+            if (!t.name) {
+                let data = await $.ajax({
+                    url: `https://vocadb.net/api/tags/${t.id}`,
+                    type: 'GET',
+                    contentType: 'application/json'
+                })
+
+                t.name = data.name
+            }
+        }
+        renderSelectedItems()
+    }
+
     function renderSelectedItems() {
 
         $(selectedWrapperId).empty()
 
-        selectedItems.forEach(i => {
+        selectedTags.forEach(i => {
 
             $(selectedWrapperId).append(
                 `
@@ -81,8 +107,8 @@ export function tagsHandler({
     $(document).on('click', '.remove_tag', function () {
 
         const id = $(this).attr('id')
-        selectedItems = selectedItems.filter(i => i.id != id)
-        sessionStorage.setItem(sessionStorageName, JSON.stringify(selectedItems));
+        selectedTags = selectedTags.filter(i => i.id != id)
+        sessionStorage.setItem(sessionStorageName, JSON.stringify(selectedTags));
         renderSelectedItems()
     })
 }

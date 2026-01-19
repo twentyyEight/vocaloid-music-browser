@@ -1,0 +1,22 @@
+@use '/resources/scss/abstracts/mixins' as *;
+@use '/resources/scss/abstracts/variables' as *;
+@use './title-artists';
+
+.card-song {
+    .img-container {
+        aspect-ratio: 16 / 9;
+        background-color: $gray;
+        @include center;
+        border-radius: 5px;
+
+        img {
+            @include img-full-border;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .no-img {
+            height: 70px;
+        }
+    }
+}

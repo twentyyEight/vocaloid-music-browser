@@ -29,32 +29,32 @@
                         <x-sort
                             :value="request('sort')"
                             :options="[
-            ['value' => 'FollowerCount', 'label' => 'Popularidad'],
-            ['value' => 'Name', 'label' => 'Nombre'],
-        ]" />
+                                ['value' => 'FollowerCount', 'label' => 'Popularidad'],
+                                ['value' => 'Name', 'label' => 'Nombre'],
+                            ]" />
                         <x-type
                             label="artista"
                             :value="request('type')"
                             :options="[
-            ['value' => 'Producer', 'label' => 'Productor musical', 'data' => 'producer'],
-            ['value' => 'CoverArtist', 'label' => 'Artista de covers', 'data' => 'producer'],
-            ['value' => 'Circle', 'label' => 'Círculo', 'data' => 'producer'],
-            ['value' => 'OtherGroup', 'label' => 'Otros grupos', 'data' => 'producer'],
+                                ['value' => 'Producer', 'label' => 'Productor musical', 'data' => 'producer'],
+                                ['value' => 'CoverArtist', 'label' => 'Artista de covers', 'data' => 'producer'],
+                                ['value' => 'Circle', 'label' => 'Círculo', 'data' => 'producer'],
+                                ['value' => 'OtherGroup', 'label' => 'Otros grupos', 'data' => 'producer'],
 
-            ['value' => 'Vocaloid', 'label' => 'Vocaloid', 'data' => 'vocalist'],
-            ['value' => 'UTAU', 'label' => 'UTAU', 'data' => 'vocalist'],
-            ['value' => 'SynthesizerV', 'label' => 'Synthesizer V', 'data' => 'vocalist'],
-            ['value' => 'CeVIO', 'label' => 'CeVIO', 'data' => 'vocalist'],
-            ['value' => 'NEUTRINO', 'label' => 'NEUTRINO', 'data' => 'vocalist'],
-            ['value' => 'VoiSona', 'label' => 'VoiSona', 'data' => 'vocalist'],
-            ['value' => 'NewType', 'label' => 'NewType', 'data' => 'vocalist'],
-            ['value' => 'Voiceroid', 'label' => 'Voiceroid', 'data' => 'vocalist'],
-            ['value' => 'VOICEVOX', 'label' => 'VOICEVOX', 'data' => 'vocalist'],
-            ['value' => 'ACEVirtualSinger', 'label' => 'ACE Virtual Singer', 'data' => 'vocalist'],
-            ['value' => 'AIVOICE', 'label' => 'AI VOICE', 'data' => 'vocalist'],
-            ['value' => 'OtherVoiceSynthesizer', 'label' => 'Otros sintetizadores de voz', 'data' => 'vocalist'],
-            ['value' => 'OtherVocalist', 'label' => 'Otros vocalistas', 'data' => 'vocalist'],
-        ]">
+                                ['value' => 'Vocaloid', 'label' => 'Vocaloid', 'data' => 'vocalist'],
+                                ['value' => 'UTAU', 'label' => 'UTAU', 'data' => 'vocalist'],
+                                ['value' => 'SynthesizerV', 'label' => 'Synthesizer V', 'data' => 'vocalist'],
+                                ['value' => 'CeVIO', 'label' => 'CeVIO', 'data' => 'vocalist'],
+                                ['value' => 'NEUTRINO', 'label' => 'NEUTRINO', 'data' => 'vocalist'],
+                                ['value' => 'VoiSona', 'label' => 'VoiSona', 'data' => 'vocalist'],
+                                ['value' => 'NewType', 'label' => 'NewType', 'data' => 'vocalist'],
+                                ['value' => 'Voiceroid', 'label' => 'Voiceroid', 'data' => 'vocalist'],
+                                ['value' => 'VOICEVOX', 'label' => 'VOICEVOX', 'data' => 'vocalist'],
+                                ['value' => 'ACEVirtualSinger', 'label' => 'ACE Virtual Singer', 'data' => 'vocalist'],
+                                ['value' => 'AIVOICE', 'label' => 'AI VOICE', 'data' => 'vocalist'],
+                                ['value' => 'OtherVoiceSynthesizer', 'label' => 'Otros sintetizadores de voz', 'data' => 'vocalist'],
+                                ['value' => 'OtherVocalist', 'label' => 'Otros vocalistas', 'data' => 'vocalist'],
+                            ]">
 
                             <div id="switch-type">
                                 <label>
@@ -85,12 +85,12 @@
 
     <div id="artists">
         @foreach ($artists as $artist)
-        <a href="{{ route('artist.show', $artist['id']) }}">
+        <a href="{{ route('artist.show', $artist['id']) }}" class="card-artist">
             <div class="img-container">
                 @if ($artist['img'])
                 <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
                 @else
-                <x-carbon-no-image class="no-img" />
+                <i class="bi bi-person-fill"></i>
                 @endif
             </div>
             <p>{{ $artist['name'] }}</p>

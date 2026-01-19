@@ -52,12 +52,13 @@
             <x-favorite-btn entity="song" :id="$song['id']" :isFavorite="$isFavorite" />
         </div>
 
-        <div id="credits">
+        <div>
             <h3>Créditos</h3>
-            <div id="credits-container">
+            <div class="line"></div>
+            <div id="credits">
                 @foreach ($song['credits'] as $artist)
-                <div class="credit">
-                    <div class="credit-img-container">
+                <div class="card-artist">
+                    <div class="img-container">
                         @if ($artist['img'])
                         <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
                         @else
@@ -76,7 +77,7 @@
         </div>
 
         @if ($song['albums'])
-        <div id="albums-song">
+        <div>
             <div id="header-albums-song">
                 <h3>Aparece en</h3>
                 <div id="arrows-albums-song">
@@ -84,11 +85,14 @@
                     <x-eva-arrow-ios-forward-outline id="arrow-right" />
                 </div>
             </div>
-            <div id="container-albums-song">
+
+            <div class="line"></div>
+            
+            <div id="albums-song">
                 @foreach ($song['albums'] as $album)
-                <a href="{{ route('album.show', $album['id']) }}" class="album-item">
+                <a href="{{ route('album.show', $album['id']) }}">
                     @if ($album['img'])
-                    <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}" class="album-cover">
+                    <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
                     @else
                     <div class="no-img-container">
                         <x-carbon-no-image class="no-img" />

@@ -15,7 +15,7 @@ class GenreController extends Controller
     {
         $page = $request->get('page', 1);
 
-        $query = $request->input('query', '');
+        $query = $request->input('name', '');
 
         $data = $genreService->getGenres($page, $query);
         $genres = $data['genres'];
@@ -28,6 +28,7 @@ class GenreController extends Controller
     public function show($id, GenreService $genreService)
     {
         $genre = $genreService->getGenreById($id);
+
         return view('music.genres.show', ['genre' => $genre]);
     }
 

@@ -17,7 +17,7 @@
             </button>
         </div>
 
-        <div class="modal fade" id="filtersModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+        <div class="modal fade" id="filtersModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
 
@@ -64,7 +64,7 @@
 
     <div id="albums">
         @foreach ($albums as $album)
-        <a href="{{ route('album.show', $album['id']) }}">
+        <a href="{{ route('album.show', $album['id']) }}" class="card-album">
             <div class="img-container">
                 @if ($album['img'])
                 <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
@@ -72,9 +72,9 @@
                 <x-carbon-no-image class="no-img" />
                 @endif
             </div>
-            <div class="album-data">
-                <p class="album-title">{{ $album['name'] }}</p>
-                <p class="album-artists">{{ $album['artists'] }}</p>
+            <div class="data">
+                <p class="title">{{ $album['name'] }}</p>
+                <p class="artists">{{ $album['artists'] }}</p>
             </div>
         </a>
         @endforeach

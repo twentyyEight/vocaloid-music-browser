@@ -20,7 +20,7 @@ class GenreService
             // Canciones del género
             $pool->as('songs')->get("https://vocadb.net/api/songs", [
                 'tagId[]' => $id,
-                'maxResults' => 10,
+                'maxResults' => 6,
                 'sort' => 'RatingScore',
                 'fields' => 'MainPicture',
                 'lang' => 'Romaji'
@@ -40,7 +40,7 @@ class GenreService
             $pool->as('albums')->get("https://vocadb.net/api/albums", [
                 'discTypes' => 'Album',
                 'tagId[]' => $id,
-                'maxResults' => 10,
+                'maxResults' => 8,
                 'sort' => 'RatingTotal',
                 'fields' => 'MainPicture',
                 'lang' => 'Romaji'
@@ -64,45 +64,52 @@ class GenreService
         $json = response()->json($resultados);
         $res = $json->original;
 
+        // Canciones
         $songs = [];
         foreach ($res['songs']['items'] as $song) {
 
             $songs[] = [
                 'name' => $song['name'],
                 'artists' => $song["artistString"],
-                'img' => $song['mainPicture']['urlThumb'],
+                'img' => $song['mainPicture']['urlOriginal'] ?? null,
                 'id' => $song['id']
             ];
         }
 
+        // Artistas
         $artists = [];
         foreach ($res['artists']['items'] as $artist) {
 
             $artists[] = [
                 'name' => $artist['name'],
-                'img' => $artist['mainPicture']['urlThumb'],
+                'img' => $artist['mainPicture']['urlThumb'] ?? null,
                 'id' => $artist['id']
             ];
         }
 
+        // Albumes
         $albums = [];
         foreach ($res['albums']['items'] as $album) {
 
             $albums[] = [
                 'name' => $album['name'],
                 'artists' => $album["artistString"],
-                'img' => $album['mainPicture']['urlThumb'],
-                'id' => $album['id']
+                'img' => $album['mainPicture']['urlThumb'] ?? null,
+                'id' => $album['id'],
             ];
         }
 
+        // Color
+        $color = '#' . substr(md5($id), 0, 6);
+
         return [
+            'id' => $res['genre']['id'],
             'name' => $res['genre']['name'] ?? null,
-            'description' => $res['genre']['description'] ?? null,
             'img' => $res['genre']['mainPicture']['urlOriginal'] ?? null,
             'songs' => empty($songs) ? null : $songs,
             'albums' => empty($albums) ? null : $albums,
-            'artists' => empty($artists) ? null : $artists
+            'artists' => empty($artists) ? null : $artists,
+            'color' => $color
         ];
     }
 
@@ -128,7 +135,8 @@ class GenreService
             $genres[] = [
                 'id' => $item['id'],
                 'name' => $item['name'],
-                'img' => $item['mainPicture']['urlOriginal'] ?? null
+                'img' => $item['mainPicture']['urlOriginal'] ?? null,
+                'color' => '#' . substr(md5($item['id']), 0, 6)
             ];
         }
 
