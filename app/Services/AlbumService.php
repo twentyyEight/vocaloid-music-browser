@@ -59,11 +59,12 @@ class AlbumService
 
         // Tracks album
         $tracks = [];
+
         foreach ($json['tracks'] as $track) {
             $tracks[] = [
-                'id' => $track['song']['id'],
+                'id' => $track['song']['id'] ?? null,
                 'name' => $track['name'],
-                'artists' => $track['song']["artistString"]
+                'artists' => $track['song']["artistString"] ?? null
             ];
         }
 
@@ -95,7 +96,6 @@ class AlbumService
             $date .= str_pad($json['releaseDate']['month'], 2, '0', STR_PAD_LEFT) . '-';
             $date .= $json['releaseDate']['year'];
         }
-
         return [
             'id' => $json['id'],
             'img' => $json['mainPicture']['urlThumb'] ?? null,

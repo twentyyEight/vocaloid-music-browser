@@ -1,11 +1,12 @@
 @use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/components/fav-btn';
 
-#container {
+#page-album {
     display: flex;
     flex-direction: column;
     padding: 20px;
 
-    #album {
+    #info-album {
         display: flex;
         flex-direction: column;
 

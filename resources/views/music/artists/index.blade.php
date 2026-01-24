@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div id="title-page">
-    <h1>Artistas</h1>
+<div class="title-page">
+    <h1>ARTISTAS</h1>
     <p>{{ $total }} resultados</p>
 </div>
 <div id="container">

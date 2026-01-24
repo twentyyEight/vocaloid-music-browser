@@ -3,9 +3,11 @@
 @use '/resources/scss/components/filters/form';
 @use '/resources/scss/components/filters/tags';
 @use '/resources/scss/components/cards/card-artist';
+@use '/resources/scss/components/title-page';
 
 #container {
     display: grid;
+    padding-inline: 50px;
     gap: 20px;
 
     @media (min-width: 992px) {

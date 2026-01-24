@@ -1,25 +1,33 @@
-import { carousel } from './modules/carousel.js'
+import { carousel } from "./modules/carousel";
 
 $(function () {
 
-    function carouselInitialized(bool) {
-        if (bool) carousel()
-        else return
+    function toggleSongSection(activeBtn, activeSection, inactiveBtn, inactiveSection) {
+        $(activeSection).show()
+        $(inactiveSection).hide()
+
+        $(activeBtn).css('border-bottom', '2px solid #199ea5')
+        $(inactiveBtn).css('border-bottom', 'transparent')
     }
 
-    function arrowsVisibility() {
-        if ($(window).width() > 992) {
-            $('#video-song, #info-song').appendTo('#hero-content')
-            carouselInitialized(true)
-
-        } else {
-            $('#video-song').insertBefore('#hero-content')
-            $('#info-song').insertBefore('#credits')
-            carouselInitialized(false)
-        }
-    }
-
-    $(window).on('load resize', function () {
-        arrowsVisibility()
+    $('#btn-info-song').on('click', function () {
+        toggleSongSection(this, '#info-song', '#btn-lyrics-song', '#lyrics-song')
     })
+
+    $('#btn-lyrics-song').on('click', function () {
+        toggleSongSection(this, '#lyrics-song', '#btn-info-song', '#info-song')
+    })
+
+    const idFirstLyric = $('#btns-lyrics-song')[0].firstElementChild.id
+    $(`#${idFirstLyric}`).css('background-color', '#199ea5')
+    $(`#lyric-${idFirstLyric}`).show()
+
+    $('.btn-lyric').on('click', function () {
+        $('.lyric').hide()
+        $('.btn-lyric').css('background-color', 'transparent')
+        $(this).css('background-color', '#199ea5')
+        $(`#lyric-${this.id}`).show()
+    })
+
+    $(window).on('load', carousel)
 })

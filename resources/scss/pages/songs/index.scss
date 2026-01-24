@@ -4,20 +4,7 @@
 @use '/resources/scss/components/filters/input-dates';
 @use '/resources/scss/components/filters/tags';
 @use '/resources/scss/components/cards/card-song';
-
-#title-page {
-    padding-inline: 50px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-
-    h1 {
-        margin: 0;
-    }
-
-    p {
-        color: $color
-    }
-}
+@use '/resources/scss/components/title-page';
 
 #page-songs {
     display: grid;

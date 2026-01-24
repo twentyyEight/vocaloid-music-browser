@@ -1,12 +1,12 @@
 @extends('app')
 
 @section('content')
-<div id="title-page">
-    <h1>Albumes</h1>
+<div class="title-page">
+    <h1>ALBUMES</h1>
     <p>{{ $total }} resultados</p>
 </div>
 
-<div id="container">
+<div id="page-albums">
     <form action="{{ route('album.index') }}" method="GET" id="form">
 
         <div id="controls">

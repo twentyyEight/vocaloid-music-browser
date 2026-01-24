@@ -9,7 +9,7 @@ class SongService
     public function getSongById($id)
     {
         $response = Http::get("https://vocadb.net/api/songs/{$id}", [
-            'fields' => 'Albums,Artists,PVs,Tags,MainPicture',
+            'fields' => 'Albums,Artists,PVs,Tags,MainPicture,Lyrics,CultureCodes',
             'lang' => 'Romaji'
         ]);
 
@@ -32,48 +32,40 @@ class SongService
         }
 
         // Artistas
-        $credits = [];
+        $roles = [];
+
         foreach ($json['artists'] as $artist) {
 
             if ($artist['artist']['artistType'] !== 'Illustrator' && $artist['artist']['artistType'] !== 'Animator' && $artist['categories'] !== 'Illustrator' && $artist['categories'] !== 'Animator') {
 
-                $roles = null;
-
                 if ($artist['roles'] === 'Default') {
-                    $roles = $artist['categories'];
+                    $roles = array_merge(
+                        $roles,
+                        array_map('trim', explode(',', $artist['categories']))
+                    );
                 } else {
-                    $roles = $artist['roles'];
+                    $roles = array_merge(
+                        $roles,
+                        array_map('trim', explode(',', $artist['roles']))
+                    );
                 }
-
-                $credits[] = [
-                    'id' => $artist['artist']['id'],
-                    'name' => $artist['name'],
-                    'roles' => $roles,
-                    'img' => null
-                ];
             }
         }
 
-        $creditsIds = collect($credits)->pluck('id');
+        $roles = array_fill_keys(array_unique($roles), []);
 
-        $res = Http::pool(
-            fn($pool) =>
-            $creditsIds->map(
-                fn($creditsId) =>
-                $pool->as($creditsId)->get("https://vocadb.net/api/artists/{$creditsId}?fields=MainPicture")
-            )->toArray()
-        );
-
-        foreach ($res as $creditsId => $r) {
-            if ($r->successful()) {
-                foreach ($credits as &$credit) {
-                    if ($credit['id'] === $creditsId) {
-                        $credit['img'] = $r['mainPicture']['urlSmallThumb'] ?? null;
-                    }
+        foreach ($roles as $rolNombre => &$artistas) {
+            foreach ($json['artists'] as $artist) {
+                if (
+                    str_contains($artist['roles'], $rolNombre) ||
+                    str_contains($artist['categories'], $rolNombre)
+                ) {
+                    $artistas[] = ['id' => $artist['id'], 'name' => $artist['name']];
                 }
-                unset($credit);
             }
         }
+
+        ksort($roles);
 
         // Géneros
         $genres = [];
@@ -104,7 +96,6 @@ class SongService
             if ($res->successful()) {
                 $albumCovers[] = [
                     'img' => $res['mainPicture']['urlSmallThumb'] ?? null,
-                    'name' => $res['name'],
                     'id' => $albumId,
                 ];
             }
@@ -136,13 +127,62 @@ class SongService
         $date = date('d-m-Y', strtotime($json['publishDate']));
 
         // Duración
-        $segs = $json["lengthSeconds"];
-
-        $min = floor($segs / 60);
-        $sec = $segs % 60;
+        $min = floor($json["lengthSeconds"] / 60);
+        $sec = $json["lengthSeconds"] % 60;
 
         $format = sprintf('%02d:%02d', $min, $sec);
 
+        // Idioma(s)
+        $cultureCodes = [
+            'ja' => 'Japonés',
+            'ha' => 'Romaji',
+            '' => 'Romaji',
+            'en' => 'Inglés',
+            'zh' => 'Chino',
+            'nl' => 'Holandés',
+            'tl' => 'Filipino',
+            'fi' => 'Finlandés',
+            'fr' => 'Francés',
+            'de' => 'Alemán',
+            'id' => 'Indonesio',
+            'it' => 'Italiano',
+            'ko' => 'Coreano',
+            'no' => 'Noruego',
+            'pl' => 'Polaco',
+            'pt' => 'Portugues',
+            'ru' => 'Ruso',
+            'es' => 'Español',
+            'sv' => 'Sueco',
+            'th' => 'Tailandés'
+        ];
+
+        $langs = [];
+
+        foreach ($json['cultureCodes'] as $code) {
+            if (isset($cultureCodes[$code])) {
+                $langs[] = $cultureCodes[$code];
+            }
+        }
+
+        // Letra
+        $lyrics = [];
+        foreach ($json['lyrics'] as $lyric) {
+
+            $langs_lyric = [];
+
+            foreach ($lyric['cultureCodes'] as $code) {
+                if (isset($cultureCodes[$code])) {
+                    $langs_lyric[] = $cultureCodes[$code];
+                }
+            }
+
+            $lyrics[] = [
+                'languages' => implode(', ', $langs_lyric),
+                'type' => $lyric['translationType'],
+                'lyric' => $lyric['value'],
+                'id' => $lyric['id']
+            ];
+        }
 
         return [
             'id' => $json['id'] ?? null,
@@ -150,12 +190,14 @@ class SongService
             'date' => $date ?? null,
             'type' => $type ?? null,
             'artists' => $json['artistString'] ?? null,
-            'credits' => empty($credits) ? null : $credits,
+            'credits' => empty($roles) ? null : $roles,
             'genres' => empty($genres) ? null : $genres,
             'albums' => empty($albumCovers) ? null : $albumCovers,
             'img' => $json['mainPicture']['urlOriginal'] ?? null,
             'pv' => $video ?? null,
-            'duration' => $format ?? null
+            'duration' => $format ?? null,
+            'languages' => $langs,
+            'lyrics' => $lyrics
         ];
     }
 

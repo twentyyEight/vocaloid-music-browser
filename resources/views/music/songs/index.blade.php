@@ -1,9 +1,8 @@
 @extends('app')
 
 @section('content')
-<div id="title-page">
-    <h1>Canciones</h1>
-    <p>{{ $total }} resultados</p>
+<div class="title-page">
+    <h1>CANCIONES</h1>
 </div>
 
 <div id="page-songs">

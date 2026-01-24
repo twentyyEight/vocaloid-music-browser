@@ -4,10 +4,11 @@
 @use '/resources/scss/components/filters/tags';
 @use '/resources/scss/components/filters/input-dates';
 @use '/resources/scss/components/cards/card-album';
+@use '/resources/scss/components/title-page';
 
-#container {
+#page-albums {
     display: grid;
-    padding-inline: 20px;
+    padding-inline: 50px;
     gap: 20px;
 
     @media (min-width: 992px) {

@@ -3,263 +3,216 @@
 @use '/resources/scss/abstracts/mixins' as *;
 @use '/resources/scss/components/cards/card-artist';
 
-// Estilos generales
-#genres-song {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-top: 5px;
-    margin-bottom: 10px;
-
-    a {
-        background-color: $color;
-        color: white;
-        padding: 3px 10px;
-        border-radius: 5px;
-        white-space: nowrap;
-
-        &:hover {
-            background-color: #13757a;
-        }
-    }
+@mixin background {
+    background-color: #353535;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px $gray;
 }
 
-#info-song {
-    p {
-        color: rgb(190, 190, 190);
-    }
-}
-
-.line {
-    width: 100%;
-    height: 1px;
-    background-color: white;
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-
-
-#page-song {
-    height: 100vh;
-    padding-bottom: 20px;
-
-    #hero {
+@media (min-width: 1200px) {
+    #page-song {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 56px);
         position: relative;
-        @include center;
-        aspect-ratio: 16 / 9;
-        border-bottom: 1px solid #5d5d5d;
 
-        #thumbail-song {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            @include center;
+        #background {
+            position: absolute;
+            aspect-ratio: 16/9;
+            width: 100vw;
+            height: 100%;
+            filter: blur(15px);
+            opacity: 0.8;
 
             img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                background-color: black;
-                filter: brightness(0.25) blur(6px);
-            }
-
-            #no-img {
-                height: 50%;
             }
         }
 
-        #video-song {
-            position: absolute;
-            inset: 0;
-            padding: 15px;
-
-            iframe {
-                height: 100%;
-                width: 100%;
-            }
-        }
-    }
-
-    #body-song {
-        padding-inline: 40px;
-        margin-block: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-
-        #credits {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 10px;
-            padding: 0;
-            background-color: transparent;
-
-            .card-artist {
-                display: flex;
-                align-items: flex-start;
-                gap: 15px;
-
-                .img-container {
-                    width: 16%;
-
-                    img {
-                        object-fit: cover;
-                        object-position: top;
-                        background-color: white;
-                    }
-                }
-
-                .credit-artist {
-                    a {
-                        font-weight: 700;
-
-                        &:hover {
-                            text-decoration: underline;
-                        }
-                    }
-                }
-            }
-        }
-
-        #albums-song {
+        #container-song {
             display: flex;
-            gap: 5px;
-            overflow-x: auto;
-            width: 100%;
-            flex-direction: row;
-            margin-top: 15px;
+            gap: 20px;
+            position: absolute;
+            padding-inline: 100px;
+            height: 75vh;
 
-            a {
-                flex: 0 0 auto;
-                height: 18vh;
+            #video-albums-song {
                 display: flex;
-
-                img,
-                .no-img-container {
-                    @include img-full-border;
-                }
-
-                img {
-                    object-fit: cover;
-                }
-
-                .no-img-container {
-                    aspect-ratio: 1 / 1;
-                    background: $gray;
-                    padding: 20px;
-                }
-            }
-        }
-    }
-}
-
-@media (min-width: 768px) {
-    #page-song {
-        #body-song {
-            #credits {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    }
-}
-
-@media (min-width: 992px) {
-
-    #page-song {
-        position: relative;
-        height: 0;
-
-        #hero {
-            height: 400px;
-            margin-bottom: 20px;
-            width: 100%;
-
-            #thumbail-song {
-                height: 100%;
-            }
-
-            #hero-content {
-                position: absolute;
-                top: 50%;
-                transform: translate(0%, -50%);
-                z-index: 1;
-                padding-inline: 100px;
-                display: flex;
+                flex-direction: column;
                 gap: 20px;
-                padding-inline: 50px;
+                width: 40vw;
 
                 #video-song {
-                    aspect-ratio: 16 / 9;
-                    position: static;
-                    padding: 0;
+                    //aspect-ratio: 16/9;
+                    @include background;
+                    flex: 1;
 
                     iframe {
-                        width: 500px;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
                     }
                 }
+
+                #albums-song {
+                    @include background;
+
+                    #container-albums {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+
+                        .bi-caret-left-fill,
+                        .bi-caret-right-fill {
+                            font-size: 25px;
+                            cursor: pointer;
+                        }
+
+                        #covers-albums-song {
+                            display: flex;
+                            gap: 5px;
+                            overflow-x: hidden;
+                            width: 100%;
+                            flex-direction: row;
+
+                            a {
+                                flex: 0 0 auto;
+                                height: 15vh;
+                                display: flex;
+
+                                &:hover {
+                                    opacity: 50%;
+                                }
+
+                                img {
+                                    background-color: white;
+                                    border-radius: 5px;
+                                }
+
+                                .no-img-container {
+                                    aspect-ratio: 1/1;
+                                    background-color: $gray;
+                                    border-radius: 5px;
+                                    padding: 20px;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            #data-song {
+                @include background;
+                width: 30vw;
+                overflow: hidden;
+                padding: 15px 20px;
+
+                display: flex;
+                flex-direction: column;
 
                 #info-song {
                     display: flex;
                     flex-direction: column;
+                    gap: 10px;
 
-                    h1 {
-                        margin: 0;
+                    p {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 100%;
                     }
 
-                    h5 {
-                        font-weight: 400;
-                        margin: 0;
-                    }
-                }
-            }
-        }
+                    .credit {
+                        margin-top: 5px;
 
-        #body-song {
-            padding-inline: 100px;
+                        h6 {
+                            font-weight: 400;
+                        }
 
-            #credits {
-                grid-template-columns: repeat(3, 1fr);
-            }
+                        a {
+                            color: $color;
 
-            #header-albums-song {
-                display: flex;
-                width: 100%;
-                justify-content: space-between;
-                align-items: center;
-
-                #arrow-right,
-                #arrow-left {
-                    height: 4vh;
-                    cursor: pointer;
-                }
-            }
-
-            #albums-song {
-                gap: 10px;
-                overflow-x: hidden;
-
-                img,
-                .no-img-container {
-                    height: 17vh;
-                    border-radius: 5px;
-
-                    &:hover {
-                        filter: brightness(0.5);
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
                     }
 
-                }
-            }
-        }
-    }
-}
+                    #genres-song {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 5px;
+                        margin-top: 5px;
 
-@media (min-width: 1200px) {
-    #page-song {
-        #hero {
-            #hero-content {
-                #video-song {
-                    iframe {
-                        width: 600px;
+                        a {
+                            background-color: $color;
+                            color: white;
+                            border-radius: 5px;
+                            padding: 3px 8px;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+
+                #options-song {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-block: 10px;
+                    border-bottom: 1px solid #545454;
+
+                    button {
+                        width: 100%;
+                        text-align: center;
+                        padding-bottom: 4px;
+
+                        &:hover {
+                            background-color: #5454547a;
+                        }
+                    }
+
+                    #btn-info-song {
+                        border-bottom: 2px solid $color;
+                    }
+                }
+
+                #info-song,
+                #lyrics-song {
+                    overflow-y: auto;
+                }
+
+                #lyrics-song {
+                    display: none;
+                    margin-top: 5px;
+
+                    #btns-lyrics-song {
+                        display: flex;
+                        width: 100%;
+                        justify-content: space-around;
+
+                        button {
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            border: 1px solid #545454;
+
+                            &:hover {
+                                background-color: #54545484;
+                            }
+                        }
+                    }
+
+                    .lyric {
+                        margin-top: 15px;
+                        display: none;
+                        background-color: #545454;
+                        padding: 10px;
+                        border-radius: 5px;
+                        margin-inline: 10px;
+                        margin-bottom: 10px;
                     }
                 }
             }

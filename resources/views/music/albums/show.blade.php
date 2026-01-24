@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-<div id="container">
+<div id="page-album">
     @if(session('success'))
     <p>{{ session('success') }}</p>
     @endif
@@ -10,12 +10,12 @@
     <p>{{ session('error') }}</p>
     @endif
 
-    <div id="album">
+    <div id="info-album">
         <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
 
         <div id="album-info">
             <h1>{{ $album['name'] }}</h1>
-            <h2>{{ $album['artists'] }}</h2>
+            <h3>{{ $album['artists'] }}</h3>
             <p><span id="album-type">{{ $album['type'] }}</span> • {{ $album['date'] }}</p>
             @if ($album['genres'])
             <div>
@@ -52,29 +52,31 @@
     </div>
 
     @if ($album['tracks'])
-        <div id="tracks">
-            <h3>Tracks</h3>
-            <ol type="1">
-                @foreach ($album['tracks'] as $track)
-                <li>
-                    <a href="{{ route('song.show', $track['id']) }}">
-                        {{ $track['name'] }}
-                        <br>
-                        <span class="track-artist">{{ $track['artists'] }}</span>
-                    </a>
-                </li>
-                @endforeach
-            </ol>
-        </div>
+    <div id="tracks">
+        <h3>Tracks</h3>
+        <ol type="1">
+            @foreach ($album['tracks'] as $track)
+            @if ($track['id'])
+            <li>
+                <a href="{{ route('song.show', $track['id']) }}">
+                    {{ $track['name'] }}
+                    <br>
+                    <span class="track-artist">{{ $track['artists'] }}</span>
+                </a>
+            </li>
+            @endif
+            @endforeach
+        </ol>
+    </div>
     @endif
 
     @if ($album['pv'])
-        <h3>Video promocional</h3>
-        @if (substr($album['pv'], 0, 2) === 'sm')
-        <iframe src="https://embed.nicovideo.jp/watch/{{ $album['pv'] }}" frameborder="0"></iframe>
-        @else
-        <iframe src="https://www.youtube.com/embed/{{ $album['pv'] }}" frameborder="0"></iframe>
-        @endif
+    <h3>Video promocional</h3>
+    @if (substr($album['pv'], 0, 2) === 'sm')
+    <iframe src="https://embed.nicovideo.jp/watch/{{ $album['pv'] }}" frameborder="0"></iframe>
+    @else
+    <iframe src="https://www.youtube.com/embed/{{ $album['pv'] }}" frameborder="0"></iframe>
+    @endif
     @endif
 </div>
 @endsection
@@ -84,5 +86,5 @@
 @endpush
 
 @push('scripts')
-@vite('resources/js/index.js')
+@vite(['resources/js/index.js', 'resources/js/album.js'])
 @endpush
