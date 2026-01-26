@@ -10,11 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geologica:wght,CRSV@100..900,0&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet"
-        href="{{ Vite::asset('node_modules/jquery-ui/dist/themes/base/jquery-ui.min.css') }}">
-
     @vite([
-    'resources/js/app.js'
+    'resources/js/app.js',
+    'resources/js/app.css'
     ])
 
     @stack('styles')
@@ -68,9 +66,5 @@
         @yield('content')
     </div>
 
-    <script src="{{ Vite::asset('node_modules/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ Vite::asset('node_modules/jquery-ui/dist/jquery-ui.min.js') }}"></script>
-
 </body>
-
 </html>
