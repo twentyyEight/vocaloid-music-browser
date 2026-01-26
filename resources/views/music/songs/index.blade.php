@@ -13,6 +13,7 @@
         <div id="controls">
             <x-input-name :value="request('name', '')" />
             <button type="button" data-bs-toggle="modal" data-bs-target="#filtersModal" id="open_filters">
+                Filtros
                 <i class="bi bi-funnel-fill"></i>
             </button>
         </div>
@@ -30,7 +31,7 @@
                         <x-sort
                             :value="request('sort')"
                             :options="[
-                        ['value' => 'PublishDate', 'label' => 'Fecha de lanzamiento'],
+                        ['value' => 'PublishDate', 'label' => 'Más reciente'],
                         ['value' => 'Name', 'label' => 'Nombre'],
                         ['value' => 'RatingScore', 'label' => 'Popularidad']]" />
 

@@ -24,11 +24,15 @@ class AlbumService
         switch ($json['discType']) {
 
             case 'Album':
-                $type = 'Album Original';
+                $type = 'Álbum Original';
                 break;
 
             case 'Compilation':
-                $type = 'Album Compilatorio';
+                $type = 'Álbum Compilatorio';
+                break;
+
+            case 'SplitAlbum':
+                $type = 'Álbum Compartido';
                 break;
 
             default:
@@ -61,10 +65,18 @@ class AlbumService
         $tracks = [];
 
         foreach ($json['tracks'] as $track) {
-            $tracks[] = [
+
+            $min = floor($track['song']['lengthSeconds'] / 60);
+            $sec = $track['song']['lengthSeconds'] % 60;
+            $duration = sprintf('%02d:%02d', $min, $sec);
+
+            $disc = $track['discNumber'] - 1;
+
+            $tracks[$disc][] = [
                 'id' => $track['song']['id'] ?? null,
                 'name' => $track['name'],
-                'artists' => $track['song']["artistString"] ?? null
+                'artists' => $track['song']["artistString"] ?? null,
+                'duration' => $duration
             ];
         }
 
@@ -73,6 +85,7 @@ class AlbumService
             ['Youtube',      'Original'],
             ['NicoNicoDouga', 'Original'],
             ['Youtube',      'Reprint'],
+            ['NicoNicoDouga', 'Other'],
             ['NicoNicoDouga', 'Reprint'],
         ];
 
@@ -81,7 +94,10 @@ class AlbumService
         foreach ($prioridades as $prio) {
             foreach ($json['pvs'] as $pv) {
                 if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
-                    $video = $pv['pvId'];
+                    $video = [
+                        'url' =>  $pv['pvId'],
+                        'service' => $pv['service']
+                    ];
                     break 2;
                 }
             }
@@ -96,9 +112,10 @@ class AlbumService
             $date .= str_pad($json['releaseDate']['month'], 2, '0', STR_PAD_LEFT) . '-';
             $date .= $json['releaseDate']['year'];
         }
+
         return [
             'id' => $json['id'],
-            'img' => $json['mainPicture']['urlThumb'] ?? null,
+            'img' => $json['mainPicture']['urlOriginal'] ?? null,
             'name' => $json['name'] ?? null,
             'date' => $date,
             'type' => $type ?? null,

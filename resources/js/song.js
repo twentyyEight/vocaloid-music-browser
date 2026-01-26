@@ -2,6 +2,7 @@ import { carousel } from "./modules/carousel";
 
 $(function () {
 
+    /* Btns Info / Letra */
     function toggleSongSection(activeBtn, activeSection, inactiveBtn, inactiveSection) {
         $(activeSection).show()
         $(inactiveSection).hide()
@@ -18,7 +19,9 @@ $(function () {
         toggleSongSection(this, '#lyrics-song', '#btn-info-song', '#info-song')
     })
 
-    const idFirstLyric = $('#btns-lyrics-song')[0].firstElementChild.id
+    /* Lyrics */
+    const idFirstLyric = $('#btns-lyrics-song')[0]?.firstElementChild.id
+
     $(`#${idFirstLyric}`).css('background-color', '#199ea5')
     $(`#lyric-${idFirstLyric}`).show()
 
@@ -29,5 +32,16 @@ $(function () {
         $(`#lyric-${this.id}`).show()
     })
 
+    /* Posición de información para responsive */
+    $(window).on('load resize', function () {
+        if ($(this).innerWidth() <= 991) {
+            $('#albums-song').insertAfter('#data-song')
+        } else {
+            
+            $('#video-albums-song').append($('#albums-song'))
+        }
+    })
+
+    /* Carousel (albumes) */
     $(window).on('load', carousel)
 })

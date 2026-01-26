@@ -57,9 +57,7 @@ export function filters() {
         }
     }
 
-    filterPosition()
-
-    $(window).on('resize', function () {
+    $(window).on('load resize', function () {
         filterPosition()
     });
 }

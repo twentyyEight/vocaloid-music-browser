@@ -4,7 +4,7 @@ export function carousel() {
     const prev = $('.bi-caret-left-fill')
     const next = $('.bi-caret-right-fill')
     const arrows = $('.bi-caret-left-fill, .bi-caret-right-fill')
-
+    
     // Color de las flechas
     function updateArrowsState() {
 
@@ -17,7 +17,9 @@ export function carousel() {
 
     // Aparición de las flechas
     function arrowsVisibility() {
-        if (container[0].scrollWidth <= totalContainer.width()) {
+        console.log(container[0].scrollWidth, $(window).width())
+
+        if (container[0].scrollWidth <= container[0].clientWidth || $(window).width() <= 992) {
             arrows.hide()
         }
         else {

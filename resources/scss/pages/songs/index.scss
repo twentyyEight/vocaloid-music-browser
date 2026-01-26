@@ -9,7 +9,7 @@
 #page-songs {
     display: grid;
     gap: 20px;
-    padding-inline: 50px;
+    padding-inline: 20px;
 
     #songs {
         display: grid;
@@ -45,6 +45,7 @@
 
 @media (min-width: 1200px) {
     #page-songs {
+        padding-inline: 50px;
         grid-template-columns: 25% 1fr;
 
         #songs {

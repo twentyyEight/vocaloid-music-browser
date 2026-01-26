@@ -12,24 +12,33 @@
 <div id="page-song">
 
     <div id="background">
+        @if ($song['img'])
         <img src="{{ $song['img'] }}" alt="">
+        @endif
     </div>
 
     <div id="container-song">
         <div id="video-albums-song">
 
+            @if ($song['pv'])
             <div id="video-song">
                 @if ($song['pv']['service'] === 'Youtube')
                 <iframe src="https://www.youtube.com/embed/{{ $song['pv']['url'] }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
-                @else
+                @elseif ($song['pv']['service'] === 'NicoNicoDouga')
                 <iframe src="https://embed.nicovideo.jp/watch/{{ $song['pv']['url'] }}" frameborder="0"></iframe>
                 @endif
             </div>
+            @else
+            <div id="no-video-song">
+                <i class="bi bi-camera-video-off-fill"></i>
+                <p>Video no disponible</p>
+            </div>
+            @endif
 
             @if ($song['albums'])
             <div id="albums-song">
-                <h4>Aparece en:</h4>
+                <h4>Albumes donde aparece:</h4>
                 <div id="container-albums">
                     <i class="bi bi-caret-left-fill"></i>
 
@@ -55,12 +64,15 @@
 
         <div id="data-song">
             <h1>{{ $song['name'] }}</h1>
-            <h4>{{ $song['artists'] }}</h4>
-            <h5>{{ $song['type'] }}</h5>
+            <h5 id="artists-song">{{ $song['artists'] }}</h5>
+            <h6 id="type-song">{{ $song['type'] }}</h6>
+            <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" />
 
             <div id="options-song">
                 <button type="button" id="btn-info-song">Información</button>
+                @if ($song['lyrics'])
                 <button type="button" id="btn-lyrics-song">Letra</button>
+                @endif
             </div>
 
             <div id="info-song">

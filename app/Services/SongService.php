@@ -36,7 +36,12 @@ class SongService
 
         foreach ($json['artists'] as $artist) {
 
-            if ($artist['artist']['artistType'] !== 'Illustrator' && $artist['artist']['artistType'] !== 'Animator' && $artist['categories'] !== 'Illustrator' && $artist['categories'] !== 'Animator') {
+            if (
+                $artist['artist']['artistType'] !== 'Illustrator'
+                && $artist['artist']['artistType'] !== 'Animator'
+                && $artist['categories'] !== 'Illustrator'
+                && $artist['categories'] !== 'Animator'
+            ) {
 
                 if ($artist['roles'] === 'Default') {
                     $roles = array_merge(
