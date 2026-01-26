@@ -12,7 +12,7 @@
 
     @vite([
     'resources/js/app.js',
-    'resources/js/app.css'
+    'resources/css/app.css'
     ])
 
     @stack('styles')
