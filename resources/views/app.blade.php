@@ -11,8 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Geologica:wght,CRSV@100..900,0&display=swap" rel="stylesheet">
 
     @vite([
-    'resources/js/app.js',
-    'resources/css/app.css'
+    'resources/js/app.js'
     ])
 
     @stack('styles')
@@ -27,7 +26,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse ms-auto" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,4 +66,5 @@
     </div>
 
 </body>
+
 </html>

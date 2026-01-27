@@ -2,10 +2,20 @@
 @use '../pagination';
 @use '/resources/scss/abstracts/variables' as *;
 
-.ui-widget {
-    background-color: #282828;
+.ui-widget.ui-widget-content {
+    background-color: #272727;
     color: white;
     border-radius: 10px;
+    padding-block: 5px;
+    width: min-content;
+
+    .ui-menu-item {
+        padding-left: 10px;
+        &:hover {
+            background-color: $color;
+            cursor: pointer;
+        }
+    }
 }
 
 form {
