@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test-mail', function () {
+    Mail::raw('Correo de prueba desde Railway', function ($msg) {
+        $msg->to('tu_correo@gmail.com')
+            ->subject('Test Gmail SMTP');
+    });
+
+    return 'Correo enviado';
+});
 
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
