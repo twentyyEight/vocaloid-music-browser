@@ -83,7 +83,3 @@
 
 <x-pagination :page="$page" :pages="$pages" />
 @endsection
-
-@push('scripts')
-@vite('resources/js/index.js')
-@endpush
