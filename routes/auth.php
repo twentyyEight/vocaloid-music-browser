@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/test-mail', function () {
     Mail::raw('Correo de prueba desde Railway', function ($msg) {
-        $msg->to('tu_correo@gmail.com')
+        $msg->to('paloma.cabrillana@gmail.com')
             ->subject('Test Gmail SMTP');
     });
 
