@@ -99,10 +99,6 @@
 @endif
 @endsection
 
-@push('styles')
-@vite(['resources/scss/pages/genres/show.scss'])
-@endpush
-
 @push('scripts')
 @vite('resources/js/genre.js')
 @endpush

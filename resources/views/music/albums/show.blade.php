@@ -97,10 +97,6 @@
 </div>
 @endsection
 
-@push('styles')
-@vite(['resources/scss/pages/albums/show.scss'])
-@endpush
-
 @push('scripts')
 @vite(['resources/js/album.js'])
 @endpush

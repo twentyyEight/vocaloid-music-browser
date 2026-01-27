@@ -89,10 +89,6 @@
 <x-pagination :page="$page" :pages="$pages" />
 @endsection
 
-@push('styles')
-@vite(['resources/scss/pages/songs/index.scss'])
-@endpush
-
 @push('scripts')
 @vite('resources/js/index.js')
 @endpush

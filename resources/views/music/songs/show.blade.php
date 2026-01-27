@@ -127,10 +127,6 @@
 
 @endsection
 
-@push('styles')
-@vite(['resources/scss/pages/songs/show.scss'])
-@endpush
-
 @push('scripts')
 @vite(['resources/js/song.js'])
 @endpush

@@ -103,10 +103,6 @@
 
 @endsection
 
-@push('styles')
-@vite(['resources/scss/pages/artists/index.scss'])
-@endpush
-
 @push('scripts')
 @vite('resources/js/index.js')
 @endpush

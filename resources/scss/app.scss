@@ -1,4 +1,11 @@
 @use 'components/navbar';
 @use 'base/base';
+@use 'pages/songs/index.scss' as *;
+@use 'pages/songs/show.scss' as *;
+@use 'pages/albums/index.scss' as *;
+@use 'pages/albums/show.scss' as *;
+@use 'pages/artists/index.scss' as *;
+@use 'pages/genres/index.scss' as *;
+@use 'pages/genres/show.scss' as *;
 
 @import "bootstrap-icons/font/bootstrap-icons.css";
