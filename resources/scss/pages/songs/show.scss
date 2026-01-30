@@ -108,12 +108,26 @@
         #info-song {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 20px;
 
             p {
                 display: flex;
                 justify-content: space-between;
                 width: 100%;
+            }
+
+            #original-song {
+                a {
+                    color: $color;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
+                p {
+                    color: #c7c7c7;
+                }
             }
 
             .credit {
@@ -139,11 +153,7 @@
                 margin-top: 5px;
 
                 a {
-                    background-color: $color;
-                    color: white;
-                    border-radius: 5px;
-                    padding: 3px 8px;
-                    white-space: nowrap;
+                    @include genres
                 }
             }
         }

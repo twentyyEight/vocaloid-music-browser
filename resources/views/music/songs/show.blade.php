@@ -12,8 +12,8 @@
 <div id="page-song">
 
     <div id="background">
-        @if ($song['img'])
-        <img src="{{ $song['img'] }}" alt="">
+        @if (isset($song['img']))
+        <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
         @endif
     </div>
 
@@ -78,9 +78,21 @@
             <div id="info-song">
                 <div>
                     <p><span class="label">Fecha de lanzamiento</span><span>{{ $song['date'] }}</span></p>
+                    @if ($song['duration'])
                     <p><span>Duración</span><span>{{ $song['duration'] }} min</span></p>
+                    @endif
+                    @if ($song['languages'])
                     <p><span>Idioma(s)</span><span>{{ implode(', ', $song['languages']) }}</span></p>
+                    @endif
                 </div>
+
+                @if ($song['original'])
+                <div id="original-song">
+                    <h5>Versión original</h5>
+                    <a href="{{ route('song.show', $song['original']['id']) }}">{{ $song['original']['name'] }}</a>
+                    <p>{{ $song['original']['artists'] }}</p>
+                </div>
+                @endif
 
                 <div>
                     <h5>Créditos</h5>

@@ -1,3 +1,5 @@
+@use './variables' as *;
+
 @mixin center {
     display: flex;
     align-items: center;
@@ -15,4 +17,20 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
+}
+
+@mixin genres {
+    background-color: $color;
+    color: white;
+    border-radius: 5px;
+    padding: 3px 8px;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: $color-hover;
+    }
+
+    &:active {
+        background-color: $color-click;
+    }
 }

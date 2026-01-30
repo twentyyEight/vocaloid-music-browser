@@ -1,4 +1,5 @@
 @use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/abstracts/mixins' as *;
 @use '/resources/scss/components/fav-btn';
 
 #page-album {
@@ -78,126 +79,181 @@
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
     #page-album {
         padding-block: 20px;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        align-items: start;
 
-        #info-album {
-            flex-direction: row;
-            gap: 10px;
-            width: 100%;
-            height: 65vh;
-            justify-content: center;
-            align-items: start;
+        #cover-links-album {
+            display: flex;
+            flex-direction: column;
+            align-items: end;
 
             img {
                 border: 1px solid #545454;
                 background-color: #353535;
                 padding: 5px;
-                height: 100%;
-
+                margin-bottom: 0;
+                height: 60vh;
+                margin-bottom: 10px;
             }
 
-            #data-album {
-                width: 50vw;
+            #container-links-album {
                 border: 1px solid #545454;
                 background-color: #353535;
                 padding: 10px;
-                padding-bottom: 0;
+                margin-top: 10px;
                 border-radius: 5px;
-                height: fit-content;
+                width: 60vh;
 
-                h1 {
-                    font-size: 2em;
-                }
+                #links-album {
+                    margin-top: 10px;
 
-                h2 {
-                    font-size: 1.5em;
-                }
-
-                #options-album {
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-block: 10px;
-                    border-bottom: 1px solid #545454;
-
-                    button {
-                        width: 100%;
-                        text-align: center;
-                        padding-bottom: 4px;
-
-                        &:hover {
-                            background-color: #5454547a;
-                        }
-                    }
-                }
-
-                #tracks {
-                    margin-block: 0;
-                    height: 100%;
-                    overflow: hidden;
-                    width: 100%;
-
-                    #btns-discs {
-                        display: flex;
-                        gap: 10px;
-                        margin-bottom: 10px;
-
-                        button {
-                            padding: 5px 10px;
-                            border-radius: 5px;
-                            border: 1px solid #545454;
-
-                            &:hover {
-                                background-color: #54545484;
-                            }
-                        }
-                    }
-
-                    ol {
-                        counter-reset: track;
-                        padding-left: 0;
-                        display: none;
-
-                        li {
-                            counter-increment: track;
-                            background-color: #262626;
-                            border-radius: 5px;
-                            padding: 5px;
-                            position: relative;
-                            padding-left: 40px;
-                            margin-bottom: 5px;
-
-                            &::before {
-                                content: counter(track) ".";
-                                position: absolute;
-                                left: 15px;
-                            }
-                        }
-                    }
-
-                }
-
-                #video-album {
-                    aspect-ratio: 16/9;
-
-                    iframe {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
+                    a {
+                        color: white;
+                        padding: 5px 10px;
                         border-radius: 5px;
+                        display: flex;
+                        margin-bottom: 8px;
+                        font-weight: 400;
+                        gap: 5px;
+                        border: 1px solid #545454;
+                        justify-content: center;
                     }
                 }
             }
         }
 
-        #tracks-video-album {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: 10px;
-            gap: 10px;
+        #data-album {
+            width: 50vw;
+            border: 1px solid #545454;
+            background-color: #353535;
+            padding: 10px;
+            padding-bottom: 0;
+            border-radius: 5px;
+            height: fit-content;
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            #genres-album {
+                margin-top: 10px;
+                margin-bottom: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+
+                a {
+                    @include genres;
+                }
+            }
+
+            #options-album {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-block: 10px;
+                border-bottom: 1px solid #545454;
+
+                button {
+                    width: 100%;
+                    text-align: center;
+                    padding-bottom: 4px;
+
+                    &:hover {
+                        background-color: #5454547a;
+                    }
+                }
+
+                #btn-tracks-album {
+                    border-bottom: 2px solid $color;
+                }
+            }
+
+            #tracks {
+                margin-block: 0;
+                height: 100%;
+                overflow: hidden;
+                width: 100%;
+
+                #btns-discs {
+                    display: flex;
+                    gap: 10px;
+                    margin-bottom: 10px;
+
+                    button {
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        border: 1px solid #545454;
+
+                        &:hover {
+                            background-color: #54545484;
+                        }
+                    }
+                }
+
+                ol {
+                    counter-reset: track;
+                    padding-left: 0;
+                    display: none;
+
+                    li {
+                        counter-increment: track;
+                        background-color: #262626;
+                        border-radius: 5px;
+                        padding: 5px;
+                        position: relative;
+                        padding-left: 40px;
+                        padding-right: 20px;
+                        margin-bottom: 5px;
+
+                        &::before {
+                            content: counter(track) ".";
+                            position: absolute;
+                            left: 15px;
+                        }
+
+                        a {
+                            cursor: default;
+
+                            p {
+                                display: flex;
+                                width: 100%;
+                                justify-content: space-between;
+
+                                .name-track {
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        text-decoration: underline;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            #video-album {
+                aspect-ratio: 16/9;
+                display: none;
+
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
         }
     }
 }

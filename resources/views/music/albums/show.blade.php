@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-<div id="page-album">
+<div class="page" data-page="album" id="page-album">
     @if(session('success'))
     <p>{{ session('success') }}</p>
     @endif
@@ -10,66 +10,81 @@
     <p>{{ session('error') }}</p>
     @endif
 
-    <div id="info-album">
+    <div id="cover-links-album">
+        <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" />
+        
+        @if ($album['img'])
         <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
+        @endif
 
-        <div id="data-album">
-            <h1>{{ $album['name'] }}</h1>
-            <h2>{{ $album['artists'] }}</h2>
-            <p>{{ $album['type'] }}</p>
-
-            @if ($album['genres'])
-            <div>
-                @foreach ($album['genres'] as $genre)
-                <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
+        @if ($album['links'])
+        <div id="container-links-album">
+            <h5>Escucha o compra este álbum:</h5>
+            <div id="links-album">
+                @foreach ($album['links'] as $link)
+                <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
                 @endforeach
             </div>
-            @endif
+        </div>
+        @endif
+    </div>
 
-            <div id="options-album">
-                <button>Tracks</button>
-                <button>Video promocional</button>
-            </div>
+    <div id="data-album">
+        <h1>{{ $album['name'] }}</h1>
+        <h2>{{ $album['artists'] }}</h2>
+        <p>{{ $album['type'] }}</p>
 
-            @if ($album['tracks'])
-            <div id="tracks">
-                <div id="btns-discs">
-                    @foreach ($album['tracks'] as $disc)
-                    <button id="disc-{{ $loop->iteration }}" class="btn-tracks">Disco {{ $loop->iteration }}</button>
-                    @endforeach
-                </div>
+        @if ($album['genres'])
+        <div id="genres-album">
+            @foreach ($album['genres'] as $genre)
+            <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>
+            @endforeach
+        </div>
+        @endif
 
+        <div id="options-album">
+            <button type="button" id="btn-tracks-album">Tracks</button>
+            <button type="button" id="btn-video-album">Video promocional</button>
+        </div>
+
+        @if ($album['tracks'])
+        <div id="tracks">
+            <div id="btns-discs">
                 @foreach ($album['tracks'] as $disc)
-                <ol type="1" id="tracks-disc-{{ $loop->iteration }}" class="tracks-disc">
-                    @foreach ($disc as $track)
-                    @if ($track['id'])
-                    <li>
-                        <a href="{{ route('song.show', $track['id']) }}">
-                            {{ $track['name'] }}
-                            <br>
-                            <span class="track-artist">{{ $track['artists'] }}</span>
-                        </a>
-                    </li>
-                    @endif
-                    @endforeach
-                </ol>
+                <button id="disc-{{ $loop->iteration }}" class="btn-tracks">Disco {{ $loop->iteration }}</button>
                 @endforeach
             </div>
-            @endif
 
-            <!-- @if ($album['pv'])
-            <div id="video-album">
-                @if ($album['pv']['service'] === 'NicoNicoDouga')
-                <iframe src="https://embed.nicovideo.jp/watch/{{ $album['pv']['url'] }}" frameborder="0"></iframe>
-                @else
-                <iframe src="https://www.youtube.com/embed/{{ $album['pv']['url'] }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            @foreach ($album['tracks'] as $disc)
+            <ol type="1" id="tracks-disc-{{ $loop->iteration }}" class="tracks-disc">
+                @foreach ($disc as $track)
+                @if ($track['id'])
+                <li>
+                    <a href="{{ route('song.show', $track['id']) }}">
+                        <p><span class="name-track">{{ $track['name'] }}</span><span>{{ $track['duration'] }}</span></p>
+                        <span class="track-artist">{{ $track['artists'] }}</span>
+                    </a>
+                </li>
                 @endif
-            </div>
-            @endif -->
+                @endforeach
+            </ol>
+            @endforeach
+        </div>
+        @endif
 
-            <div id="btns-album">
-                @if ($album['links'])
-                <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#linksModal" id="btn-links">
+        @if ($album['pv'])
+        <div id="video-album">
+            @if ($album['pv']['service'] === 'NicoNicoDouga')
+            <iframe src="https://embed.nicovideo.jp/watch/{{ $album['pv']['url'] }}" frameborder="0"></iframe>
+            @else
+            <iframe src="https://www.youtube.com/embed/{{ $album['pv']['url'] }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            @endif
+        </div>
+        @endif
+
+        <div id="btns-album">
+            @if ($album['links'])
+            <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#linksModal" id="btn-links">
                     Escúchalo o cómpralo
                 </button>
 
@@ -88,10 +103,7 @@
                         </div>
                     </div>
                 </div> -->
-                @endif
-
-                <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" />
-            </div>
+            @endif
         </div>
     </div>
 </div>

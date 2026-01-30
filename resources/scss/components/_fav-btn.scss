@@ -1,15 +1,11 @@
 @mixin btn-fav {
     color: white;
-    //padding: 7px 20px;
     display: flex;
     justify-content: center;
     gap: 10px;
     border-radius: 5px;
-    width: 100%;
-
-    @media (min-width: 992px) {
-        //padding: 5px;
-    }
+    width: fit-content;
+    padding: 7px;
 }
 
 .fav {

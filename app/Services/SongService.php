@@ -19,6 +19,20 @@ class SongService
 
         $json = $response->json();
 
+        $original = null;
+        if (isset($json['originalVersionId'])) {
+
+            $originalId = $json['originalVersionId'];
+            $res = Http::get("https://vocadb.net/api/songs/{$originalId}", ['lang' => 'Romaji']);
+            $json_original = $res->json();
+
+            $original = [
+                'id' => $originalId,
+                'name' => $json_original['name'],
+                'artists' => $json_original['artistString']
+            ];
+        }
+
         // Tipo de canción
         $type = null;
         switch ($json['songType']) {
@@ -202,7 +216,8 @@ class SongService
             'pv' => $video ?? null,
             'duration' => $format ?? null,
             'languages' => $langs,
-            'lyrics' => $lyrics
+            'lyrics' => $lyrics,
+            'original' => $original
         ];
     }
 

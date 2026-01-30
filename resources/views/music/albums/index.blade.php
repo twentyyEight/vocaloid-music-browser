@@ -6,7 +6,7 @@
     <p>{{ $total }} resultados</p>
 </div>
 
-<div id="page-albums">
+<div class="page" data-page="index" id="page-albums">
     <form action="{{ route('album.index') }}" method="GET" id="form">
 
         <div id="controls">

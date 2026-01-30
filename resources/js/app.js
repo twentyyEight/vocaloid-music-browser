@@ -10,6 +10,15 @@ import './bootstrap';
 import 'jquery-ui/dist/jquery-ui';
 
 // JS
-import './index'
-import './song'
-import './album'
+$(function () {
+
+    const page = $('.page').data('page')
+
+    const pages = {
+        index: () => import('./index'),
+        song: () => import('./song'),
+        album: () => import('./album'),
+    }
+
+    pages[page]?.()
+})

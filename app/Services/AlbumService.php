@@ -53,7 +53,11 @@ class AlbumService
         // Links para escuchar y/o comprar album
         $links = [];
         foreach ($json['webLinks'] as $link) {
-            if ($link['category'] == 'Commercial' && !$link['disabled']) {
+            if (
+                !$link['disabled'] &&
+                ($link['category'] == 'Commercial' || $link['category'] == 'Official')
+                && ($link['description'] !== 'Website' && $link['description'] !== 'Pixiv')
+            ) {
                 $links[] = [
                     'name' => $link['description'],
                     'url' => $link['url']
@@ -76,7 +80,8 @@ class AlbumService
                 'id' => $track['song']['id'] ?? null,
                 'name' => $track['name'],
                 'artists' => $track['song']["artistString"] ?? null,
-                'duration' => $duration
+                'duration' => $duration,
+                'type' => $track['song']['songType']
             ];
         }
 
