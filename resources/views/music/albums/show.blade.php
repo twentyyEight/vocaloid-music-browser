@@ -11,16 +11,42 @@
     @endif
 
     <div id="cover-links-album">
-        <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" />
-        
+        <!-- <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" /> -->
+
         @if ($album['img'])
         <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
         @endif
 
+        <div id="btns-album">
+            <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" />
+
+            @if ($album['links'])
+            <button type="button" data-bs-toggle="modal" data-bs-target="#linksModal" id="btn-links">
+                Escucha o compra el álbum
+            </button>
+
+            <div class="modal fade" id="linksModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Escucha o compra el álbum en:</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body links-album">
+                            @foreach ($album['links'] as $link)
+                            <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+
         @if ($album['links'])
         <div id="container-links-album">
             <h5>Escucha o compra este álbum:</h5>
-            <div id="links-album">
+            <div class="links-album">
                 @foreach ($album['links'] as $link)
                 <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
                 @endforeach
@@ -62,7 +88,7 @@
                 <li>
                     <a href="{{ route('song.show', $track['id']) }}">
                         <p><span class="name-track">{{ $track['name'] }}</span><span>{{ $track['duration'] }}</span></p>
-                        <span class="track-artist">{{ $track['artists'] }}</span>
+                        <p class="track-artist">{{ $track['artists'] }}</p>
                     </a>
                 </li>
                 @endif
@@ -81,30 +107,6 @@
             @endif
         </div>
         @endif
-
-        <div id="btns-album">
-            @if ($album['links'])
-            <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#linksModal" id="btn-links">
-                    Escúchalo o cómpralo
-                </button>
-
-                <div class="modal fade" id="linksModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Escucha o compra en:</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                @foreach ($album['links'] as $link)
-                                <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-            @endif
-        </div>
     </div>
 </div>
 @endsection

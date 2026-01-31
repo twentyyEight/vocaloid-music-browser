@@ -7,44 +7,44 @@
     flex-direction: column;
     padding: 20px;
 
-    #info-album {
+    #cover-links-album {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #545454;
+            background-color: #353535;
+            padding: 5px;
+        }
+
+        #btns-album {
+            display: flex;
+            width: 100%;
+            margin-bottom: 10px;
+
+            .fav,
+            .delete-fav {
+                width: 50%;
+            }
+
+            #btn-links {
+                border-radius: 5px;
+                border: 1px solid white;
+                padding: 7px;
+                flex: 1;
+            }
+        }
 
         .modal-content {
             background-color: #353535;
 
             .btn-close {
                 filter: invert(1);
-            }
-        }
-
-        img {
-            height: 50vh;
-            width: fit-content;
-            align-items: center;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-
-        #data-album {
-
-            h2 {
-                color: #afafaf;
-                font-weight: 400;
-            }
-
-            #album-type {
-                font-weight: 600;
-            }
-
-            #btn-links {
-                background-color: $color;
-                width: 100%;
-                border-radius: 5px;
-                color: white;
-                padding-block: 4px;
-                margin-bottom: 8px;
             }
 
             .modal-header {
@@ -56,27 +56,156 @@
                 display: flex;
                 flex-direction: column;
                 text-align: center;
-            }
 
+                a {
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    display: flex;
+                    margin-bottom: 8px;
+                    font-weight: 400;
+                    gap: 5px;
+                    border: 1px solid #545454;
+                    justify-content: center;
+                }
+            }
+        }
+
+        #container-links-album {
+            display: none;
         }
     }
 
-    #tracks {
-        margin-block: 15px;
+    #data-album {
 
-        a {
-            color: white;
+        h2 {
+            color: #afafaf;
+            font-weight: 400;
+        }
 
-            .track-artist {
-                color: #afafaf;
+        #genres-album {
+            margin-top: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            a {
+                @include genres;
             }
         }
+
+        #options-album {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-block: 5px;
+            border-bottom: 1px solid #545454;
+
+            button {
+                width: 100%;
+                text-align: center;
+                padding-bottom: 4px;
+
+                &:hover {
+                    background-color: #5454547a;
+                }
+            }
+
+            #btn-tracks-album {
+                border-bottom: 2px solid $color;
+            }
+        }
+
+        #tracks {
+            margin-block: 0;
+            height: 100%;
+            overflow: hidden;
+            width: 100%;
+            border: 1px solid #545454;
+            background-color: #353535;
+            padding: 10px;
+            padding-bottom: 0;
+            border-radius: 5px;
+
+            #btns-discs {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 10px;
+
+                button {
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    border: 1px solid #545454;
+
+                    &:hover {
+                        background-color: #54545484;
+                    }
+                }
+            }
+
+            ol {
+                counter-reset: track;
+                padding-left: 0;
+                display: none;
+
+                li {
+                    counter-increment: track;
+                    background-color: #262626;
+                    border-radius: 5px;
+                    padding: 5px;
+                    position: relative;
+                    padding-left: 40px;
+                    padding-right: 20px;
+                    margin-bottom: 5px;
+                    overflow: hidden;
+
+                    &::before {
+                        content: counter(track) ".";
+                        position: absolute;
+                        left: 15px;
+                    }
+
+                    a {
+                        cursor: default;
+
+                        p {
+                            display: flex;
+                            width: 100%;
+                            justify-content: space-between;
+
+                            .name-track {
+                                cursor: pointer;
+
+                                &:hover {
+                                    text-decoration: underline;
+                                }
+                            }
+                        }
+
+                        .track-artist {
+                            color: #afafaf;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        #video-album {
+            aspect-ratio: 16/9;
+            display: none;
+
+            iframe {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 5px;
+            }
+        }
+
     }
 
-    iframe {
-        width: 100%;
-        height: 100%;
-    }
 }
 
 @media (min-width: 992px) {
@@ -92,24 +221,30 @@
             flex-direction: column;
             align-items: end;
 
+            .fav,
+            .delete-fav {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
             img {
-                border: 1px solid #545454;
-                background-color: #353535;
-                padding: 5px;
                 margin-bottom: 0;
                 height: 60vh;
-                margin-bottom: 10px;
+            }
+
+            #btn-links, #linksModal {
+                display: none;
             }
 
             #container-links-album {
                 border: 1px solid #545454;
                 background-color: #353535;
                 padding: 10px;
-                margin-top: 10px;
                 border-radius: 5px;
-                width: 60vh;
+                width: 61vh;
+                display: block;
 
-                #links-album {
+                .links-album {
                     margin-top: 10px;
 
                     a {
@@ -144,116 +279,9 @@
                 font-size: 1.5em;
             }
 
-            #genres-album {
-                margin-top: 10px;
-                margin-bottom: 15px;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 5px;
+            #genres-album {}
 
-                a {
-                    @include genres;
-                }
-            }
-
-            #options-album {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                margin-block: 10px;
-                border-bottom: 1px solid #545454;
-
-                button {
-                    width: 100%;
-                    text-align: center;
-                    padding-bottom: 4px;
-
-                    &:hover {
-                        background-color: #5454547a;
-                    }
-                }
-
-                #btn-tracks-album {
-                    border-bottom: 2px solid $color;
-                }
-            }
-
-            #tracks {
-                margin-block: 0;
-                height: 100%;
-                overflow: hidden;
-                width: 100%;
-
-                #btns-discs {
-                    display: flex;
-                    gap: 10px;
-                    margin-bottom: 10px;
-
-                    button {
-                        padding: 5px 10px;
-                        border-radius: 5px;
-                        border: 1px solid #545454;
-
-                        &:hover {
-                            background-color: #54545484;
-                        }
-                    }
-                }
-
-                ol {
-                    counter-reset: track;
-                    padding-left: 0;
-                    display: none;
-
-                    li {
-                        counter-increment: track;
-                        background-color: #262626;
-                        border-radius: 5px;
-                        padding: 5px;
-                        position: relative;
-                        padding-left: 40px;
-                        padding-right: 20px;
-                        margin-bottom: 5px;
-
-                        &::before {
-                            content: counter(track) ".";
-                            position: absolute;
-                            left: 15px;
-                        }
-
-                        a {
-                            cursor: default;
-
-                            p {
-                                display: flex;
-                                width: 100%;
-                                justify-content: space-between;
-
-                                .name-track {
-                                    cursor: pointer;
-
-                                    &:hover {
-                                        text-decoration: underline;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            #video-album {
-                aspect-ratio: 16/9;
-                display: none;
-
-                iframe {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 5px;
-                }
-            }
+            #options-album {}
         }
     }
 }

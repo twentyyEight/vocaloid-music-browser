@@ -3,24 +3,35 @@ import { links } from "./modules/links";
 $(function () {
 
     // Color y logos de links
-    Object.values($('#links-album')[0]?.children).forEach(link => {
+    $('.links-album').each(function () {
 
-        const link_name = link.innerText
+        Array.from(this.children).forEach(link => {
+            const link_name = link.innerText
 
-        const match = links.find(l =>
-            l.name.toLowerCase() === link_name.toLowerCase()
-            ||
-            link_name.toLowerCase().includes(l.name.toLowerCase())
-        )
+            const match = links.find(l =>
+                l.name.toLowerCase() === link_name.toLowerCase()
+                || link_name.toLowerCase().includes(l.name.toLowerCase())
+            )
 
-        if (match) {
-            $(link).css({
-                backgroundColor: match.background,
-                color: match.color
-            })
-            $(link).prepend(match.icon)
+            if (match) {
+                $(link).css({
+                    backgroundColor: match.background,
+                    color: match.color
+                })
+                $(link).prepend(match.icon)
+            }
+        })
+    })
+
+    // Mover btn 'fav'
+    $(window).on('load resize', function () {
+        if ($(this).innerWidth() > 992) {
+            $('.fav, .delete.fav').prependTo('#cover-links-album')
+        } else {
+            $('.fav, .delete.fav').prependTo('#btns-album')
         }
-    });
+    })
+
 
     function toggleSection(activeBtn, activeSection, inactiveBtn, inactiveSection) {
         $(activeSection).show()
