@@ -14,9 +14,11 @@
     <div>
         <div class="header">
             <h2>Canciones del género</h2>
-            <a href="{{ route('song.index', ['genres[]' => $genre['id']])}}" target="_blank">Ver más</a>
+            <a href="{{ route('song.index', ['genres[]' => $genre['id']])}}" target="_blank">
+                Ver más
+                <i class="bi bi-plus"></i>
+            </a>
         </div>
-        <div class="line"></div>
 
         <div id="songs-genre">
             @foreach ($genre['songs'] as $song)
@@ -44,9 +46,11 @@
     <div>
         <div class="header">
             <h2>Artistas del género</h2>
-            <a href="{{ route('artist.index', ['genres[]' => $genre['id']]) }}" target="_blank">Ver más</a>
+            <a href="{{ route('artist.index', ['genres[]' => $genre['id']]) }}" target="_blank">
+                Ver más
+                <i class="bi bi-plus"></i>
+            </a>
         </div>
-        <div class="line"></div>
 
         <div id="artists-genre">
             @foreach ($genre['artists'] as $artist)
@@ -71,9 +75,11 @@
     <div>
         <div class="header">
             <h2>Álbumes del género</h2>
-            <a href="{{ route('album.index', ['genres[]' => $genre['id']]) }}" target="_blank">Ver más</a>
+            <a href="{{ route('album.index', ['genres[]' => $genre['id']]) }}" target="_blank">
+                Ver más
+                <i class="bi bi-plus"></i>
+            </a>
         </div>
-        <div class="line"></div>
 
         <div id="albums-genre">
             @foreach ($genre['albums'] as $album)

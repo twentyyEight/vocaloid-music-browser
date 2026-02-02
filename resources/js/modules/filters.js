@@ -44,7 +44,7 @@ export function filters() {
 
     // Maneja la posición de los filtros en moviles y pc
     function filterPosition() {
-        if ($(window).width() >= 992) {
+        if ($(window).width() >= 768) {
             $('#open_filters, .btn-close').hide()
             $('.modal-header').insertBefore('#controls')
             $('#filtersModal')
@@ -57,7 +57,9 @@ export function filters() {
         }
     }
 
-    $(window).on('load resize', function () {
+    filterPosition()
+
+    $(window).on('resize', function () {
         filterPosition()
     });
 }

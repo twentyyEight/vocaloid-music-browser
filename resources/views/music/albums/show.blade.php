@@ -11,7 +11,6 @@
     @endif
 
     <div id="cover-links-album">
-        <!-- <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" /> -->
 
         @if ($album['img'])
         <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">

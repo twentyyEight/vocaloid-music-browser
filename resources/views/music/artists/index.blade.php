@@ -4,9 +4,8 @@
 
 <div class="title-page">
     <h1>ARTISTAS</h1>
-    <p>{{ $total }} resultados</p>
 </div>
-<div id="container">
+<div id="page-artists" data-page="index" class="page">
     <form action="{{ route('artist.index') }}" method="GET" id="form">
 
         <div id="controls">

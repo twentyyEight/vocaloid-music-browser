@@ -8,13 +8,21 @@ class ArtistService
 {
     public function getArtistById($id)
     {
-        $response = Http::get("https://vocadb.net/api/artists/{$id}?fields=Description,MainPicture,Tags,WebLinks&relations=PopularAlbums,PopularSongs&lang=Romaji");
+        $response = Http::get(
+            "https://vocadb.net/api/artists/{$id}",
+            [
+                'fields' => 'Description,MainPicture,Tags,WebLinks',
+                'relations' => 'PopularAlbums,PopularSongs,LatestAlbums,LatestSongs',
+                'lang' => 'Romaji'
+            ]
+        );
         $json = $response->json();
 
         if ($response->failed() || !$response->json()) {
             abort(500, 'Error al obtener datos');
         }
 
+        // Generos
         $genres = [];
         foreach ($json['tags'] as $t) {
             $tag = $t['tag'];
@@ -27,28 +35,51 @@ class ArtistService
             }
         }
 
-        $popularAlbums = [];
+        // Álbumes populares
+        $popular_albums = [];
         foreach ($json['relations']['popularAlbums'] as $album) {
-            $popularAlbums[] = [
+            $popular_albums[] = [
                 'name' => $album['name'],
-                'img' => $album['mainPicture']['urlThumb'],
+                'img' => $album['mainPicture']['urlOriginal'] ?? null,
                 'id' => $album['id']
             ];
         }
 
-        $popularSongs = [];
+        // Albumes recientes
+        $latest_albums = [];
+        foreach ($json['relations']['latestAlbums'] as $album) {
+            $latest_albums[] = [
+                'name' => $album['name'],
+                'img' => $album['mainPicture']['urlOriginal'] ?? null,
+                'id' => $album['id']
+            ];
+        }
+
+        // Canciones populares
+        $popular_songs = [];
         foreach ($json['relations']['popularSongs'] as $song) {
-            $popularSongs[] = [
+            $popular_songs[] = [
                 'name' => $song['name'],
-                'img' => $song['mainPicture']['urlThumb'],
+                'img' => $song['mainPicture']['urlOriginal'] ?? null,
                 'id' => $song['id']
             ];
         }
 
+        // Canciones recientes
+        $latest_songs = [];
+        foreach ($json['relations']['latestSongs'] as $song) {
+            $latest_songs[] = [
+                'name' => $song['name'],
+                'img' => $song['mainPicture']['urlOriginal'] ?? null,
+                'id' => $song['id']
+            ];
+        }
+
+        // Redes sociales
         $links = [];
         foreach ($json['webLinks'] as $link) {
 
-            if ($link['category'] == 'Official') {
+            if ($link['category'] == 'Official' || $link['category'] == 'Commercial') {
 
                 $links[] = [
                     'name' => $link['description'],
@@ -61,11 +92,13 @@ class ArtistService
             'id' => $json['id'] ?? null,
             'name' => $json['name'] ?? null,
             'type' => $json['artistType'] ?? null,
-            'description' => $json['description'] ?? null,
             'img' => $json['mainPicture']['urlThumb'] ?? null,
             'genres' => empty($genres) ? null : $genres,
-            'songs' => empty($popularSongs) ? null : $popularSongs,
-            'albums' => empty($popularAlbums) ? null : $popularAlbums
+            'popular_songs' => empty($popular_songs) ? null : $popular_songs,
+            'latest_songs' => empty($latest_songs) ? null : $latest_songs,
+            'popular_albums' => empty($popular_albums) ? null : $popular_albums,
+            'latest_albums' => empty($latest_albums) ? null : $latest_albums, 
+            'links' => empty($links) ? null : $links
         ];
     }
 

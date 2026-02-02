@@ -5,18 +5,10 @@
 @use '/resources/scss/components/cards/card-artist';
 @use '/resources/scss/components/title-page';
 
-#container {
+#page-artists {
     display: grid;
-    padding-inline: 50px;
+    padding-inline: 30px;
     gap: 20px;
-
-    @media (min-width: 992px) {
-        grid-template-columns: 25% 1fr;
-    }
-
-    @media (min-width: 1410px) {
-        grid-template-columns: 20% 1fr;
-    }
 
     #switch-type {
         background-color: $gray;
@@ -75,18 +67,6 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
 
-        @media (min-width: 576px) {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        @media (min-width: 768px) {
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-        }
-
-        @media (min-width: 1200px) {
-            grid-template-columns: repeat(7, minmax(0, 1fr));
-        }
-
         .img-container {
 
             img {
@@ -101,6 +81,45 @@
             margin-top: 3px;
             text-align: center;
             font-weight: 400;
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    #page-artists {
+        #artists {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    #page-artists {
+        grid-template-columns: 35% 1fr;
+
+        #artists {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    #page-artists {
+        padding-inline: 50px;
+        grid-template-columns: 30% 1fr;
+
+        #artists {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    #page-artists {
+        grid-template-columns: 25% 1fr;
+
+        #artists {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
         }
     }
 }

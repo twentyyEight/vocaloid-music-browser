@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $artist['name'] }}</title>
-</head>
-
-<body>
-
+@section('content')
+<div class="page" data-page="artist" id="page-artist">
     @if(session('success'))
     <p>{{ session('success') }}</p>
     @endif
@@ -18,52 +10,150 @@
     <p>{{ session('error') }}</p>
     @endif
 
-    @auth
-    @if (!$isFavorite)
-    <form action="{{ route('artist.store', $artist['id']) }}" method="POST">
-        @csrf
-        <button type="submit">Agregar a favoritos</button>
-    </form>
-    @else
-    <form action="{{ route('artist.delete', $artist['id']) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit">Eliminar de favoritos</button>
-    </form>
-    @endif
-    @endauth
+    <div id="info-artist">
+        <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
 
-    <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
-    <h1>{{ $artist['name'] }}</h1>
-    <h3>{{ $artist['type'] }}</h3>
-    <p>{{ $artist['description'] }}</p>
+        <h3>{{ $artist['name'] }}</h3>
+        <h4 id="type-artist">{{ $artist['type'] }}</h4>
 
-    @if ($artist['genres'])
-    <div>
-        @foreach ($artist['genres'] as $genre)
-        <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
-        @endforeach
+        <div id="btns-artist">
+            <x-favorite-btn entity="artist" :id="$artist['id']" :isFavorite="$isFavorite" />
+            <button id="btn-links-artist" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Redes sociales
+            </button>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Sigue a {{ $artist['name'] }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="links-artist">
+                        @foreach($artist['links'] as $link)
+                        <a href="{{ $link['url'] }}">{{ $link['name'] }}</a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if ($artist['genres'])
+        <h5>Géneros</h5>
+        <div id="genres-artist">
+            @foreach ($artist['genres'] as $genre)
+            <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last), @endif
+            @endforeach
+        </div>
+        @endif
     </div>
-    @endif
 
-    @if ($artist['songs'])
-    <div>
-        @foreach ($artist['songs'] as $song)
-        <a href="{{ route('song.show', $song['id']) }}">{{ $song['name'] }}</a>
-        @endforeach
+    <div id="music-artist">
+
+        <div class="header">
+            <h4>Canciones</h4>
+
+            <div class="switch">
+                <div class="switch-indicator-songs"></div>
+
+                <button type="button" class="songs popular">Populares</button>
+                <button type="button" class="songs latest">Recientes</button>
+            </div>
+        </div>
+
+        <div id="songs-artist">
+
+            <div class="songs popular">
+                @foreach (array_chunk($artist['popular_songs'], 4) as $group)
+                <div class="songs-row">
+                    @foreach ($group as $song)
+                    <div class="card-song">
+                        @if (!empty($song['img']))
+                        <div class="img-container">
+                            <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
+                        </div>
+                        @endif
+
+                        <a href="{{ route('song.show', $song['id']) }}">
+                            {{ $song['name'] }}
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+                @endforeach
+            </div>
+
+            <div class="songs latest">
+                @foreach (array_chunk($artist['latest_songs'], 4) as $group)
+                <div class="songs-row">
+                    @foreach ($group as $song)
+                    <div class="card-song">
+                        <div class="img-container">
+                            @if (!empty($song['img']))
+                            <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
+                            @else
+                            <x-carbon-no-image class="no-img" />
+                            @endif
+                        </div>
+
+                        <a href="{{ route('song.show', $song['id']) }}">
+                            {{ $song['name'] }}
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="header">
+            <h4>Albumes</h4>
+
+            <div class="switch">
+                <div class="switch-indicator-albums"></div>
+
+                <button type="button" class="albums popular">Populares</button>
+                <button type="button" class="albums latest">Recientes</button>
+            </div>
+        </div>
+
+        <div id="albums-artist">
+
+            <div class="albums popular">
+                @foreach ($artist['popular_albums'] as $album)
+                <div class="card-album">
+                    @if (!empty($album['img']))
+                    <div class="img-container">
+                        <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
+                    </div>
+                    @endif
+
+                    <a href="{{ route('album.show', $album['id']) }}">
+                        {{ $album['name'] }}
+                    </a>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="albums latest">
+                @foreach ($artist['latest_albums'] as $album)
+                <div class="card-album">
+                    @if (!empty($album['img']))
+                    <div class="img-container">
+                        <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
+                    </div>
+                    @endif
+
+                    <a href="{{ route('album.show', $album['id']) }}">
+                        {{ $album['name'] }}
+                    </a>
+                </div>
+                @endforeach
+            </div>
+        </div>
     </div>
-    @endif
 
-    @if ($artist['albums'])
-    <div>
-        @foreach ($artist['albums'] as $album)
-        <a href="{{ route('album.show', $album['id']) }}">
-            <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
-            <p>{{ $album['name'] }}</p>
-        </a>
-        @endforeach
-    </div>
-    @endif
-</body>
-
-</html>
+</div>
+</div>
+@endsection

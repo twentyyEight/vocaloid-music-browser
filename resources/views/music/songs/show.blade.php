@@ -66,7 +66,7 @@
             <h1>{{ $song['name'] }}</h1>
             <h5 id="artists-song">{{ $song['artists'] }}</h5>
             <h6 id="type-song">{{ $song['type'] }}</h6>
-            <x-favorite-btn entity="album" :id="$album['id']" :isFavorite="$isFavorite" />
+            <x-favorite-btn entity="song" :id="$song['id']" :isFavorite="$isFavorite" />
 
             <div id="options-song">
                 <button type="button" id="btn-info-song">Información</button>

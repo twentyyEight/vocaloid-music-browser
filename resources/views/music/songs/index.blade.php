@@ -5,7 +5,7 @@
     <h1>CANCIONES</h1>
 </div>
 
-<div id="page-songs">
+<div id="page-songs" class="page" data-page="index">
 
     <!-- Filtros -->
     <form action="{{ route('song.index') }}" method="GET" id="form">

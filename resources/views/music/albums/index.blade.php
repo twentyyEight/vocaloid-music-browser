@@ -3,7 +3,6 @@
 @section('content')
 <div class="title-page">
     <h1>ALBUMES</h1>
-    <p>{{ $total }} resultados</p>
 </div>
 
 <div class="page" data-page="index" id="page-albums">
@@ -22,7 +21,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title">Filtros</h5>
+                        <h4 class="modal-title">Filtros</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 

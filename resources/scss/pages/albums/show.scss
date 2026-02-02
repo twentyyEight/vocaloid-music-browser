@@ -230,6 +230,7 @@
             img {
                 margin-bottom: 0;
                 height: 60vh;
+                width: fit-content;
             }
 
             #btn-links, #linksModal {
@@ -241,7 +242,6 @@
                 background-color: #353535;
                 padding: 10px;
                 border-radius: 5px;
-                width: 61vh;
                 display: block;
 
                 .links-album {
@@ -279,9 +279,11 @@
                 font-size: 1.5em;
             }
 
-            #genres-album {}
-
-            #options-album {}
+            #tracks {
+                border: 0;
+                padding: 0;
+                margin-top: 10px;
+            }
         }
     }
 }
