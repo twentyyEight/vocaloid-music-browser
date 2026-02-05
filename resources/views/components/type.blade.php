@@ -18,7 +18,6 @@
                 value="{{ $option['value'] }}"
                 {{ $value == $option['value'] ? 'selected' : '' }}
 
-
                 @if (!empty($option['data']))
                 data-type="{{ $option['data'] }}"
                 @endif>

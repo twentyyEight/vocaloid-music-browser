@@ -1,0 +1,45 @@
+#home-page {
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    #squares {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        
+        img {
+            width: 50vw;
+            padding: 3px;
+            border-radius: 5%;
+        }
+    }
+
+    #container-home {
+
+        h1 {
+            font-family: "Oswald", sans-serif;
+            text-transform: uppercase;
+            font-size: clamp(1.8rem, 10vw, 4rem);
+        }
+
+        #searcher {
+            display: flex;
+
+            input,
+            select {
+                background-color: white;
+                color: black;
+            }
+
+            select {
+                width: fit-content;
+            }
+        }
+    }
+
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}

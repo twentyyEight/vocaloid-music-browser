@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Register</title>
-</head>
-
-<body>
+@section('content')
+<div class="register-login-page">
     <form action="{{ route('registercheck') }}" method="post">
+        <h1>Crear cuenta</h1>
         @csrf
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -20,11 +14,10 @@
             </ul>
         </div>
         @endif
-        <input type="text" name="name" placeholder="username" value="{{ old('name') }}"><br>
-        <input type="email" name="email" placeholder="email" value="{{ old('email') }}"><br>
-        <input type="password" name="password" placeholder="password" value="{{ old('password') }}"><br>
-        <input type="submit" name="sign up" value="sign up">
+        <input type="text" name="name" placeholder="Nombre de usuario" value="{{ old('name') }}"><br>
+        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}"><br>
+        <input type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" value="{{ old('password') }}"><br>
+        <button type="submit">Registrarse</button>
     </form>
-</body>
-
-</html>
+</div>
+@endsection

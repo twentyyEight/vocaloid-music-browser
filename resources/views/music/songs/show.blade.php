@@ -9,13 +9,7 @@
 @if(session('error'))
 <p>{{ session('error') }}</p>
 @endif
-<div id="page-song">
-
-    <div id="background">
-        @if (isset($song['img']))
-        <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
-        @endif
-    </div>
+<div id="page-song" class="page" data-page="song">
 
     <div id="container-song">
         <div id="video-albums-song">
@@ -64,7 +58,7 @@
 
         <div id="data-song">
             <h1>{{ $song['name'] }}</h1>
-            <h5 id="artists-song">{{ $song['artists'] }}</h5>
+            <h4 id="artists-song">{{ $song['artists'] }}</h4>
             <h6 id="type-song">{{ $song['type'] }}</h6>
             <x-favorite-btn entity="song" :id="$song['id']" :isFavorite="$isFavorite" />
 
@@ -95,12 +89,12 @@
                 @endif
 
                 <div>
-                    <h5>Créditos</h5>
+                    <h4>Créditos</h4>
                     @foreach ($song['credits'] as $role => $artists)
                     <div class="credit">
-                        <h6>{{ $role }}</h6>
+                        <p>{{ $role }}:</p>
                         @foreach ($artists as $artist)
-                        <a href="{{ route('genre.show', $artist['id']) }}">{{ $artist['name'] }}</a>@if (!$loop->last), @endif
+                        <a href="{{ route('artist.show', $artist['id']) }}">{{ $artist['name'] }}</a>@if (!$loop->last),@endif
                         @endforeach
                     </div>
                     @endforeach
@@ -108,14 +102,10 @@
 
                 @if ($song['genres'])
                 <div>
-                    <h5>Géneros</h5>
-                    <div id="genres-song">
-                        @foreach ($song['genres'] as $genre)
-                        <a href="{{ route('genre.show', $genre['id']) }}">
-                            {{ $genre['name'] }}
-                        </a>
-                        @endforeach
-                    </div>
+                    <h4>Géneros</h4>
+                    @foreach ($song['genres'] as $genre)
+                    <a href="{{ route('genre.show', $genre['id']) }}">{{ $genre['name'] }}</a>@if (!$loop->last),@endif
+                    @endforeach
                 </div>
                 @endif
             </div>

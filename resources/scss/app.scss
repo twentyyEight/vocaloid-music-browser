@@ -8,5 +8,7 @@
 @use 'pages/artists/show.scss' as *;
 @use 'pages/genres/index.scss' as *;
 @use 'pages/genres/show.scss' as *;
+@use 'pages/home.scss';
+@use 'pages/register-login.scss';
 
 @import "bootstrap-icons/font/bootstrap-icons.css";

@@ -39,8 +39,25 @@ export function filters() {
     const checked = $('.type-artist:checked').val();
     if (checked) updateSelectByRadio(checked);
 
+    // Verificar si hay un valor en el input hidden y seleccionar el radio correspondiente
+    const currentValue = $('#type').val();
+    if (currentValue) {
+        const selectedOption = $('#types option[value="' + currentValue + '"]');
+        if (selectedOption.length) {
+            const dataType = selectedOption.data('type');
+            if (dataType) {
+                $('.type-artist').prop('checked', false);
+                $('.type-artist[value="' + dataType + '"]').prop('checked', true);
+                updateSelectByRadio(dataType);
+                $('#types').val(currentValue);
+            }
+        }
+    }
+
     // Maneja el envio del value de los select
-    $('#types').on('change', function () { $('#type').val(this.value) })
+    $('#types').on('change', function () { 
+        $('#type').val(this.value) 
+    })
 
     // Maneja la posición de los filtros en moviles y pc
     function filterPosition() {

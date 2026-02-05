@@ -70,17 +70,34 @@ export function tagsHandler({
     })
 
     async function namingTags(tags) {
-        for (const t of tags) {
-            if (!t.name) {
-                let data = await $.ajax({
-                    url: `https://vocadb.net/api/tags/${t.id}`,
-                    type: 'GET',
-                    contentType: 'application/json'
-                })
 
-                t.name = data.name
+        if (name === 'genres') {
+            for (const t of tags) {
+                if (!t.name) {
+                    let data = await $.ajax({
+                        url: `https://vocadb.net/api/tags/${t.id}`,
+                        type: 'GET',
+                        contentType: 'application/json'
+                    })
+
+                    t.name = data.name
+                }
+            }
+        } else {
+            for (const t of tags) {
+                if (!t.name) {
+                    let data = await $.ajax({
+                        url: `https://vocadb.net/api/artists/${t.id}?lang=Romaji`,
+                        type: 'GET',
+                        contentType: 'application/json'
+                    })
+
+                    t.name = data.name
+                }
             }
         }
+
+
         renderSelectedItems()
     }
 

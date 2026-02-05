@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Login</title>
-</head>
-
-<body>
+@section('content')
+<div class="register-login-page">
     <form action="{{ route('logincheck') }}" method="post">
+        <h1>Iniciar sesión</h1>
         @csrf
-
         @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -21,12 +14,11 @@
             </ul>
         </div>
         @endif
-        <input type="email" name="email" placeholder="email" value="{{ old('email') }}"><br>
-        <input type="password" name="password" placeholder="password" value="{{ old('password') }}"><br>
-        <input type="submit" name="login" value="login">
-
+        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}"><br>
+        <input type="password" name="password" placeholder="Contraseña" value="{{ old('password') }}"><br>
         <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
-    </form>
-</body>
+        <button type="submit">Iniciar sesión</button>
 
-</html>
+    </form>
+</div>
+@endsection

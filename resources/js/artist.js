@@ -23,6 +23,24 @@ $(function () {
         })
     })
 
+    if ($('div.songs').length === 1) {
+        const sort_song = $('div.songs')[0].classList[1]
+        $(`button.songs`).hide()
+        $(`button.songs.${sort_song}`)
+            .show()
+            .css('background-color', '#199ea5')
+        $(`div.songs.${sort_song}`).css('display', 'grid')
+    }
+
+    if ($('div.albums').length === 1) {
+        const sort_album = $('div.albums')[0].classList[1]
+        $(`button.albums`).hide()
+        $(`button.albums.${sort_album}`)
+            .show()
+            .css('background-color', '#199ea5')
+        $(`div.albums.${sort_album}`).css('display', 'grid')
+    }
+
     // Btn populares y recientes
     $('.switch button').on('click', function () {
 

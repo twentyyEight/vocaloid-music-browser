@@ -16,10 +16,7 @@
         img {
             width: 100%;
             margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #545454;
-            background-color: #353535;
-            padding: 5px;
+            @include background;
         }
 
         #btns-album {
@@ -122,11 +119,8 @@
             height: 100%;
             overflow: hidden;
             width: 100%;
-            border: 1px solid #545454;
-            background-color: #353535;
-            padding: 10px;
+            @include background;
             padding-bottom: 0;
-            border-radius: 5px;
 
             #btns-discs {
                 display: flex;
@@ -233,15 +227,13 @@
                 width: fit-content;
             }
 
-            #btn-links, #linksModal {
+            #btn-links,
+            #linksModal {
                 display: none;
             }
 
             #container-links-album {
-                border: 1px solid #545454;
-                background-color: #353535;
-                padding: 10px;
-                border-radius: 5px;
+                @include background;
                 display: block;
 
                 .links-album {
@@ -264,11 +256,8 @@
 
         #data-album {
             width: 50vw;
-            border: 1px solid #545454;
-            background-color: #353535;
-            padding: 10px;
+            @include background;
             padding-bottom: 0;
-            border-radius: 5px;
             height: fit-content;
 
             h1 {

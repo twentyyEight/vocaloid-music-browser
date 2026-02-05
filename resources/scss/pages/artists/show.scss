@@ -6,11 +6,8 @@
     padding: 20px;
 
     #info-artist {
-        border-radius: 5px;
-        background-color: #353535;
-        border: 1px solid #545454;
+        @include background;
         height: fit-content;
-        padding: 15px;
 
         h3 {
             white-space: normal;
@@ -20,7 +17,23 @@
 
         img {
             border-radius: 5px;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            object-position: top;
+            background-color: white;
             width: 100%;
+        }
+
+        #no-img-artist {
+            aspect-ratio: 1/1;
+            @include center;
+            width: 15vw;
+            background-color: #545454;
+            border-radius: 5px;
+
+            .bi-person-fill {
+                font-size: 70px;
+            }
         }
 
         #type-artist {
@@ -103,10 +116,7 @@
         width: 100%;
         justify-content: space-between;
         margin-bottom: 10px;
-        border-radius: 5px;
-        background-color: #353535;
-        border: 1px solid #545454;
-        padding: 10px;
+        @include background;
         align-items: center;
         margin-top: 20px;
 
@@ -128,7 +138,7 @@
                 left: 0;
                 width: 50%;
                 height: 100%;
-                background-color: #199ea5;
+                background-color: $color;
                 transition: transform 0.3s ease;
                 z-index: 1;
                 border-radius: 5px;
@@ -143,16 +153,28 @@
                 padding: 5px 10px;
                 z-index: 2;
                 cursor: pointer;
+                border-radius: 5px;
+            }
+        }
+
+        a {
+            background-color: $color;
+            padding: 5px 8px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: $color-hover;
+            }
+
+            &:active {
+                background-color: $color-click;
             }
         }
     }
 
     #songs-artist {
         margin-bottom: 50px;
-        border-radius: 5px;
-        background-color: #353535;
-        border: 1px solid #545454;
-        padding: 10px;
+        @include background;
 
         .songs {
             display: flex;
@@ -198,10 +220,7 @@
     }
 
     #albums-artist {
-        background-color: #353535;
-        border: 1px solid #545454;
-        padding: 10px;
-        border-radius: 5px;
+        @include background;
 
         .albums {
             display: grid;
@@ -255,10 +274,9 @@
         #info-artist {
             display: flex;
             flex-direction: column;
-            width: 30vw;
 
             img {
-                width: auto;
+                width: 25vw;
             }
 
             #btns-artist {
@@ -308,7 +326,9 @@
     #page-artist {
 
         #info-artist {
-            width: 18vw;
+            img {
+                width: 16vw;
+            }
         }
 
         #songs-artist {

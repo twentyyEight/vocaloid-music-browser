@@ -6,13 +6,6 @@
     justify-content: center;
 }
 
-@mixin grid-list {
-    display: grid;
-    gap: 15px;
-    grid-template-columns: 1fr;
-    margin-bottom: 20px;
-}
-
 @mixin img-full-border {
     width: 100%;
     height: 100%;
@@ -33,4 +26,11 @@
     &:active {
         background-color: $color-click;
     }
+}
+
+@mixin background {
+    background-color: #353535;
+    padding: 10px;
+    border-radius: 5px;
+    border: solid 1px $gray;
 }

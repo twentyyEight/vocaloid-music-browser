@@ -18,7 +18,8 @@ $(function () {
         index: () => import('./index'),
         song: () => import('./song'),
         album: () => import('./album'),
-        artist: () => import('./artist')
+        artist: () => import('./artist'),
+        home: () => import('./home')
     }
 
     pages[page]?.()

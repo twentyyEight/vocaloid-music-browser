@@ -11,7 +11,13 @@
     @endif
 
     <div id="info-artist">
+        @if ($artist['img'])
         <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
+        @else
+        <div id="no-img-artist">
+            <i class="bi bi-person-fill"></i>
+        </div>
+        @endif
 
         <h3>{{ $artist['name'] }}</h3>
         <h4 id="type-artist">{{ $artist['type'] }}</h4>
@@ -51,6 +57,7 @@
 
     <div id="music-artist">
 
+        @if ($artist['popular_songs'] || $artist['latest_songs'])
         <div class="header">
             <h4>Canciones</h4>
 
@@ -60,10 +67,14 @@
                 <button type="button" class="songs popular">Populares</button>
                 <button type="button" class="songs latest">Recientes</button>
             </div>
+
+            <a href="{{ route('song.index', ['artists[]' => $artist['id']]) }}">Ver todas sus canciones</i></a>
         </div>
+        @endif
 
         <div id="songs-artist">
 
+            @if ($artist['popular_songs'])
             <div class="songs popular">
                 @foreach (array_chunk($artist['popular_songs'], 4) as $group)
                 <div class="songs-row">
@@ -83,7 +94,9 @@
                 </div>
                 @endforeach
             </div>
+            @endif
 
+            @if ($artist['latest_songs'])
             <div class="songs latest">
                 @foreach (array_chunk($artist['latest_songs'], 4) as $group)
                 <div class="songs-row">
@@ -105,8 +118,10 @@
                 </div>
                 @endforeach
             </div>
+            @endif
         </div>
 
+        @if ($artist['popular_albums'] || $artist['latest_albums'])
         <div class="header">
             <h4>Albumes</h4>
 
@@ -116,10 +131,14 @@
                 <button type="button" class="albums popular">Populares</button>
                 <button type="button" class="albums latest">Recientes</button>
             </div>
+
+            <a href="{{ route('album.index', ['artists[]' => $artist['id']]) }}">Ver todos sus álbumes</a>
         </div>
+        @endif
 
         <div id="albums-artist">
 
+            @if ($artist['popular_albums'])
             <div class="albums popular">
                 @foreach ($artist['popular_albums'] as $album)
                 <div class="card-album">
@@ -135,7 +154,9 @@
                 </div>
                 @endforeach
             </div>
+            @endif
 
+            @if ($artist['latest_albums'])
             <div class="albums latest">
                 @foreach ($artist['latest_albums'] as $album)
                 <div class="card-album">
@@ -151,7 +172,9 @@
                 </div>
                 @endforeach
             </div>
+            @endif
         </div>
+
     </div>
 
 </div>

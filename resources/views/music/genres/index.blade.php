@@ -1,10 +1,7 @@
 @extends('app')
 
 @section('content')
-<div class="title-page">
-    <h1>GÉNEROS</h1>
-    <p>{{ $total }} resultados</p>
-</div>
+<h1 class="title-page">GÉNEROS</h1>
 
 <div id="page-genres">
 

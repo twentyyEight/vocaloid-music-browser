@@ -97,7 +97,7 @@ class ArtistService
             'popular_songs' => empty($popular_songs) ? null : $popular_songs,
             'latest_songs' => empty($latest_songs) ? null : $latest_songs,
             'popular_albums' => empty($popular_albums) ? null : $popular_albums,
-            'latest_albums' => empty($latest_albums) ? null : $latest_albums, 
+            'latest_albums' => empty($latest_albums) ? null : $latest_albums,
             'links' => empty($links) ? null : $links
         ];
     }
@@ -156,11 +156,14 @@ class ArtistService
         $artists = [];
 
         foreach ($items as $item) {
-            $artists[] = [
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'img' => $item['mainPicture']['urlOriginal'] ?? null,
-            ];
+
+            if ($item['artistType'] !== 'Illustrator' && $item['artistType'] !== 'Animator') {
+                $artists[] = [
+                    'id' => $item['id'],
+                    'name' => $item['name'],
+                    'img' => $item['mainPicture']['urlOriginal'] ?? null,
+                ];
+            }
         }
 
         $total = $res['totalCount'];

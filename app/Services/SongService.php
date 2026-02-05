@@ -51,10 +51,10 @@ class SongService
         foreach ($json['artists'] as $artist) {
 
             if (
-                $artist['artist']['artistType'] !== 'Illustrator'
-                && $artist['artist']['artistType'] !== 'Animator'
-                && $artist['categories'] !== 'Illustrator'
-                && $artist['categories'] !== 'Animator'
+                ($artist['artist']['artistType'] ?? null) !== 'Illustrator'
+                && ($artist['artist']['artistType'] ?? null) !== 'Animator'
+                && ($artist['categories'] ?? null) !== 'Illustrator'
+                && ($artist['categories'] ?? null) !== 'Animator'
             ) {
 
                 if ($artist['roles'] === 'Default') {
@@ -75,11 +75,15 @@ class SongService
 
         foreach ($roles as $rolNombre => &$artistas) {
             foreach ($json['artists'] as $artist) {
+
                 if (
                     str_contains($artist['roles'], $rolNombre) ||
                     str_contains($artist['categories'], $rolNombre)
                 ) {
-                    $artistas[] = ['id' => $artist['id'], 'name' => $artist['name']];
+                    $artistas[] = [
+                        'id' => $artist['artist']['id'], 
+                        'name' => $artist['name']
+                    ];
                 }
             }
         }
@@ -93,7 +97,7 @@ class SongService
             if ($tag['tag']['categoryName'] == 'Genres') {
 
                 $genres[] = [
-                    'name' => $tag['tag']['name'],
+                    'name' => trim($tag['tag']['name']),
                     'id' => $tag['tag']['id']
                 ];
             }

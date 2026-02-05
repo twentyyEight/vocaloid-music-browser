@@ -1,0 +1,77 @@
+@use '../abstracts/variables' as *;
+
+.register-login-page {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)),
+        url('/images/login-register.jpeg');
+    background-size: auto 100%;
+    background-position: top center;
+    background-repeat: no-repeat;
+    height: calc(100vh - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: calc(5vw);
+
+    form {
+        display: block;
+        padding: 20px;
+        text-align: center;
+        border: 1px solid #5f5f5f;
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        input {
+            margin-top: 20px;
+        }
+
+        a {
+            display: flex;
+            justify-content: end;
+            margin-top: 5px;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            &:active {
+                text-decoration: underline;
+            }
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: $color;
+            width: 100%;
+            border-radius: 5px;
+            padding-block: 5px;
+        }
+    }
+}
+
+@media (min-width: 576px) {
+    .register-login-page {
+        padding-inline: calc(15vw);
+    }
+}
+
+
+@media (min-width: 768px) {
+    .register-login-page {
+        padding-inline: calc(20vw);
+    }
+}
+
+@media (min-width: 992px) {
+    .register-login-page {
+        padding-inline: calc(30vw);
+    }
+}
+
+@media (min-width: 1045px) {
+    .register-login-page {
+        background-size: 100% auto;
+    }
+}

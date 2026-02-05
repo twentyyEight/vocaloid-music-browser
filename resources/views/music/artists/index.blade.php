@@ -2,9 +2,8 @@
 
 @section('content')
 
-<div class="title-page">
-    <h1>ARTISTAS</h1>
-</div>
+<h1 class="title-page">ARTISTAS</h1>
+
 <div id="page-artists" data-page="index" class="page">
     <form action="{{ route('artist.index') }}" method="GET" id="form">
 

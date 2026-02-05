@@ -1,9 +1,7 @@
 @extends('app')
 
 @section('content')
-<div class="title-page">
-    <h1>CANCIONES</h1>
-</div>
+<h1 class="title-page">CANCIONES</h1>
 
 <div id="page-songs" class="page" data-page="index">
 

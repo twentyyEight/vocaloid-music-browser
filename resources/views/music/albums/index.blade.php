@@ -1,9 +1,7 @@
 @extends('app')
 
 @section('content')
-<div class="title-page">
-    <h1>ALBUMES</h1>
-</div>
+<h1 class="title-page">ALBUMES</h1>
 
 <div class="page" data-page="index" id="page-albums">
     <form action="{{ route('album.index') }}" method="GET" id="form">
@@ -29,7 +27,7 @@
                         <x-sort
                             :value="request('sort')"
                             :options="[
-                                ['value' => 'ReleaseDate', 'label' => 'Fecha de lanzamiento'],
+                                ['value' => 'ReleaseDate', 'label' => 'Más recientes'],
                                 ['value' => 'Name', 'label' => 'Nombre'],
                                 ['value' => 'RatingTotal', 'label' => 'Popularidad'],
                             ]" />
