@@ -36,7 +36,7 @@ Route::get('/artists/autocomplete/{query}', [ArtistController::class, 'autocompl
 Route::get('/users/{id}', [ProfileController::class, 'index'])->name('profile');
 
 /* RUTAS PROTEGIDAS */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     Route::post('/song/{id}', [SongController::class, 'storeFavorite'])->name('song.store');
     Route::delete('/song/{song}', [SongController::class, 'destroyFavorite'])->name('song.delete');

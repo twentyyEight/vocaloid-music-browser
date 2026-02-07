@@ -13,6 +13,7 @@
         "hasnayeen/blade-eva-icons": "^2.1",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "postare/blade-mdi": "^1.1",
         "resend/resend-laravel": "^1.1"
     },
     "require-dev": {

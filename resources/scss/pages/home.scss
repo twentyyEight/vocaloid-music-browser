@@ -1,45 +1,178 @@
+@use '../abstracts/variables' as *;
+
 #home-page {
-    height: calc(100vh - 56px);
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
+    overflow-x: hidden;
 
-    #squares {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        
-        img {
-            width: 50vw;
-            padding: 3px;
-            border-radius: 5%;
+    #viewport {
+        width: calc(50vw * 2);
+        overflow: hidden;
+
+        #squares-up,
+        #squares-down {
+            display: flex;
+
+            img {
+                width: 50vw;
+                padding: 5px;
+                border-radius: 10%;
+            }
         }
     }
 
     #container-home {
+        background-color: #353535;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
 
         h1 {
             font-family: "Oswald", sans-serif;
             text-transform: uppercase;
-            font-size: clamp(1.8rem, 10vw, 4rem);
+            font-size: 8vw;
+            white-space: nowrap;
+        }
+
+        h4 {
+            line-height: 1.1;
         }
 
         #searcher {
             display: flex;
+            position: relative;
 
-            input,
-            select {
-                background-color: white;
-                color: black;
+            input {
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+                padding: 10px;
+            }
+
+            #loading {
+                animation: spin 1s linear infinite;
+                width: 25px;
+                position: absolute;
+                right: 32%;
+                top: 20%;
+                display: none;
             }
 
             select {
                 width: fit-content;
+                border-bottom-left-radius: 0;
+                border-top-left-radius: 0;
+                cursor: pointer;
+            }
+
+            #search-btn {
+                background-color: $color;
+                width: 50px;
+                border-radius: 5px;
+                margin-left: 5px;
+
+                &:hover {
+                    background-color: $color-hover;
+                }
+
+                &:active {
+                    background-color: $color-click;
+                }
+            }
+        }
+
+        #explore-music {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+
+            .explore {
+                border: 1px solid #545454;
+                border-radius: 5px;
+                width: 30%;
+                padding-block: 10px;
+                text-align: center;
+                background-color: #353535;
+                cursor: pointer;
+
+                .bi {
+                    width: 50px;
+                    font-size: 35px;
+                }
+
+                &:hover {
+                    background-color: $color-hover;
+                }
+
+                &:active {
+                    background-color: $color-click;
+                }
             }
         }
     }
 
 }
 
+.ui-menu.ui-widget.ui-widget-content {
+    background-color: #353535;
+    margin-top: 10px;
+}
+
 .ui-helper-hidden-accessible {
     display: none;
+}
+
+@media (min-width: 1200px) {
+    #home-page {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: start;
+
+        #viewport {
+            width: 50vw;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            #squares-up,
+            #squares-down {
+
+                img {
+                    width: 25vw;
+                    height: calc(52vh - 56px);
+                    object-fit: cover;
+                    object-position: top;
+                }
+            }
+        }
+
+        #container-home {
+            background-color: transparent;
+            text-align: start;
+
+            h1 {
+                font-size: 6rem;
+            }
+
+            #searcher {
+                #loading {
+                    right: 22%;
+                }
+            }
+
+            #explore-music {
+                .explore {
+                    br {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
 }

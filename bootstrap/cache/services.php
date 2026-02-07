@@ -35,8 +35,9 @@
     31 => 'Carbon\\Laravel\\ServiceProvider',
     32 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     33 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    34 => 'Resend\\Laravel\\ResendServiceProvider',
-    35 => 'App\\Providers\\RouteServiceProvider',
+    34 => 'Postare\\BladeMdi\\BladeMdiServiceProvider',
+    35 => 'Resend\\Laravel\\ResendServiceProvider',
+    36 => 'App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -59,8 +60,9 @@
     16 => 'Carbon\\Laravel\\ServiceProvider',
     17 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     18 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    19 => 'Resend\\Laravel\\ResendServiceProvider',
-    20 => 'App\\Providers\\RouteServiceProvider',
+    19 => 'Postare\\BladeMdi\\BladeMdiServiceProvider',
+    20 => 'Resend\\Laravel\\ResendServiceProvider',
+    21 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (

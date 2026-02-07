@@ -16,10 +16,16 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+        $credentials = $request->validate(
+            [
+                'email' => 'required|email',
+                'password' => 'required'
+            ],
+            [
+                'email.required' => 'El correo es obligatorio.',
+                'password.required' => 'La contraseña es obligatoria.',
+            ]
+        );
 
         $user = User::where('email', $credentials['email'])->first();
 
@@ -34,11 +40,25 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validation = $request->validate([
-            'name' => 'required|unique:users,name|min:4',
-            'email' => 'required|unique:users,email|email|email:rfc,dns',
-            'password' => 'required|min:8'
-        ]);
+        $validation = $request->validate(
+            [
+                'name' => 'required|unique:users,name|min:4',
+                'email' => 'required|email:rfc,dns|unique:users,email',
+                'password' => 'required|min:8'
+            ],
+            [
+                'name.required' => 'El nombre es obligatorio.',
+                'name.unique' => 'Este nombre ya está registrado.',
+                'name.min' => 'El nombre debe tener al menos 4 caracteres.',
+
+                'email.required' => 'El correo es obligatorio.',
+                'email.email' => 'El correo no tiene un formato válido.',
+                'email.unique' => 'Este correo ya está registrado.',
+
+                'password.required' => 'La contraseña es obligatoria.',
+                'password.min' => 'La contraseña debe tener mínimo 8 caracteres.',
+            ]
+        );
 
         $validation['password'] = Hash::make($validation['password']);
 
@@ -48,15 +68,11 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('verification.notice');
+        return redirect()->route('redirect');
     }
 
     public function redirection()
     {
-        if (Auth::user()->role != 0 || Auth::user()->role != 1) {
-            return redirect()->route('home');
-        }
-
         if (Auth::user()->role == 1) {
             return redirect()->route('dashboard');
         }
@@ -66,6 +82,8 @@ class AuthController extends Controller
             $userId = Auth::id();
             return redirect()->route('profile', $userId);
         }
+
+        return redirect()->route('home');
     }
 
     public function logout()

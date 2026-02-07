@@ -5,18 +5,18 @@
     <form action="{{ route('registercheck') }}" method="post">
         <h1>Crear cuenta</h1>
         @csrf
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-        <input type="text" name="name" placeholder="Nombre de usuario" value="{{ old('name') }}"><br>
-        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}"><br>
-        <input type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" value="{{ old('password') }}"><br>
+        <input type="text" name="name" placeholder="Nombre de usuario" value="{{ old('name') }}">
+        @error('name')
+        <p class="error">{{ $message }}</p>
+        @enderror
+        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}">
+        @error('email')
+        <p class="error">{{ $message }}</p>
+        @enderror
+        <input type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" value="{{ old('password') }}">
+        @error('password')
+        <p class="error">{{ $message }}</p>
+        @enderror
         <button type="submit">Registrarse</button>
     </form>
 </div>

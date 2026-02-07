@@ -76,6 +76,13 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
+  'postare/blade-mdi' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Postare\\BladeMdi\\BladeMdiServiceProvider',
+    ),
+  ),
   'resend/resend-laravel' => 
   array (
     'providers' => 
