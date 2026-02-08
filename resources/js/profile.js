@@ -14,7 +14,7 @@ $(function () {
         }
     })
 
-    carousel($('#songs-profile'))
-    carousel($('#albums-profile'))
-    carousel($('#artists-profile'))
+    if ($('#songs-profile').length !== 0) carousel($('#songs-profile'))
+    if ($('#albums-profile').length !== 0) carousel($('#albums-profile'))
+    if ($('#artists-profile').length !== 0) carousel($('#artists-profile'))
 })

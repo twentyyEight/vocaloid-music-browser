@@ -267,7 +267,7 @@
                 #albums-song {
                     @include background;
 
-                    #container-albums {
+                    .carousel {
                         display: flex;
                         align-items: center;
                         gap: 10px;

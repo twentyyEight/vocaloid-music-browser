@@ -31,7 +31,7 @@
             @if ($song['albums'])
             <div id="albums-song">
                 <h4>Albumes donde aparece:</h4>
-                <div id="container-albums">
+                <div class="carousel">
                     <i class="bi bi-caret-left-fill"></i>
 
                     <div id="covers-albums-song">

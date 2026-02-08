@@ -10,8 +10,8 @@
 
     <h1 id="name">{{ $user['name'] }}</h1>
 
-    @if (!count($songs) == 0)
     <div>
+        @if (!count($songs) == 0)
         <div class="header">
             <h2>Canciones favoritas</h2>
             @if ($isUserProfile)
@@ -49,12 +49,19 @@
 
             <i class="bi bi-caret-right-fill"></i>
         </div>
+        @else
+        <div class="empty">
+            <h2>Canciones favoritas</h2>
+            <div>
+                Lista vacía.
+            </div>
+        </div>
+        @endif
     </div>
-    @endif
 
-    @if (!count($albums) == 0)
+
     <div>
-
+        @if (!count($albums) == 0)
         <div class="header">
             <h2>Albumes favoritos</h2>
             @if ($isUserProfile)
@@ -97,11 +104,18 @@
 
             <i class="bi bi-caret-right-fill"></i>
         </div>
+        @else
+        <div class="empty">
+            <h2>Álbumes favoritos</h2>
+            <div>
+                <h5>Lista vacía</h5>
+            </div>
+        </div>
+        @endif
     </div>
-    @endif
 
-    @if (!count($artists) == 0)
     <div>
+        @if (!count($artists) == 0)
         <div class="header">
             <h2>Artistas favoritos</h2>
             @if ($isUserProfile)
@@ -136,7 +150,14 @@
             </div>
             <i class="bi bi-caret-right-fill"></i>
         </div>
+        @else
+        <div class="empty">
+            <h1>Artistas favoritos</h1>
+            <div>
+                Lista vacía
+            </div>
+        </div>
+        @endif
     </div>
 </div>
-@endif
 @endsection

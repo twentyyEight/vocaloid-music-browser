@@ -45,7 +45,7 @@ $(function () {
 
     /* Carousel (albumes) */
     $(window).on('load', function () {
-        carousel()
+        carousel($('#covers-albums-song'))
         closeAlert()
     })
 })
