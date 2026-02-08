@@ -64,7 +64,7 @@ class AuthController extends Controller
 
         $user = User::Create($validation);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
         Auth::login($user);
 

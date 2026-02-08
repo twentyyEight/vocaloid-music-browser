@@ -1,4 +1,5 @@
 import { carousel } from "./modules/carousel";
+import { closeAlert } from "./modules/close-alert";
 
 $(function () {
 
@@ -43,5 +44,8 @@ $(function () {
     })
 
     /* Carousel (albumes) */
-    $(window).on('load', carousel)
+    $(window).on('load', function () {
+        carousel()
+        closeAlert()
+    })
 })

@@ -1,4 +1,5 @@
 import { links } from "./modules/links";
+import { closeAlert } from "./modules/close-alert";
 
 $(function () {
 
@@ -26,9 +27,9 @@ $(function () {
     // Mover btn 'fav'
     $(window).on('load resize', function () {
         if ($(this).innerWidth() > 992) {
-            $('.fav, .delete.fav').prependTo('#cover-links-album')
+            $('.fav, .delete-fav').prependTo('#cover-links-album')
         } else {
-            $('.fav, .delete.fav').prependTo('#btns-album')
+            $('.fav, .delete-fav').prependTo('#btns-album')
         }
     })
 
@@ -60,4 +61,6 @@ $(function () {
         $('.btn-tracks').css('background-color', 'transparent')
         $(this).css('background-color', '#136b70')
     })
+
+    closeAlert()
 })

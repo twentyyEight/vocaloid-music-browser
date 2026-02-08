@@ -1,47 +1,48 @@
-export function carousel() {
-    const container = $('#covers-albums-song')
-    const totalContainer = $('#container-albums')
-    const prev = $('.bi-caret-left-fill')
-    const next = $('.bi-caret-right-fill')
-    const arrows = $('.bi-caret-left-fill, .bi-caret-right-fill')
-    
-    // Color de las flechas
-    function updateArrowsState() {
+export function carousel(container) {
 
+    const wrapper = container.closest('.carousel')
+    const prev = wrapper.find('.bi-caret-left-fill')
+    const next = wrapper.find('.bi-caret-right-fill')
+    const arrows = prev.add(next)
+
+    function updateArrowsState() {
         const scrollLeft = container.scrollLeft()
         const maxScroll = container[0].scrollWidth - container.outerWidth()
 
-        prev.css('filter', scrollLeft <= 1 ? 'opacity(0.5)' : 'opacity(1)')
-        next.css('filter', scrollLeft >= maxScroll - 1 ? 'opacity(0.5)' : 'opacity(1)')
+        prev.css('opacity', scrollLeft <= 1 ? 0.5 : 1)
+        next.css('opacity', scrollLeft >= maxScroll - 1 ? 0.5 : 1)
     }
 
-    // Aparición de las flechas
     function arrowsVisibility() {
-        console.log(container[0].scrollWidth, $(window).width())
-
-        if (container[0].scrollWidth <= container[0].clientWidth || $(window).width() <= 992) {
+        if (
+            container[0].scrollWidth <= container[0].clientWidth ||
+            $(window).width() <= 992
+        ) {
             arrows.hide()
-        }
-        else {
+        } else {
             arrows.show()
             updateArrowsState()
         }
     }
 
-    // Movimiento del carousel
-    next.on('click', function () {
+    next.on('click', () => {
         const maxScroll = container[0].scrollWidth - container.outerWidth()
-        const target = Math.min(container.scrollLeft() + container.outerWidth(), maxScroll)
+        const target = Math.min(
+            container.scrollLeft() + container.outerWidth(),
+            maxScroll
+        )
         container.animate({ scrollLeft: target }, 300)
     })
 
-    prev.on('click', function () {
-        const target = Math.max(container.scrollLeft() - container.outerWidth(), 0)
+    prev.on('click', () => {
+        const target = Math.max(
+            container.scrollLeft() - container.outerWidth(),
+            0
+        )
         container.animate({ scrollLeft: target }, 300)
     })
 
     arrowsVisibility()
-
     container.on('scroll', updateArrowsState)
     $(window).on('resize', arrowsVisibility)
 }

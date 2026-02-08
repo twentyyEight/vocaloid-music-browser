@@ -2,13 +2,12 @@
 
 @section('content')
 <div class="page" data-page="album" id="page-album">
-    @if(session('success'))
-    <p>{{ session('success') }}</p>
-    @endif
 
-    @if(session('error'))
-    <p>{{ session('error') }}</p>
+    @foreach (['success' => 'success', 'error' => 'danger'] as $key => $type)
+    @if (session($key))
+    <x-alert :type="$type" :message="session($key)" />
     @endif
+    @endforeach
 
     <div id="cover-links-album">
 

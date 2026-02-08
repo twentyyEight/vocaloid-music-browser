@@ -19,7 +19,8 @@ $(function () {
         song: () => import('./song'),
         album: () => import('./album'),
         artist: () => import('./artist'),
-        home: () => import('./home')
+        home: () => import('./home'),
+        profile: () => import('./profile')
     }
 
     pages[page]?.()

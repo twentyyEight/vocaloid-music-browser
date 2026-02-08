@@ -2,13 +2,12 @@
 
 @section('content')
 <div class="page" data-page="artist" id="page-artist">
-    @if(session('success'))
-    <p>{{ session('success') }}</p>
-    @endif
 
-    @if(session('error'))
-    <p>{{ session('error') }}</p>
+    @foreach (['success' => 'success', 'error' => 'danger'] as $key => $type)
+    @if (session($key))
+    <x-alert :type="$type" :message="session($key)" />
     @endif
+    @endforeach
 
     <div id="info-artist">
         @if ($artist['img'])
@@ -68,7 +67,10 @@
                 <button type="button" class="songs latest">Recientes</button>
             </div>
 
-            <a href="{{ route('song.index', ['artists[]' => $artist['id']]) }}">Ver todas sus canciones</i></a>
+            <a href="{{ route('song.index', ['artists[]' => $artist['id']]) }}">
+                Ver más
+                <i class="bi bi-plus"></i>
+            </a>
         </div>
         @endif
 
@@ -132,7 +134,10 @@
                 <button type="button" class="albums latest">Recientes</button>
             </div>
 
-            <a href="{{ route('album.index', ['artists[]' => $artist['id']]) }}">Ver todos sus álbumes</a>
+            <a href="{{ route('album.index', ['artists[]' => $artist['id']]) }}">
+                Ver más
+                <i class="bi bi-plus"></i>
+            </a>
         </div>
         @endif
 

@@ -1,0 +1,192 @@
+@use '../abstracts/mixins' as *;
+@use '../abstracts/variables' as *;
+
+#profile-page {
+    padding: 10px 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    h1 {
+        text-align: center;
+    }
+
+    form {
+        display: none;
+        position: absolute;
+        z-index: 1;
+        background-color: red;
+        color: white;
+        top: 0;
+        right: 0;
+        width: fit-content;
+        padding-block: 0;
+        padding-inline: 0;
+        border-radius: 5px;
+        padding: 1px 3px;
+        margin-right: 0;
+        font-size: 25px;
+
+        &:hover {
+            background-color: rgb(180, 2, 2);
+        }
+
+        &:active {
+            background-color: rgb(135, 1, 1);
+        }
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        @include background;
+
+        button {
+            background-color: $color;
+            padding-inline: 10px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: $color-hover;
+            }
+
+            &:active {
+                background-color: $color-click;
+            }
+        }
+    }
+
+    #songs-profile {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        @include background;
+        position: relative;
+
+        .card-song {
+            position: relative;
+            width: 40vw;
+
+            .img-container {
+                border-radius: 10px;
+            }
+
+            .data {
+
+                .title,
+                .artists {
+                    display: block;
+                    width: 100%;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+
+    #albums-profile {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        @include background;
+
+        .card-album {
+            position: relative;
+            width: 35vw;
+
+            .img-container {
+
+                img {
+                    object-fit: cover;
+                    object-position: top;
+                    background-color: white;
+                }
+            }
+
+            .title,
+            .artists {
+                display: block;
+                width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    #artists-profile {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        @include background;
+
+        .card-artist {
+            position: relative;
+            width: 20vw;
+
+            .img-container {
+
+                img {
+                    object-fit: cover;
+                    object-position: top;
+                    background-color: white;
+                }
+            }
+
+            p {
+                margin-top: 3px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    #profile-page {
+        padding-inline: 50px;
+
+        .carousel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            @include background;
+
+            .bi-caret-left-fill,
+            .bi-caret-right-fill {
+                font-size: 25px;
+                cursor: pointer;
+            }
+        }
+
+        #songs-profile,
+        #albums-profile,
+        #artists-profile {
+            overflow-x: hidden;
+            border: 0;
+            padding: 5px;
+        }
+
+        #songs-profile {
+            .card-song {
+                width: 22vw;
+            }
+        }
+
+        #albums-profile {
+            .card-album {
+                width: 18vw;
+            }
+        }
+
+        #artists-profile {
+            .card-artist {
+                width: 9vw;
+            }
+        }
+    }
+}

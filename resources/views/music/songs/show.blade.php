@@ -1,15 +1,13 @@
 @extends('app')
 
 @section('content')
-
-@if(session('success'))
-<p>{{ session('success') }}</p>
-@endif
-
-@if(session('error'))
-<p>{{ session('error') }}</p>
-@endif
 <div id="page-song" class="page" data-page="song">
+
+    @foreach (['success' => 'success', 'error' => 'danger'] as $key => $type)
+    @if (session($key))
+    <x-alert :type="$type" :message="session($key)" />
+    @endif
+    @endforeach
 
     <div id="container-song">
         <div id="video-albums-song">
