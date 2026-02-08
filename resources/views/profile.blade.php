@@ -152,7 +152,7 @@
         </div>
         @else
         <div class="empty">
-            <h1>Artistas favoritos</h1>
+            <h2>Artistas favoritos</h2>
             <div>
                 Lista vacía
             </div>
