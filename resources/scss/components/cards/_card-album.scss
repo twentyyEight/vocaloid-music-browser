@@ -6,14 +6,26 @@
 
     .img-container {
         aspect-ratio: 1/1;
+        display: flex;
+        background-color: $gray;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
 
         img {
             @include img-full-border;
         }
 
-        .no-img {
-            background-color: $gray;
-            border-radius: 5px;
+        .icon-no-img {
+            width: 60px;
+        }
+
+        p {
+            text-align: center;
+            line-height: 1.2;
         }
     }
 }

@@ -13,8 +13,9 @@
         @error('password')
         <p class="error">{{ $message }}</p>
         @enderror
-        <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+        <a id="forgot-password" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
         <button type="submit">Iniciar sesión</button>
+        <a class="redirect" href="{{ route('register') }}">¿No tienes una cuenta? Regístraste</a>
 
     </form>
 </div>

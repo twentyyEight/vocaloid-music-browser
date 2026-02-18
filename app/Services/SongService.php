@@ -3,281 +3,278 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\RequestException;
 
 class SongService
 {
     public function getSongById($id)
     {
-        $response = Http::get("https://vocadb.net/api/songs/{$id}", [
-            'fields' => 'Albums,Artists,PVs,Tags,MainPicture,Lyrics,CultureCodes',
-            'lang' => 'Romaji'
-        ]);
+        try {
 
-        if ($response->failed() || !$response->json()) {
-            abort(500, 'Error al obtener datos');
-        }
+            // Llamada a API con queries
+            $response = Http::get("https://vocadb.net/api/songs/{$id}", [
+                'fields' => 'Albums,Artists,PVs,Tags,MainPicture,Lyrics,CultureCodes',
+                'lang' => 'Romaji'
+            ]);
 
-        $json = $response->json();
+            $json = $response->json();
 
-        $original = null;
-        if (isset($json['originalVersionId'])) {
+            // En caso de que la canción sea un cover, remix, etc, se busca su versión original
+            $original = null;
+            if (isset($json['originalVersionId'])) {
 
-            $originalId = $json['originalVersionId'];
-            $res = Http::get("https://vocadb.net/api/songs/{$originalId}", ['lang' => 'Romaji']);
-            $json_original = $res->json();
+                $original_id = $json['originalVersionId'];
+                $res = Http::get("https://vocadb.net/api/songs/{$original_id}", ['lang' => 'Romaji']);
+                $json_original = $res->json();
 
-            $original = [
-                'id' => $originalId,
-                'name' => $json_original['name'],
-                'artists' => $json_original['artistString']
-            ];
-        }
-
-        // Tipo de canción
-        $type = null;
-        switch ($json['songType']) {
-
-            case 'Original':
-                $type = 'Canción original';
-                break;
-
-            default:
-                $type = $json['songType'];
-        }
-
-        // Artistas
-        $roles = [];
-
-        foreach ($json['artists'] as $artist) {
-
-            if (
-                ($artist['artist']['artistType'] ?? null) !== 'Illustrator'
-                && ($artist['artist']['artistType'] ?? null) !== 'Animator'
-                && ($artist['categories'] ?? null) !== 'Illustrator'
-                && ($artist['categories'] ?? null) !== 'Animator'
-            ) {
-
-                if ($artist['roles'] === 'Default') {
-                    $roles = array_merge(
-                        $roles,
-                        array_map('trim', explode(',', $artist['categories']))
-                    );
-                } else {
-                    $roles = array_merge(
-                        $roles,
-                        array_map('trim', explode(',', $artist['roles']))
-                    );
-                }
+                $original = [
+                    'id' => $original_id,
+                    'name' => $json_original['name'],
+                    'artists' => $json_original['artistString']
+                ];
             }
-        }
 
-        $roles = array_fill_keys(array_unique($roles), []);
+            // Tipo de canción
+            $type = $json['songType'] === 'Original' ? 'Canción original' : $json['songType'];
 
-        foreach ($roles as $rolNombre => &$artistas) {
+            // Artistas y sus roles
+            $credits = [];
+
             foreach ($json['artists'] as $artist) {
 
+                $artist_type = $artist['artist']['artistType'] ?? null;
+                $categories = $artist['categories'] ?? null;
+                $artist_roles = $artist['roles'] ?? null;
+
+                // Filtrar ilustradores / animadores
                 if (
-                    str_contains($artist['roles'], $rolNombre) ||
-                    str_contains($artist['categories'], $rolNombre)
+                    in_array($artist_type, ['Illustrator', 'Animator'], true) ||
+                    str_contains($categories, 'Illustrator') ||
+                    str_contains($categories, 'Animator')
                 ) {
-                    $artistas[] = [
-                        'id' => $artist['artist']['id'], 
-                        'name' => $artist['name']
+                    continue;
+                }
+
+                // Determinar roles reales
+                $roles = $artist_roles === 'Default'
+                    ? $categories
+                    : $artist_roles;
+
+                foreach (array_map('trim', explode(',', $roles)) as $role_name) {
+
+                    if ($role_name === null) {
+                        continue;
+                    }
+
+                    $credits[$role_name][] = [
+                        'id'   => $artist['artist']['id'],
+                        'name' => $artist['name'],
                     ];
                 }
             }
-        }
 
-        ksort($roles);
+            ksort($credits);
 
-        // Géneros
-        $genres = [];
-        foreach ($json['tags'] as $tag) {
-
-            if ($tag['tag']['categoryName'] == 'Genres') {
-
-                $genres[] = [
-                    'name' => trim($tag['tag']['name']),
-                    'id' => $tag['tag']['id']
-                ];
-            }
-        }
-
-        // Albumes de la canción
-        $albumIds = collect($json['albums'])->pluck('id');
-
-        $responses = Http::pool(
-            fn($pool) =>
-            $albumIds->map(
-                fn($albumId) =>
-                $pool->as($albumId)->get("https://vocadb.net/api/albums/{$albumId}?fields=MainPicture")
-            )->toArray()
-        );
-
-        $albumCovers = [];
-        foreach ($responses as $albumId => $res) {
-            if ($res->successful()) {
-                $albumCovers[] = [
-                    'img' => $res['mainPicture']['urlSmallThumb'] ?? null,
-                    'id' => $albumId,
-                ];
-            }
-        }
-
-        // Video
-        $prioridades = [
-            ['Youtube',      'Original'],
-            ['NicoNicoDouga', 'Original'],
-            ['Youtube',      'Reprint'],
-            ['NicoNicoDouga', 'Reprint'],
-        ];
-
-        $video = null;
-
-        foreach ($prioridades as $prio) {
-            foreach ($json['pvs'] as $pv) {
-                if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
-                    $video = [
-                        'url' => $pv['pvId'],
-                        'service' => $pv['service']
+            // Géneros
+            $genres = [];
+            foreach ($json['tags'] as $tag) {
+                if ($tag['tag']['categoryName'] == 'Genres') {
+                    $genres[] = [
+                        'name' => trim($tag['tag']['name']),
+                        'id' => $tag['tag']['id']
                     ];
-                    break 2;
-                }
-            }
-        }
-
-        // Fecha de lanzamiento
-        $date = date('d-m-Y', strtotime($json['publishDate']));
-
-        // Duración
-        $min = floor($json["lengthSeconds"] / 60);
-        $sec = $json["lengthSeconds"] % 60;
-
-        $format = sprintf('%02d:%02d', $min, $sec);
-
-        // Idioma(s)
-        $cultureCodes = [
-            'ja' => 'Japonés',
-            'ha' => 'Romaji',
-            '' => 'Romaji',
-            'en' => 'Inglés',
-            'zh' => 'Chino',
-            'nl' => 'Holandés',
-            'tl' => 'Filipino',
-            'fi' => 'Finlandés',
-            'fr' => 'Francés',
-            'de' => 'Alemán',
-            'id' => 'Indonesio',
-            'it' => 'Italiano',
-            'ko' => 'Coreano',
-            'no' => 'Noruego',
-            'pl' => 'Polaco',
-            'pt' => 'Portugues',
-            'ru' => 'Ruso',
-            'es' => 'Español',
-            'sv' => 'Sueco',
-            'th' => 'Tailandés'
-        ];
-
-        $langs = [];
-
-        foreach ($json['cultureCodes'] as $code) {
-            if (isset($cultureCodes[$code])) {
-                $langs[] = $cultureCodes[$code];
-            }
-        }
-
-        // Letra
-        $lyrics = [];
-        foreach ($json['lyrics'] as $lyric) {
-
-            $langs_lyric = [];
-
-            foreach ($lyric['cultureCodes'] as $code) {
-                if (isset($cultureCodes[$code])) {
-                    $langs_lyric[] = $cultureCodes[$code];
                 }
             }
 
-            $lyrics[] = [
-                'languages' => implode(', ', $langs_lyric),
-                'type' => $lyric['translationType'],
-                'lyric' => $lyric['value'],
-                'id' => $lyric['id']
+            // Albumes de la canción
+            $albumIds = collect($json['albums'])->pluck('id');
+
+            $responses = Http::pool(
+                fn($pool) =>
+                $albumIds->map(
+                    fn($albumId) =>
+                    $pool->as($albumId)->get("https://vocadb.net/api/albums/{$albumId}?fields=MainPicture")
+                )->toArray()
+            );
+
+            $albumCovers = [];
+            foreach ($responses as $albumId => $res) {
+                if ($res->successful()) {
+                    $albumCovers[] = [
+                        'img' => $res['mainPicture']['urlSmallThumb'] ?? null,
+                        'id' => $albumId,
+                    ];
+                }
+            }
+
+            // Video
+            $prioridades = [
+                ['Youtube',      'Original'],
+                ['NicoNicoDouga', 'Original'],
+                ['Youtube',      'Reprint'],
+                ['NicoNicoDouga', 'Reprint'],
             ];
-        }
 
-        return [
-            'id' => $json['id'] ?? null,
-            'name' => $json['name'] ?? null,
-            'date' => $date ?? null,
-            'type' => $type ?? null,
-            'artists' => $json['artistString'] ?? null,
-            'credits' => empty($roles) ? null : $roles,
-            'genres' => empty($genres) ? null : $genres,
-            'albums' => empty($albumCovers) ? null : $albumCovers,
-            'img' => $json['mainPicture']['urlOriginal'] ?? null,
-            'pv' => $video ?? null,
-            'duration' => $format ?? null,
-            'languages' => $langs,
-            'lyrics' => $lyrics,
-            'original' => $original
-        ];
+            $video = null;
+
+            foreach ($prioridades as $prio) {
+                foreach ($json['pvs'] as $pv) {
+                    if ($pv['service'] === $prio[0] && $pv['pvType'] === $prio[1]) {
+                        $video = [
+                            'url' => $pv['pvId'],
+                            'service' => $pv['service']
+                        ];
+                        break 2;
+                    }
+                }
+            }
+
+            // Fecha de publicación
+            $date = $json['publishDate'] ? date('d-m-Y', strtotime($json['publishDate'])) : null;
+
+            // Duración
+            $min = floor($json["lengthSeconds"] / 60);
+            $sec = $json["lengthSeconds"] % 60;
+            $format = sprintf('%02d:%02d', $min, $sec);
+
+            function nameCultureCode(array $codes): string
+            {
+                $cultureCodes = [
+                    'ja' => 'Japonés',
+                    'ha' => 'Romaji',
+                    '' => 'Romaji',
+                    'en' => 'Inglés',
+                    'zh' => 'Chino',
+                    'nl' => 'Holandés',
+                    'tl' => 'Filipino',
+                    'fi' => 'Finlandés',
+                    'fr' => 'Francés',
+                    'de' => 'Alemán',
+                    'id' => 'Indonesio',
+                    'it' => 'Italiano',
+                    'ko' => 'Coreano',
+                    'no' => 'Noruego',
+                    'pl' => 'Polaco',
+                    'pt' => 'Portugues',
+                    'ru' => 'Ruso',
+                    'es' => 'Español',
+                    'sv' => 'Sueco',
+                    'th' => 'Tailandés'
+                ];
+
+                $names_langs = [];
+
+                foreach ($codes as $code) {
+                    if (isset($cultureCodes[$code])) {
+                        $names_langs[] = $cultureCodes[$code];
+                    }
+                }
+
+                return implode(', ', $names_langs);
+            }
+
+            // Idioma(s)
+            $langs = $json['cultureCodes'] ? nameCultureCode($json['cultureCodes']) : null;
+
+            // Letra(s)
+            $lyrics = [];
+            foreach ($json['lyrics'] as $lyric) {
+
+                $lyrics[] = [
+                    'languages' => nameCultureCode($json['cultureCodes']),
+                    'type' => $lyric['translationType'],
+                    'lyric' => $lyric['value'],
+                    'id' => $lyric['id']
+                ];
+            }
+
+            return [
+                'id' => $json['id'] ?? null,
+                'name' => $json['name'] ?? null,
+                'date' => $date,
+                'type' => $type ?? null,
+                'artists' => $json['artistString'] ?? null,
+                'credits' => empty($credits) ? null : $credits,
+                'genres' => empty($genres) ? null : $genres,
+                'albums' => empty($albumCovers) ? null : $albumCovers,
+                'img' => $json['mainPicture']['urlOriginal'] ?? null,
+                'pv' => $video ?? null,
+                'duration' => $format ?? null,
+                'languages' => $langs,
+                'lyrics' => $lyrics,
+                'original' => $original
+            ];
+        } catch (RequestException $e) {
+
+            logger()->error($e->getMessage());
+
+            if ($e->response->status() === 404) {
+                abort(404, 'No se ha encontrado la canción');
+            }
+
+            abort(500, 'Error al obtener la canción.');
+        }
     }
 
     public function getSongs($page, $name, $type, $genres, $artists, $beforeDate, $afterDate, $sort)
     {
-        $start = ($page - 1) * 100;
+        try {
+            $start = ($page - 1) * 100;
 
-        $parameters = [
-            'maxResults' => 100,
-            'start' => $start,
-            'lang' => 'Romaji',
-            'getTotalCount' => 'true',
-            'query' => $name,
-            'nameMatchMode' => 'StartsWith',
-            'sort' => $sort,
-            'songTypes' => $type,
-            'tagId[]' => [],
-            'artistId[]' => [],
-            'beforeDate' => $beforeDate,
-            'afterDate' => $afterDate,
-            'fields' => 'MainPicture'
-        ];
-
-        if (!empty($genres)) {
-            foreach ($genres as $genre) {
-                $parameters['tagId[]'][] = $genre;
-            }
-        }
-
-        if (!empty($artists)) {
-            foreach ($artists as $id) {
-                $parameters['artistId[]'][] = $id;
-            }
-        }
-
-        $res = Http::get("https://vocadb.net/api/songs", $parameters);
-
-        $items = $res['items'];
-        $songs = [];
-
-        foreach ($items as $item) {
-            $songs[] = [
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'artists' => $item['artistString'],
-                'img' => $item['mainPicture']['urlOriginal'] ?? null,
+            $parameters = [
+                'maxResults' => 99,
+                'start' => $start,
+                'lang' => 'Romaji',
+                'getTotalCount' => 'true',
+                'query' => $name,
+                'nameMatchMode' => 'StartsWith',
+                'sort' => $sort,
+                'songTypes' => $type,
+                'tagId[]' => [],
+                'artistId[]' => [],
+                'beforeDate' => $beforeDate,
+                'afterDate' => $afterDate,
+                'fields' => 'MainPicture'
             ];
+
+            if (!empty($genres)) {
+                foreach ($genres as $genre) {
+                    $parameters['tagId[]'][] = $genre;
+                }
+            }
+
+            if (!empty($artists)) {
+                foreach ($artists as $id) {
+                    $parameters['artistId[]'][] = $id;
+                }
+            }
+
+            $res = Http::get("https://vocadb.net/api/songs", $parameters);
+
+            $items = $res['items'];
+            $songs = [];
+
+            foreach ($items as $item) {
+                $songs[] = [
+                    'id' => $item['id'],
+                    'name' => $item['name'],
+                    'artists' => $item['artistString'],
+                    'img' => $item['mainPicture']['urlOriginal'] ?? null,
+                ];
+            }
+
+            $total = $res['totalCount'];
+
+            return [
+                'songs' => $songs,
+                'pages' => ceil($total / 100),
+                'total' => $total
+            ];
+        } catch (RequestException $e) {
+
+            logger()->error($e->getMessage());
+            abort(500, 'Error al obtener las canciones.');
         }
-
-        $total = $res['totalCount'];
-
-        return [
-            'songs' => $songs,
-            'pages' => ceil($total / 100),
-            'total' => $total
-        ];
     }
 
     public function autocomplete($query)

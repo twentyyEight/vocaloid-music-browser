@@ -39,6 +39,17 @@
         }
     }
 
+    .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            height: 180px;
+        }
+    }
+
 }
 
 @media (min-width: 576px) {
@@ -59,20 +70,11 @@
 
 @media (min-width: 992px) {
     #page-albums {
+        padding-inline: 100px;
         grid-template-columns: 30% 1fr;
 
         #albums {
             grid-template-columns: repeat(4, minmax(0, 1fr));
-        }
-    }
-}
-
-@media (min-width: 1200px) {
-    #page-albums {
-        grid-template-columns: 25% 1fr;
-
-        #albums {
-            grid-template-columns: repeat(5, minmax(0, 1fr));
         }
     }
 }

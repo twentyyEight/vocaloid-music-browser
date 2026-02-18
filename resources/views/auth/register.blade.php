@@ -18,6 +18,7 @@
         <p class="error">{{ $message }}</p>
         @enderror
         <button type="submit">Registrarse</button>
+        <a class="redirect" href="{{ route('login') }}">¿Ya tienes una cuenta? Inicia sesión</a>
     </form>
 </div>
 @endsection

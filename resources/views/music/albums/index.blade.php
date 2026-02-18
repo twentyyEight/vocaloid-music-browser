@@ -4,6 +4,8 @@
 <h1 class="title-page">ALBUMES</h1>
 
 <div class="page" data-page="index" id="page-albums">
+
+    <!-- Filtros -->
     <form action="{{ route('album.index') }}" method="GET" id="form">
 
         <div id="controls">
@@ -59,14 +61,17 @@
         <input type="hidden" name="page" id="page" value="{{ $page }}">
     </form>
 
+    <!-- Resultados -->
+    @if (!empty($albums))
+    @foreach ($albums as $album)
     <div id="albums">
-        @foreach ($albums as $album)
         <a href="{{ route('album.show', $album['id']) }}" class="card-album">
             <div class="img-container">
                 @if ($album['img'])
                 <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
                 @else
-                <x-carbon-no-image class="no-img" />
+                <x-carbon-no-image class="icon-no-img" />
+                <p>Portada no <br> disponible</p>
                 @endif
             </div>
             <div class="data">
@@ -74,8 +79,14 @@
                 <p class="artists">{{ $album['artists'] }}</p>
             </div>
         </a>
-        @endforeach
     </div>
+    @endforeach
+    @else
+    <div class="empty">
+        <img src="images/not-found.png" alt="miku not found">
+        <h2>No se han encontrado resultados</h2>
+    </div>
+    @endif
 </div>
 
 <x-pagination :page="$page" :pages="$pages" />

@@ -81,6 +81,7 @@
         <input type="hidden" name="page" id="page" value="{{ $page }}">
     </form>
 
+    @if (!empty($artists))
     <div id="artists">
         @foreach ($artists as $artist)
         <a href="{{ route('artist.show', $artist['id']) }}" class="card-artist">
@@ -89,12 +90,19 @@
                 <img src="{{ $artist['img'] }}" alt="{{ $artist['name'] }}">
                 @else
                 <i class="bi bi-person-fill"></i>
+                <p class="text-no-img">Imagen no disponible</p>
                 @endif
             </div>
-            <p>{{ $artist['name'] }}</p>
+            <p class="name-artist">{{ $artist['name'] }}</p>
         </a>
         @endforeach
     </div>
+    @else
+    <div class="empty">
+        <img src="images/not-found.png" alt="miku not found">
+        <h2>No se han encontrado resultados</h2>
+    </div>
+    @endif
 </div>
 
 <x-pagination :page="$page" :pages="$pages" />

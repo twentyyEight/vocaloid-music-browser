@@ -64,6 +64,7 @@
     </form>
 
     <!-- Resultados -->
+    @if (!empty($songs))
     <div id="songs">
         @foreach ($songs as $song)
         <a href="{{ route('song.show', $song['id']) }}" class="card-song">
@@ -73,6 +74,7 @@
                 <img src="{{ $song['img'] }}" alt="{{ $song['name'] }}">
                 @else
                 <x-carbon-no-image class="no-img" />
+                <p>Imagen no encontrada</p>
                 @endif
             </div>
 
@@ -83,6 +85,12 @@
         </a>
         @endforeach
     </div>
+    @else
+    <div class="empty">
+        <img src="images/not-found.png" alt="miku not found">
+        <h2>No se han encontrado resultados</h2>
+    </div>
+    @endif
 </div>
 <x-pagination :page="$page" :pages="$pages" />
 @endsection

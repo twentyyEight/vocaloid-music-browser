@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -110,13 +111,22 @@ class AuthController extends Controller
     {
         $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        try {
+
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+        } catch (\Exception $e) {
+            Log::error('Error sending password reset link: ' . $e->getMessage(), ['exception' => $e]);
+
+            return back()->withErrors([
+                'email' => 'Error enviando el correo de restablecimiento. Comprueba la configuración de mail y los logs.'
+            ]);
+        }
 
         return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
+            ? back()->with('status', ($status))
+            : back()->withErrors(['email' => ($status)]);
     }
 
     public function resetPasswordForm(string $token)

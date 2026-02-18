@@ -27,7 +27,7 @@
             margin-top: 20px;
         }
 
-        a {
+        #forgot-password {
             display: flex;
             justify-content: end;
             margin-top: 5px;
@@ -52,6 +52,24 @@
             width: 100%;
             border-radius: 5px;
             padding-block: 5px;
+            margin-bottom: 10px;
+
+            &:hover {
+                background-color: $color-hover;
+            }
+
+            &:active {
+                background-color: $color-click;
+            }
+        }
+
+        .redirect {
+            color: $color;
+
+            &:hover,
+            &:active {
+                text-decoration: underline;
+            }
         }
     }
 }

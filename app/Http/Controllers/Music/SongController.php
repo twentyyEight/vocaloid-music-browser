@@ -15,7 +15,7 @@ class SongController extends Controller
 
     public function index(SongService $songService, Request $request)
     {
-        // Obtener datos de formulario
+        // Obtener datos de formulario (Filtros)
         $page = $request->get('page', 1);
         $name = $request->input('name', null);
         $type = $request->input('type') ?: 'Unspecified,Original,Remaster,Remix,Cover,Arrangement,Instrumental,Mashup,Other,Rearrangement';
