@@ -277,28 +277,6 @@ class SongService
         }
     }
 
-    public function autocomplete($query)
-    {
-        $res = Http::get('https://vocadb.net/api/songs', [
-            'nameMatchMode' => 'StartsWith',
-            'maxResults' => 10,
-            'query' => $query,
-            'lang' => 'Romaji',
-            'sort' => 'RatingScore',
-        ]);
-
-        $sugg = [];
-
-        foreach ($res['items'] as $item) {
-            $sugg[] = [
-                'label' => $item['name'],
-                'id' => $item['id']
-            ];
-        }
-
-        return $sugg;
-    }
-
     public function getNewAndTopSongs()
     {
         $responses = Http::pool(fn($pool) => [

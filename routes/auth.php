@@ -14,6 +14,7 @@ Route::get('/test-mail', function () {
 });
 
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::get('/redirect', [AuthController::class, 'redirection'])->middleware('auth')->name('redirect');
 
 /* VERIFICACION EMAIL */
 Route::view('/email/verify', 'auth.verify-email')->name('verification.notice');
@@ -28,7 +29,6 @@ Route::middleware('guest')->group(function () {
     Route::view('/register', 'auth.register')->name('register');
     Route::post('/login', [AuthController::class, 'login'])->name('logincheck');
     Route::post('/register', [AuthController::class, 'register'])->name('registercheck');
-    Route::get('/redirect', [AuthController::class, 'redirection'])->name('redirect');
 
     /* REESTABLECER CONTRASEÑA */
     Route::view('/forgot-password', 'auth.forgot-password')->name('password.request');

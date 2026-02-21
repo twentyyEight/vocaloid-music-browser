@@ -6,7 +6,7 @@
 <div class="page" data-page="index" id="page-albums">
 
     <!-- Filtros -->
-    <form action="{{ route('album.index') }}" method="GET" id="form">
+    <form action="{{ route('album.index') }}" method="GET" class="filters">
 
         <div id="controls">
             <x-input-name :value="request('name', '')" />
@@ -28,22 +28,12 @@
                     <div class="modal-body">
                         <x-sort
                             :value="request('sort')"
-                            :options="[
-                                ['value' => 'ReleaseDate', 'label' => 'Más recientes'],
-                                ['value' => 'Name', 'label' => 'Nombre'],
-                                ['value' => 'RatingTotal', 'label' => 'Popularidad'],
-                            ]" />
+                            :options="config('filters.album_sort')" />
 
                         <x-type
                             label="álbum"
                             :value="request('type')"
-                            :options="[
-                                ['value' => 'Album',        'label' => 'Original'],
-                                ['value' => 'EP',           'label' => 'EP'],
-                                ['value' => 'Compilation',  'label' => 'Compilación'],
-                                ['value' => 'SplitAlbum',   'label' => 'Álbum compartido'],
-                                ['value' => 'Other',        'label' => 'Otro'],
-                            ]" />
+                            :options="config('filters.album_type')" />
 
                         <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
                         <x-tags name="artists" label="Artistas" :value="request('artists', null)" />
@@ -63,8 +53,8 @@
 
     <!-- Resultados -->
     @if (!empty($albums))
-    @foreach ($albums as $album)
     <div id="albums">
+        @foreach ($albums as $album)
         <a href="{{ route('album.show', $album['id']) }}" class="card-album">
             <div class="img-container">
                 @if ($album['img'])
@@ -79,8 +69,8 @@
                 <p class="artists">{{ $album['artists'] }}</p>
             </div>
         </a>
+        @endforeach
     </div>
-    @endforeach
     @else
     <div class="empty">
         <img src="images/not-found.png" alt="miku not found">

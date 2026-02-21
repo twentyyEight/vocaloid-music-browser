@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\GenreService;
-use Illuminate\Support\Facades\Http;
+use App\Services\AutocompleteService;
 
 class GenreController extends Controller
 {
@@ -32,9 +32,19 @@ class GenreController extends Controller
         return view('music.genres.show', ['genre' => $genre]);
     }
 
-    public function autocomplete($query, GenreService $genreService)
+    public function autocomplete($query, AutocompleteService $autocompleteService)
     {
-        $sugg = $genreService->autocomplete($query);
+        $params = [
+            'categoryName' => 'Genres',
+            'allowChildren' => 'true'
+        ];
+        
+        $sugg = $autocompleteService->autocomplete('genres', $query, $params);
+
+        if (isset($sugg['error']) && $sugg['error']) {
+            return response()->json(['message' => $sugg['message']], 500);
+        }
+
         return $sugg;
     }
 }

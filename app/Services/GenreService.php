@@ -106,7 +106,6 @@ class GenreService
                 'artists' => empty($artists) ? null : $artists,
                 'color' => $color
             ];
-            
         } catch (RequestException $e) {
 
             logger()->error($e->getMessage());
@@ -159,28 +158,5 @@ class GenreService
             logger()->error($e->getMessage());
             abort(500, 'Error al obtener las canciones.');
         }
-    }
-
-    public function autocomplete($query)
-    {
-        $res = Http::get('https://vocadb.net/api/tags', [
-            'nameMatchMode' => 'StartsWith',
-            'maxResults' => 10,
-            'query' => $query,
-            'lang' => 'Romaji',
-            'categoryName' => 'Genres',
-            'allowChildren' => 'true',
-        ]);
-
-        $sugg = [];
-
-        foreach ($res['items'] as $item) {
-            $sugg[] = [
-                'label' => $item['name'],
-                'id' => $item['id']
-            ];
-        }
-
-        return $sugg;
     }
 }

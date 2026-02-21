@@ -73,3 +73,13 @@ select:focus {
 .alert-danger {
     background-color: #842029;
 }
+
+form {
+    background-color: #353535;
+    border-radius: 10px;
+
+    .error {
+        color: red;
+        text-align: start;
+    }
+}

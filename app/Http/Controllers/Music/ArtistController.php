@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\ArtistService;
+use App\Services\AutocompleteService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FavoriteArtists;
 use Illuminate\Support\Facades\Log;
-
-use Illuminate\Support\Facades\Http;
 
 class ArtistController extends Controller
 {
@@ -84,9 +83,20 @@ class ArtistController extends Controller
         return back()->with('success', 'Artista eliminado correctamente.');
     }
 
-    public function autocomplete($query, ArtistService $artistService)
+    public function autocomplete($query, AutocompleteService $autocompleteService)
     {
-        $sugg = $artistService->autocomplete($query);
+        $params = [
+            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE',
+            'sort' => 'FollowerCount',
+            'allowBaseVoicebanks' => 'false'
+        ];
+
+        $sugg = $autocompleteService->autocomplete('artists', $query, $params);
+
+        if (isset($sugg['error']) && $sugg['error']) {
+            return response()->json(['message' => $sugg['message']], 500);
+        }
+
         return $sugg;
     }
 }

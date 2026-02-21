@@ -11,5 +11,6 @@
 @use 'pages/home.scss';
 @use 'pages/register-login.scss';
 @use 'pages/profile.scss';
+@use 'pages/dashboard/index.scss' as *;
 
 @import "bootstrap-icons/font/bootstrap-icons.css";

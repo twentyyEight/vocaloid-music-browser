@@ -1,0 +1,223 @@
+@use '/resources/scss/abstracts/variables' as *;
+
+#page-dashboard {
+    padding: 10px;
+    position: relative;
+
+    h1 {
+        text-align: center;
+        margin-block: 1rem;
+    }
+
+    #container-table {
+        display: grid;
+
+        table {
+            width: 100%;
+
+            thead {
+                display: none;
+            }
+
+            tbody {
+                tr {
+                    display: flex;
+                    flex-direction: column;
+                    border: 1px solid #545454;
+                    border-radius: 5px;
+                    background-color: #353535;
+                    padding: 10px;
+
+                    td {
+                        display: flex;
+                        justify-content: space-between;
+                        font-weight: 200;
+                        padding-block: 3px;
+
+                        &:nth-child(1)::before {
+                            content: 'ID';
+                            font-weight: 400;
+                        }
+
+                        &:nth-child(2)::before {
+                            content: 'Nombre';
+                            font-weight: 400;
+                        }
+
+                        &:nth-child(3)::before {
+                            content: 'Email';
+                            font-weight: 400;
+                        }
+
+                        &:nth-child(4)::before {
+                            font-weight: 400;
+                            content: 'Rol';
+                        }
+
+                        &:nth-child(5)::before {
+                            font-weight: 400;
+                            content: 'Creación';
+                        }
+
+                        &:nth-child(6)::before {
+                            font-weight: 400;
+                            content: 'Actualización';
+                        }
+                    }
+
+                    #btns-dashboard {
+                        display: flex;
+                        gap: 10px;
+
+                        .btn-dashboard {
+                            width: 100%;
+                            display: flex;
+                            padding: 5px;
+                            margin: 0;
+                            flex-direction: row;
+                            gap: 5px;
+                            border-radius: 5px;
+                            justify-content: center;
+                            align-items: center;
+                            cursor: pointer;
+                            font-size: 14px;
+                        }
+
+                        .btn-dashboard.delete {
+                            background-color: red;
+
+                            &:hover {
+                                background-color: rgb(173, 0, 0);
+                            }
+                        }
+
+                        .btn-dashboard.edit {
+                            background-color: goldenrod;
+
+                            &:hover {
+                                background-color: rgb(186, 158, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#background-modal-dashboard {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    #modal-dashboard {
+        z-index: 2;
+        padding: 20px;
+
+        #form-edit-user {
+            padding: 15px;
+
+            input,
+            select {
+                margin-bottom: 10px;
+            }
+
+            #header-form {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+
+                .btn-close {
+                    filter: invert(1);
+                }
+            }
+
+            .error {
+                color: red;
+            }
+
+            #btn-edit-user {
+                background-color: $color;
+                margin-top: 10px;
+
+                &:hover {
+                    background-color: $color-hover;
+                }
+
+                &:active {
+                    background-color: $color-click;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    #page-dashboard {
+        #container-table {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    #page-dashboard {
+
+        #container-table {
+            display: flex;
+            justify-content: center;
+
+            table {
+                background-color: #353535;
+                border-radius: 5px;
+                width: auto;
+                border-collapse: collapse;
+                display: table;
+
+                thead {
+                    display: table-header-group;
+                }
+
+                th,
+                td {
+                    padding: 12px;
+                    display: table-cell;
+                    vertical-align: middle;
+                    text-align: left;
+                }
+
+                tbody {
+                    display: table-row-group;
+
+                    tr {
+                        display: table-row;
+                        border: 0;
+
+                        td {
+                            display: table-cell;
+                            padding: 12px;
+
+                            &::before {
+                                display: none;
+                                content: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #background-modal-dashboard {
+        #modal-dashboard {
+            width: 40vw;
+        }
+    }
+}

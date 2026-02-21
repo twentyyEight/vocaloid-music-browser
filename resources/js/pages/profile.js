@@ -1,4 +1,4 @@
-import { carousel } from "./modules/carousel";
+import { carousel } from "../modules/carousel";
 
 $(function () {
 

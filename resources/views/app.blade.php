@@ -53,6 +53,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('profile', ['id' => auth()->id()]) }}">Perfil</a>
                     </li>
+                    @if(auth()->user()->role == 1)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                    </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}">Cerrar Sesión</a>
                     </li>

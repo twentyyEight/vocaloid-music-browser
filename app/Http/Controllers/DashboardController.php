@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class DashboardController extends Controller
 {
@@ -13,23 +15,21 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (!Auth::user()->role == 1) {
-            $userId = Auth::id();
-            return redirect()->route('profile', $userId);
+        try {
+
+            if (!Auth::user()->role == 1) {
+
+                $userId = Auth::id();
+                return redirect()->route('profile', $userId);
+            }
+
+            $users = User::select('id', 'name', 'email', 'role', 'created_at', 'updated_at')->get();
+            return view('dashboard.index', compact('users'));
+        } catch (Throwable $e) {
+
+            Log::error('Error al acceder al dashboard: ' . $e->getMessage(), ['exception' => $e]);
+            return redirect()->route('home')->withErrors(['error' => 'Error al acceder al dashboard']);
         }
-
-        $users = User::select('id', 'name', 'email', 'role', 'created_at', 'updated_at')->get();
-        return view('dashboard.index', compact('users'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $user = User::findOrFail($id);
-
-        return view('dashboard.edit', compact('user'));
     }
 
     /**
@@ -37,16 +37,35 @@ class DashboardController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->except('_token', '_method');
+        try {
+            $validated = $request->validate(
+                [
+                    'email' => 'required|email|unique:users,email,' . $id,
+                    'name' => 'required|unique:users,name,' . $id . '|min:4',
+                    'role' => 'required|in:0,1'
+                ],
+                [
+                    'email.required' => 'El correo es obligatorio.',
+                    'email.email' => 'El correo no tiene un formato válido.',
+                    'email.unique' => 'Este correo ya está registrado.',
 
-        $updated = User::where('id', '=', $id)->update($data);
+                    'name.required' => 'El nombre es obligatorio.',
+                    'name.unique' => 'Este nombre ya está registrado.',
+                    'name.min' => 'El nombre debe tener al menos 4 caracteres.',
 
-        if ($updated === 0) {
+                    'role.required' => 'El rol es obligatorio',
+                    'role.in' => 'El rol seleccionado no es válido.',
+                ]
+            );
 
-            return back()->with('error', 'No se pudo actualizar el usuario.');
+            User::where('id', '=', $id)->update($validated);
+
+            return back()->with('success', 'Usuario actualizado correctamente.');
+        } catch (Throwable $e) {
+
+            Log::error('Error al actualizar usuario: ' . $e->getMessage(), ['exception' => $e]);
+            return back()->with('error', 'No se pudo actualizar el usuario. Inténtalo de nuevo');
         }
-
-        return back()->with('success', 'Usuario actualizado correctamente.');
     }
 
     /**
@@ -54,12 +73,14 @@ class DashboardController extends Controller
      */
     public function destroy(string $id)
     {
-        $deleted = User::destroy($id);
+        try {
+            User::destroy($id);
+            return back()->with('success', 'Usuario eliminado correctamente.');
 
-        if ($deleted === 0) {
-            return back()->with('error', 'No se pudo eliminar el usuario.');
+        } catch (Throwable $e) {
+
+            Log::error('Error al eliminar usuario: ' . $e->getMessage(), ['exception' => $e]);
+            return back()->with('error', 'No se pudo eliminar el usuario. Inténtalo de nuevo');
         }
-
-        return back()->with('success', 'Usuario eliminado correctamente.');
     }
 }

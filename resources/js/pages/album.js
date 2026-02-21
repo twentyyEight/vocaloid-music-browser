@@ -1,5 +1,5 @@
-import { links } from "./modules/links";
-import { closeAlert } from "./modules/close-alert";
+import { links } from "../modules/links";
+import { closeAlert } from "../modules/close-alert";
 
 $(function () {
 

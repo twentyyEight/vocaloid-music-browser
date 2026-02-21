@@ -5,7 +5,9 @@
 <h1 class="title-page">ARTISTAS</h1>
 
 <div id="page-artists" data-page="index" class="page">
-    <form action="{{ route('artist.index') }}" method="GET" id="form">
+
+    <!-- Filtros -->
+    <form action="{{ route('artist.index') }}" method="GET" class="filters">
 
         <div id="controls">
             <x-input-name :value="request('name', '')" />
@@ -26,33 +28,12 @@
                     <div class="modal-body">
                         <x-sort
                             :value="request('sort')"
-                            :options="[
-                                ['value' => 'FollowerCount', 'label' => 'Popularidad'],
-                                ['value' => 'Name', 'label' => 'Nombre'],
-                            ]" />
+                            :options="config('filters.artist_sort')" />
+
                         <x-type
                             label="artista"
                             :value="request('type')"
-                            :options="[
-                                ['value' => 'Producer', 'label' => 'Productor musical', 'data' => 'producer'],
-                                ['value' => 'CoverArtist', 'label' => 'Artista de covers', 'data' => 'producer'],
-                                ['value' => 'Circle', 'label' => 'Círculo', 'data' => 'producer'],
-                                ['value' => 'OtherGroup', 'label' => 'Otros grupos', 'data' => 'producer'],
-
-                                ['value' => 'Vocaloid', 'label' => 'Vocaloid', 'data' => 'vocalist'],
-                                ['value' => 'UTAU', 'label' => 'UTAU', 'data' => 'vocalist'],
-                                ['value' => 'SynthesizerV', 'label' => 'Synthesizer V', 'data' => 'vocalist'],
-                                ['value' => 'CeVIO', 'label' => 'CeVIO', 'data' => 'vocalist'],
-                                ['value' => 'NEUTRINO', 'label' => 'NEUTRINO', 'data' => 'vocalist'],
-                                ['value' => 'VoiSona', 'label' => 'VoiSona', 'data' => 'vocalist'],
-                                ['value' => 'NewType', 'label' => 'NewType', 'data' => 'vocalist'],
-                                ['value' => 'Voiceroid', 'label' => 'Voiceroid', 'data' => 'vocalist'],
-                                ['value' => 'VOICEVOX', 'label' => 'VOICEVOX', 'data' => 'vocalist'],
-                                ['value' => 'ACEVirtualSinger', 'label' => 'ACE Virtual Singer', 'data' => 'vocalist'],
-                                ['value' => 'AIVOICE', 'label' => 'AI VOICE', 'data' => 'vocalist'],
-                                ['value' => 'OtherVoiceSynthesizer', 'label' => 'Otros sintetizadores de voz', 'data' => 'vocalist'],
-                                ['value' => 'OtherVocalist', 'label' => 'Otros vocalistas', 'data' => 'vocalist'],
-                            ]">
+                            :options="config('filters.artist_type')">
 
                             <div id="switch-type">
                                 <label>
@@ -81,6 +62,7 @@
         <input type="hidden" name="page" id="page" value="{{ $page }}">
     </form>
 
+    <!-- Resultados -->
     @if (!empty($artists))
     <div id="artists">
         @foreach ($artists as $artist)

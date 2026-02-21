@@ -1,5 +1,5 @@
-import { carousel } from "./modules/carousel";
-import { closeAlert } from "./modules/close-alert";
+import { carousel } from "../modules/carousel";
+import { closeAlert } from "../modules/close-alert";
 
 $(function () {
 

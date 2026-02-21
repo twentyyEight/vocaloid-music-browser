@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\SongService;
 use App\Models\FavoriteSongs;
+use App\Services\AutocompleteService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -76,24 +77,34 @@ class SongController extends Controller
 
     public function destroyFavorite($songId)
     {
+        try {
+            $userId = Auth::id();
 
-        $userId = Auth::id();
+            FavoriteSongs::where('user_id', $userId)
+                ->where('song_id', $songId)
+                ->delete();
 
-        $deleted = FavoriteSongs::where('user_id', $userId)
-            ->where('song_id', $songId)
-            ->delete();
+            return back()->with('success', 'Canción eliminada correctamente.');
+            
+        } catch (\Exception $e) {
 
-
-        if ($deleted === 0) {
-            return back()->with('error', 'Error al eliminar la canción.');
+            Log::error($e->getMessage());
+            return back()->with('error', 'Error al eliminar');
         }
-
-        return back()->with('success', 'Canción eliminada correctamente.');
     }
 
-    public function autocomplete($query, SongService $songService)
+    public function autocomplete($query, AutocompleteService $autocompleteService)
     {
-        $sugg = $songService->autocomplete($query);
+        $params = [
+            'sort' => 'RatingScore',
+        ];
+
+        $sugg = $autocompleteService->autocomplete('songs', $query, $params);
+
+        if (isset($sugg['error']) && $sugg['error']) {
+            return response()->json(['message' => $sugg['message']], 500);
+        }
+
         return $sugg;
     }
 }

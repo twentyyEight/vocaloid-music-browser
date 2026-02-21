@@ -5,6 +5,6 @@ export function pagination() {
         if (!page) return;
 
         $('#page').val(page);
-        $('#form').trigger('submit')
+        $('.filters').trigger('submit')
     });
 }

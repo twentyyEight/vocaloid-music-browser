@@ -142,29 +142,6 @@ class AlbumService
         }
     }
 
-    public function autocomplete($query)
-    {
-        $res = Http::get('https://vocadb.net/api/albums', [
-            'nameMatchMode' => 'StartsWith',
-            'discTypes' => 'Unknown',
-            'maxResults' => 10,
-            'sort' => 'RatingAverage',
-            'query' => $query,
-            'lang' => 'Romaji',
-        ]);
-
-        $sugg = [];
-
-        foreach ($res['items'] as $item) {
-            $sugg[] = [
-                'label' => $item['name'],
-                'id' => $item['id']
-            ];
-        }
-
-        return $sugg;
-    }
-
     public function getAlbums($page, $name, $type, $genres, $artists, $beforeDate, $afterDate, $sort)
     {
         try {
@@ -220,7 +197,6 @@ class AlbumService
                 'pages' => ceil($total / 100),
                 'total' => $total
             ];
-            
         } catch (RequestException $e) {
 
             logger()->error($e->getMessage());

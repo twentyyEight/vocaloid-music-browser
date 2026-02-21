@@ -1,5 +1,5 @@
-import { links_artists } from "./modules/links_artistis";
-import { closeAlert } from "./modules/close-alert";
+import { links_artists } from "../modules/links_artistis";
+import { closeAlert } from "../modules/close-alert";
 
 $(function () {
 

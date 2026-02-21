@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Services\AlbumService;
+use App\Services\AutocompleteService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FavoriteAlbums;
+use Exception;
 use Illuminate\Support\Facades\Log;
-
-use Illuminate\Support\Facades\Http;
 
 class AlbumController extends Controller
 {
@@ -75,23 +75,34 @@ class AlbumController extends Controller
 
     public function destroyFavorite($albumId)
     {
-        $userId = Auth::id();
+        try {
+            $userId = Auth::id();
 
-        $deleted = FavoriteAlbums::where('user_id', $userId)
-            ->where('album_id', $albumId)
-            ->delete();
+            FavoriteAlbums::where('user_id', $userId)
+                ->where('album_id', $albumId)
+                ->delete();
 
+            return back()->with('success', 'Album eliminado correctamente.');
+        } catch (\Exception $e) {
 
-        if ($deleted === 0) {
-            return back()->with('error', 'Error al eliminar el album.');
+            Log::error($e->getMessage());
+            return back()->with('error', 'Error al eliminar');
         }
-
-        return back()->with('success', 'Album eliminado correctamente.');
     }
 
-    public function autocomplete($query, AlbumService $albumService)
+    public function autocomplete($query, AutocompleteService $autocompleteService)
     {
-        $sugg = $albumService->autocomplete($query);
+        $params = [
+            'discTypes' => 'Unknown',
+            'sort' => 'RatingAverage'
+        ];
+
+        $sugg = $autocompleteService->autocomplete('albums', $query, $params);
+
+        if (isset($sugg['error']) && $sugg['error']) {
+            return response()->json(['message' => $sugg['message']], 500);
+        }
+
         return $sugg;
     }
 }

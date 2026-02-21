@@ -1,4 +1,6 @@
 $(function () {
+
+    /* DEPENDIENDO DE LA OPTION SELECCIONADA EN SELECT, CAMBIA EL PLACEHOLDER DEL INPUT */
     let entity = $('#entity')[0].value
     let name_entity = $('#entity').find('option:selected').text()
 
@@ -14,7 +16,9 @@ $(function () {
 
     updatePlaceholder()
 
+    /* SUGERENCIAS DE BÚSQUEDA */
     $('input').autocomplete({
+        delay: 1500,
         source: function (request, response) {
             $.ajax({
                 url: `/${entity}/autocomplete/${request.term}`,
@@ -22,6 +26,7 @@ $(function () {
                     $('#loading').show()
                 },
                 success: function (data) {
+                    console.log(true)
                     response(data);
                 },
                 complete: function () {

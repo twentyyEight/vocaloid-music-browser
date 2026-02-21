@@ -98,7 +98,6 @@ class ArtistService
                 'latest_albums' => empty($latest_albums) ? null : $latest_albums,
                 'links' => empty($links) ? null : $links
             ];
-            
         } catch (RequestException $e) {
 
             logger()->error($e->getMessage());
@@ -109,30 +108,6 @@ class ArtistService
 
             abort(500, 'Error al obtener el artista');
         }
-    }
-
-    public function autocomplete($query)
-    {
-        $res = Http::get('https://vocadb.net/api/artists', [
-            'nameMatchMode' => 'StartsWith',
-            'artistTypes' => 'Circle, Producer, Vocaloid, UTAU, CeVIO, OtherVoiceSynthesizer, OtherVocalist, OtherGroup, OtherIndividual, Utaite, Band, Vocalist, Character, SynthesizerV, NEUTRINO, VoiSona, NewType, Voiceroid, VOICEVOX, ACEVirtualSinger, AIVOICE',
-            'maxResults' => 10,
-            'sort' => 'FollowerCount',
-            'query' => $query,
-            'lang' => 'Romaji',
-            'allowBaseVoicebanks' => 'false'
-        ]);
-
-        $sugg = [];
-
-        foreach ($res['items'] as $item) {
-            $sugg[] = [
-                'label' => $item['name'],
-                'id' => $item['id']
-            ];
-        }
-
-        return $sugg;
     }
 
     public function getArtists($page, $type, $sort, $genres, $name)

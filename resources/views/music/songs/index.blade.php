@@ -6,7 +6,7 @@
 <div id="page-songs" class="page" data-page="index">
 
     <!-- Filtros -->
-    <form action="{{ route('song.index') }}" method="GET" id="form">
+    <form action="{{ route('song.index') }}" method="GET" class="filters">
 
         <div id="controls">
             <x-input-name :value="request('name', '')" />
@@ -28,24 +28,11 @@
                     <div class="modal-body">
                         <x-sort
                             :value="request('sort')"
-                            :options="[
-                        ['value' => 'PublishDate', 'label' => 'Más reciente'],
-                        ['value' => 'Name', 'label' => 'Nombre'],
-                        ['value' => 'RatingScore', 'label' => 'Popularidad']]" />
+                            :options="config('filters.song_sort')" />
 
                         <x-type
                             label="canción" :value="request('type')"
-                            :options="[
-                        ['value' => 'Original',        'label' => 'Original'],
-                        ['value' => 'Remaster',        'label' => 'Remasterización'],
-                        ['value' => 'Remix',           'label' => 'Remix'],
-                        ['value' => 'Cover',           'label' => 'Cover'],
-                        ['value' => 'Arragement',      'label' => 'Arreglo'],
-                        ['value' => 'Instrumental',    'label' => 'Instrumental'],
-                        ['value' => 'Mashup',          'label' => 'Mashup'],
-                        ['value' => 'Rearragement',    'label' => 'Rearreglo'],
-                        ['value' => 'Other',           'label' => 'Otro'],
-                        ['value' => 'Unspecified',     'label' => 'Sin especificar']]" />
+                            :options="config('filters.song_type')" />
 
                         <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
                         <x-tags name="artists" label="Artistas" :value="request('artists', null)" />
