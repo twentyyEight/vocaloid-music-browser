@@ -41,14 +41,15 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()->route('redirect');
-        } catch (ValidationException $e) {
-            throw $e;
         } catch (Throwable $e) {
+            if ($e instanceof ValidationException) {
+                throw $e;
+            }
 
-            Log::error('Error al iniciar sesión: ' . $e->getMessage(), ['exception' => $e]);
+            Log::error('Error al registrar nuevo usuario: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors([
-                'login' => 'Ocurrió un error al iniciar sesión. Intentalo más tarde'
+                'register' => 'Ocurrió un error al iniciar sesión'
             ])->withInput();
         }
     }
@@ -86,9 +87,10 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect()->route('redirect');
-        } catch (ValidationException $e) {
-            throw $e;
         } catch (Throwable $e) {
+            if ($e instanceof ValidationException) {
+                throw $e;
+            }
 
             Log::error('Error al registrar nuevo usuario: ' . $e->getMessage(), ['exception' => $e]);
 
@@ -151,15 +153,16 @@ class AuthController extends Controller
             );
 
             return back()->with('status', ($status));
-        } catch (ValidationException $e) {
-            throw $e;
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
+            if ($e instanceof ValidationException) {
+                throw $e;
+            }
 
-            Log::error('Error enviando el correo de restablecimiento: ' . $e->getMessage(), ['exception' => $e]);
+            Log::error('Error al registrar nuevo usuario: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors([
-                'error' => 'Error enviando el correo de restablecimiento.'
-            ]);
+                'register' => 'Ocurrió un error al enviar el correo'
+            ])->withInput();
         }
     }
 
@@ -202,17 +205,16 @@ class AuthController extends Controller
             );
 
             return redirect()->route('login')->with('status', ($status));
-
-        } catch (ValidationException $e) {
-            throw $e;
-
         } catch (Throwable $e) {
+            if ($e instanceof ValidationException) {
+                throw $e;
+            }
 
-            Log::error('Error al reestablecer contraseña: ' . $e->getMessage(), ['exception' => $e]);
+            Log::error('Error al registrar nuevo usuario: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors([
-                'error' => 'Ocurrió un error al restablecer la contraseña'
-            ]);
+                'register' => 'Ocurrió un error al restablecer la contraseña'
+            ])->withInput();
         }
     }
 }
