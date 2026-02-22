@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class AuthController extends Controller
@@ -40,6 +41,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()->route('redirect');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (Throwable $e) {
 
             Log::error('Error al iniciar sesión: ' . $e->getMessage(), ['exception' => $e]);
@@ -83,6 +86,8 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect()->route('redirect');
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (Throwable $e) {
 
             Log::error('Error al registrar nuevo usuario: ' . $e->getMessage(), ['exception' => $e]);
@@ -146,6 +151,8 @@ class AuthController extends Controller
             );
 
             return back()->with('status', ($status));
+        } catch (ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
 
             Log::error('Error enviando el correo de restablecimiento: ' . $e->getMessage(), ['exception' => $e]);
@@ -165,11 +172,21 @@ class AuthController extends Controller
     {
         try {
 
-            $request->validate([
-                'token' => 'required',
-                'email' => 'required|email',
-                'password' => 'required|min:8|confirmed',
-            ]);
+            $request->validate(
+                [
+                    'token' => 'required',
+                    'email' => 'required|email:rfc,dns',
+                    'password' => 'required|min:8|confirmed',
+                ],
+                [
+                    'email.required' => 'El correo es obligatorio.',
+                    'email.email' => 'El correo no tiene un formato válido.',
+
+                    'password.required' => 'La contraseña es obligatoria.',
+                    'password.min' => 'La contraseña debe tener mínimo 8 caracteres.',
+                    'password.confirmed' => 'Las contraseñas no coinciden',
+                ]
+            );
 
             $status = Password::reset(
                 $request->only('email', 'password', 'password_confirmation', 'token'),
@@ -185,6 +202,10 @@ class AuthController extends Controller
             );
 
             return redirect()->route('login')->with('status', ($status));
+
+        } catch (ValidationException $e) {
+            throw $e;
+
         } catch (Throwable $e) {
 
             Log::error('Error al reestablecer contraseña: ' . $e->getMessage(), ['exception' => $e]);
