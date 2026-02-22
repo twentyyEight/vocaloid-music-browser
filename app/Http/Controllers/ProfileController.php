@@ -38,7 +38,7 @@ class ProfileController extends Controller
         } catch (Throwable $e) {
             Log::error('Error al cargar perfil: ' . $e->getMessage(), ['exception' => $e]);
 
-            return redirect()->route('home')->withErrors(['error' => 'Perfil no encontrado']);
+            return redirect()->route('home')->with(['error' => 'Perfil no encontrado']);
         }
     }
 }

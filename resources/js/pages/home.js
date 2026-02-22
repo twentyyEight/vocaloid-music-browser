@@ -26,11 +26,8 @@ $(function () {
                     $('#loading').show()
                 },
                 success: function (data) {
-                    console.log(true)
-                    response(data);
-                },
-                complete: function () {
                     $('#loading').hide()
+                    response(data);
                 },
                 error: function (error) {
                     console.error(error)

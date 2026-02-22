@@ -24,11 +24,12 @@ class DashboardController extends Controller
             }
 
             $users = User::select('id', 'name', 'email', 'role', 'created_at', 'updated_at')->get();
+            
             return view('dashboard.index', compact('users'));
         } catch (Throwable $e) {
 
             Log::error('Error al acceder al dashboard: ' . $e->getMessage(), ['exception' => $e]);
-            return redirect()->route('home')->withErrors(['error' => 'Error al acceder al dashboard']);
+            return redirect()->route('home')->with(['error' => 'Error al acceder al dashboard']);
         }
     }
 
@@ -60,11 +61,13 @@ class DashboardController extends Controller
 
             User::where('id', '=', $id)->update($validated);
 
-            return back()->with('success', 'Usuario actualizado correctamente.');
+            return back()->with('error', 'No se pudo actualizar el usuario');
+
+            //return back()->with('success', 'Usuario actualizado correctamente.');
         } catch (Throwable $e) {
 
             Log::error('Error al actualizar usuario: ' . $e->getMessage(), ['exception' => $e]);
-            return back()->with('error', 'No se pudo actualizar el usuario. Inténtalo de nuevo');
+            return back()->with('error', 'No se pudo actualizar el usuario');
         }
     }
 
@@ -80,7 +83,7 @@ class DashboardController extends Controller
         } catch (Throwable $e) {
 
             Log::error('Error al eliminar usuario: ' . $e->getMessage(), ['exception' => $e]);
-            return back()->with('error', 'No se pudo eliminar el usuario. Inténtalo de nuevo');
+            return back()->with('error', 'No se pudo eliminar el usuario');
         }
     }
 }

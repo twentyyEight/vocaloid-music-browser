@@ -82,4 +82,24 @@ form {
         color: red;
         text-align: start;
     }
+
+    .loading {
+        display: none;
+        position: absolute;
+        right: 12px;
+        top: 20%;
+        width: 20px;
+        color: gray;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
 }

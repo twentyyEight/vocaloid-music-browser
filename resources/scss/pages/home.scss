@@ -6,6 +6,7 @@
     align-items: center;
     padding: 10px;
     overflow-x: hidden;
+    position: relative;
 
     #viewport {
         width: calc(50vw * 2);
@@ -123,6 +124,15 @@
 .ui-menu.ui-widget.ui-widget-content {
     background-color: #353535;
     margin-top: 10px;
+}
+
+.ui-autocomplete,
+.ui-menu.ui-widget.ui-widget-content {
+    position: absolute;
+    z-index: 2;
+    max-height: 40vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .ui-helper-hidden-accessible {

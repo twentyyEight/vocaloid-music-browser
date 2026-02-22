@@ -19,6 +19,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         try {
+
             $credentials = $request->validate(
                 [
                     'email' => 'required|email',
@@ -52,6 +53,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         try {
+
             $validation = $request->validate(
                 [
                     'name' => 'required|unique:users,name|min:4',
@@ -86,7 +88,7 @@ class AuthController extends Controller
             Log::error('Error al registrar nuevo usuario: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors([
-                'register' => 'Ocurrió un error al registrarse. Intentalo más tarde'
+                'register' => 'Ocurrió un error al registrarse'
             ])->withInput();
         }
     }
@@ -131,20 +133,25 @@ class AuthController extends Controller
     public function sendPasswordResetLink(Request $request)
     {
         try {
-            $request->validate(['email' => 'required|email']);
+            $request->validate(
+                ['email' => 'required|email:rfc,dns'],
+                [
+                    'email.required' => 'El correo es obligatorio.',
+                    'email.email' => 'El correo no tiene un formato válido.',
+                ]
+            );
 
             $status = Password::sendResetLink(
                 $request->only('email')
             );
 
             return back()->with('status', ($status));
-
         } catch (\Exception $e) {
 
             Log::error('Error enviando el correo de restablecimiento: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors([
-                'email' => 'Error enviando el correo de restablecimiento. Intenta más tarde'
+                'error' => 'Error enviando el correo de restablecimiento.'
             ]);
         }
     }
@@ -157,6 +164,7 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         try {
+
             $request->validate([
                 'token' => 'required',
                 'email' => 'required|email',
@@ -177,13 +185,12 @@ class AuthController extends Controller
             );
 
             return redirect()->route('login')->with('status', ($status));
-
         } catch (Throwable $e) {
 
             Log::error('Error al reestablecer contraseña: ' . $e->getMessage(), ['exception' => $e]);
 
             return back()->withErrors([
-                'email' => 'Ocurrió un error al restablecer la contraseña. Intentalo más tarde'
+                'error' => 'Ocurrió un error al restablecer la contraseña'
             ]);
         }
     }

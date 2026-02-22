@@ -7,60 +7,28 @@
 <div id="page-artists" data-page="index" class="page">
 
     <!-- Filtros -->
-    <form action="{{ route('artist.index') }}" method="GET" class="filters">
+    <x-filters entity="artist" :page="$page">
 
-        <div id="controls">
-            <x-input-name :value="request('name', '')" />
-            <button type="button" data-bs-toggle="modal" data-bs-target="#filtersModal" id="open_filters">
-                <i class="bi bi-funnel-fill"></i>
-            </button>
-        </div>
+        <!-- Ordenar por -->
+        <x-sort
+            :value="request('sort')"
+            :options="config('filters.artist_sort')" />
 
-        <div class="modal fade" id="filtersModal" aria-labelledby="exampleModalLabel" aria-hidden="true" tabindex="-1">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
+        <!-- Tipo de artista -->
+        <x-type
+            label="artista"
+            :value="request('type')"
+            :options="config('filters.artist_type')">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title">Filtros</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <x-sort
-                            :value="request('sort')"
-                            :options="config('filters.artist_sort')" />
-
-                        <x-type
-                            label="artista"
-                            :value="request('type')"
-                            :options="config('filters.artist_type')">
-
-                            <div id="switch-type">
-                                <label>
-                                    <input type="radio" value="producer" class="type-artist" checked>
-                                    <span>Productor</span>
-                                </label>
-
-                                <label>
-                                    <input type="radio" value="vocalist" class="type-artist">
-                                    <span>Vocalista</span>
-                                </label>
-                            </div>
-                        </x-type>
-
-                        <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" id="apply">Aplicar filtros</button>
-                        <a href="{{ route('song.index') }}" id="reset">Limpiar filtros</a>
-                    </div>
-                </div>
+            <div id="switch-type">
+                <button type="button" class="type-artist producer active">Productor</button>
+                <button type="button" class="type-artist vocalist">Vocalista</button>
             </div>
-        </div>
+        </x-type>
 
-        <input type="hidden" name="page" id="page" value="{{ $page }}">
-    </form>
+        <!-- Generos -->
+        <x-tags name="genres" label="Géneros" :value="request('genres', null)" />
+    </x-filters>
 
     <!-- Resultados -->
     @if (!empty($artists))

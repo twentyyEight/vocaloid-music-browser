@@ -31,6 +31,7 @@ return [
     'artist_type' => [
 
         'producer' => [
+            null => 'Todos',
             'Producer' => 'Productor musical',
             'CoverArtist' => 'Artista de covers',
             'Circle' => 'Círculo',
@@ -38,6 +39,7 @@ return [
         ],
 
         'vocalist' => [
+            null => 'Todos',
             'Vocaloid' => 'Vocaloid',
             'UTAU' => 'UTAU',
             'SynthesizerV' => 'Synthesizer V',

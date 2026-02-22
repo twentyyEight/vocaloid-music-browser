@@ -4,73 +4,57 @@ export function filters() {
 
     // Maneja el filtro 'Género'
     tagsHandler({
-        inputId: '#genres',
-        hiddenInputId: '#genres_ids',
         name: 'genres',
         sessionStorageName: 'selectedGenres',
-        loading: '#loading_genres',
-        selectedWrapperId: '#selected_genres'
     })
 
     // Maneja el filtro 'Artistas'
     tagsHandler({
-        inputId: '#artists',
-        hiddenInputId: '#artists_ids',
         name: 'artists',
         sessionStorageName: 'selectedArtists',
-        loading: '#loading_artists',
-        selectedWrapperId: '#selected_artists'
     })
 
-    // Maneja las opciones a mostrar en 'Tipo de artista'
-    function updateSelectByRadio(type) {
-        const $select = $('#types');
+    // Maneja el filtro 'Tipo de artista'
+    const buttons_types = $('.type-artist')
+    const options_types = $('#types option').clone();
 
-        $select.val('');
-        $select.find('option:not(:first)').hide();
-        $select.find(`option[data-type="${type}"]`).show();
+    function changeOptionType(type) {
+        $('#types').empty();
+
+        options_types.filter(function () {
+            return $(this).data('type') == type;
+        }).clone().appendTo('#types');
     }
 
-    $(document).on('change', '.type-artist', function () {
-        $('.type-artist').not(this).prop('checked', false); // permite seleccionar solo un radio, ya que ellos no utilizan 'name'
-        updateSelectByRadio(this.value);
+    changeOptionType('producer')
+
+    buttons_types.on('click', function () {
+        let type = $(this)[0].classList[1]
+        changeOptionType(type)
+    })
+
+    buttons_types.on('click', function () {
+        buttons_types.removeClass('active');
+        $(this).addClass('active');
     });
 
-    const checked = $('.type-artist:checked').val();
-    if (checked) updateSelectByRadio(checked);
-
-    // Verificar si hay un valor en el input hidden y seleccionar el radio correspondiente
-    const currentValue = $('#type').val();
-    if (currentValue) {
-        const selectedOption = $('#types option[value="' + currentValue + '"]');
-        if (selectedOption.length) {
-            const dataType = selectedOption.data('type');
-            if (dataType) {
-                $('.type-artist').prop('checked', false);
-                $('.type-artist[value="' + dataType + '"]').prop('checked', true);
-                updateSelectByRadio(dataType);
-                $('#types').val(currentValue);
-            }
-        }
-    }
-
     // Maneja el envio del value de los select
-    $('#types').on('change', function () { 
-        $('#type').val(this.value) 
+    $('#types').on('change', function () {
+        $('#type').val(this.value)
     })
 
     // Maneja la posición de los filtros en moviles y pc
     function filterPosition() {
-        if ($(window).width() >= 768) {
-            $('#open_filters, .btn-close').hide()
-            $('.modal-header').insertBefore('#controls')
-            $('#filtersModal')
+        if ($(window).width() >= 992) {
+            $('.open_filters, .btn-close').hide()
+            $('.modal-header').insertBefore('.controls')
+            $('#filters_modal')
                 .removeClass('modal fade')
                 .show()
         } else {
             $('.modal-header').insertBefore('.modal-body')
-            $('#filtersModal').addClass('modal fade')
-            $('#open_filters, .btn-close').show()
+            $('#filters_modal').addClass('modal fade')
+            $('.open_filters, .btn-close').show()
         }
     }
 

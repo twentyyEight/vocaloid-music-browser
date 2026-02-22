@@ -1,19 +1,31 @@
-<h1>Contraseña olvidada</h1>
+@extends('app')
 
-@if (session('status'))
-    <p>{{ session('status') }}</p>
-@endif
+@section('content')
+<div class="password-page">
 
-@if ($errors->any())
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-@endif
+    <form action="{{ route('password.email') }}" method="POST">
+        <h1>Recuperar contraseña</h1>
+        @csrf
 
-<form action="{{ route('password.email') }}" method="POST">
-    @csrf
-    <input type="email" name="email" placeholder="Ingresa tu correo" required>
-    <input type="submit" value="Enviar link de restablecimiento">
-</form>
+        @error('error')
+        <div class="alert alert-danger" role="alert">
+            <div>
+                {{ $message }}
+            </div>
+        </div>
+        @enderror
+
+        @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            <p>Correo enviado con éxito</p>
+        </div>
+        @endif
+
+        <input type="email" name="email" placeholder="Ingresa tu correo" required>
+        @error('email')
+        <p class="error">{{ $message }}</p>
+        @enderror
+        <button type="submit">Enviar link de restablecimiento</button>
+    </form>
+</div>
+@endsection

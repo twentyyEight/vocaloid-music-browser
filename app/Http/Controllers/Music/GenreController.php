@@ -39,7 +39,7 @@ class GenreController extends Controller
             'allowChildren' => 'true'
         ];
         
-        $sugg = $autocompleteService->autocomplete('genres', $query, $params);
+        $sugg = $autocompleteService->autocomplete('tags', $query, $params);
 
         if (isset($sugg['error']) && $sugg['error']) {
             return response()->json(['message' => $sugg['message']], 500);

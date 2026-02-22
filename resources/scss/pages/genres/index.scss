@@ -7,6 +7,23 @@
     width: 100%;
     padding-inline: 50px;
 
+    .filters {
+        .name-container {
+            position: relative;
+
+            .loading.name {
+                display: none;
+                position: absolute;
+                right: 40px;
+                top: 20%;
+                transform: translateY(-50%);
+                width: 20px;
+                color: gray;
+                animation: spin 1s linear infinite;
+            }
+        }
+    }
+
     #genres {
         display: grid;
         gap: 15px;

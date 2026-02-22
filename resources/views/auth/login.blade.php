@@ -15,12 +15,18 @@
         </div>
         @enderror
 
-        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}">
+        @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            <p>Contraseña restablecida con éxito</p>
+        </div>
+        @endif
+
+        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}" required>
         @error('email')
         <p class="error">{{ $message }}</p>
         @enderror
 
-        <input type="password" name="password" placeholder="Contraseña" value="{{ old('password') }}"><br>
+        <input type="password" name="password" placeholder="Contraseña" value="{{ old('password') }}" required>
         @error('password')
         <p class="error">{{ $message }}</p>
         @enderror

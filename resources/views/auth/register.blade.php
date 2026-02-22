@@ -5,15 +5,24 @@
     <form action="{{ route('registercheck') }}" method="post">
         <h1>Crear cuenta</h1>
         @csrf
-        <input type="text" name="name" placeholder="Nombre de usuario" value="{{ old('name') }}">
+
+        @error('register')
+        <div class="alert alert-danger" role="alert">
+            <div>
+                {{ $message }}
+            </div>
+        </div>
+        @enderror
+
+        <input type="text" name="name" placeholder="Nombre de usuario" value="{{ old('name') }}" required>
         @error('name')
         <p class="error">{{ $message }}</p>
         @enderror
-        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}">
+        <input type="email" name="email" placeholder="Correo electrónico" value="{{ old('email') }}" required>
         @error('email')
         <p class="error">{{ $message }}</p>
         @enderror
-        <input type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" value="{{ old('password') }}">
+        <input type="password" name="password" placeholder="Contraseña (mínimo 8 caracteres)" value="{{ old('password') }}" required>
         @error('password')
         <p class="error">{{ $message }}</p>
         @enderror

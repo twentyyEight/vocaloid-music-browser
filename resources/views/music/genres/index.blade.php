@@ -3,9 +3,9 @@
 @section('content')
 <h1 class="title-page">GÉNEROS</h1>
 
-<div id="page-genres">
+<div id="page-genres" class="page" data-page="genres">
 
-    <form action="{{ route('genre.index') }}" method="GET" id="form">
+    <form action="{{ route('genre.index') }}" method="GET" class="filters">
         <x-input-name :value="request('name', '')" />
 
         <input type="hidden" name="page" id="page" value="{{ $page }}">

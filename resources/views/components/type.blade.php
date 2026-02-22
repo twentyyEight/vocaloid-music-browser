@@ -11,7 +11,6 @@
         {{ $slot }}
 
         <select id="types">
-            <option value=""></option>
 
             @if (is_array(reset($options)))
 

@@ -3,6 +3,12 @@
 @section('content')
 <div id="home-page" class="page" data-page="home">
 
+    @foreach (['success' => 'success', 'error' => 'danger'] as $key => $type)
+    @if (session($key))
+    <x-alert :type="$type" :message="session($key)" />
+    @endif
+    @endforeach
+
     <div id="viewport">
         <div id="squares-up">
             <img src="/images/home/meiko.jpg" alt="">
