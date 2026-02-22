@@ -1,4 +1,4 @@
-import { links_artists } from "../modules/links_artistis";
+import { links } from "../modules/links";
 import { closeAlert } from "../modules/close-alert";
 
 $(function () {
@@ -9,17 +9,23 @@ $(function () {
         Array.from(this.children).forEach(link => {
             const link_name = link.innerText
 
-            const match = links_artists.find(l =>
+            const match = links.find(l =>
                 l.name.toLowerCase() === link_name.toLowerCase()
                 || link_name.toLowerCase().includes(l.name.toLowerCase())
             )
 
             if (match) {
-                $(link).css({
-                    backgroundColor: match.background,
-                    color: match.color
-                })
-                //$(link).prepend(match.icon)
+                if (match.background.startsWith('linear-gradient')) {
+                    $(link).css({
+                        backgroundImage: match.background,
+                        color: match.color
+                    });
+                } else {
+                    $(link).css({
+                        backgroundColor: match.background,
+                        color: match.color
+                    });
+                }
             }
         })
     })
