@@ -16,10 +16,10 @@ export function filters() {
 
     // Maneja el filtro 'Tipo de artista'
     const buttons_types = $('.type-artist')
-    const options_types = $('#types option').clone();
+    const options_types = $('#page-artists #types option').clone();
 
     function changeOptionType(type) {
-        $('#types').empty();
+        $('#page-artists #types').empty();
 
         options_types.filter(function () {
             return $(this).data('type') == type;

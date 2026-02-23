@@ -27,6 +27,8 @@
 
             @else
 
+            <option value=""></option>
+
             @foreach ($options as $option_value => $label)
             <option
                 value="{{ $option_value }}"

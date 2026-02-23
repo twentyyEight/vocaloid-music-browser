@@ -74,7 +74,7 @@
                     <p><span>Duración</span><span>{{ $song['duration'] }} min</span></p>
                     @endif
                     @if ($song['languages'])
-                    <p><span>Idioma(s)</span><span>{{ implode(', ', $song['languages']) }}</span></p>
+                    <p><span>Idioma(s)</span><span>{{ $song['languages'] }}</span></p>
                     @endif
                 </div>
 

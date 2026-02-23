@@ -1,6 +1,10 @@
 .data {
     line-height: 1.2;
 
+    &:hover {
+        text-decoration: underline;
+    }
+
     .title {
         font-size: 18px;
         font-weight: 600;

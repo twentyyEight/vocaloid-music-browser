@@ -13,6 +13,14 @@
     #songs {
         display: grid;
         gap: 20px;
+
+        a {
+            .img-container {
+                &:hover {
+                    filter: opacity(0.5);
+                }
+            }
+        }
     }
 
     .empty {

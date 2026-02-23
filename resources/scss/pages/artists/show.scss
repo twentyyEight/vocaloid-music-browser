@@ -1,6 +1,7 @@
 @use '/resources/scss/abstracts/mixins' as *;
 @use '/resources/scss/abstracts/variables' as *;
 @use '/resources/scss/components/cards/card-song';
+@use '/resources/scss/components/cards/card-album';
 
 #page-artist {
     padding: 20px;
@@ -9,6 +10,7 @@
     #info-artist {
         @include background;
         height: fit-content;
+        margin-bottom: 30px;
 
         h3 {
             white-space: normal;
@@ -112,56 +114,44 @@
         }
     }
 
-    .header {
+    #works-artist {
         display: flex;
-        width: 100%;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        @include background;
-        align-items: center;
-        margin-top: 20px;
+        flex-direction: column;
+        gap: 30px;
 
-        h4 {
-            margin-bottom: 0;
-        }
+        .work-artist {
+            display: grid;
+            margin-block: 10px;
+            gap: 15px;
 
-        .switch {
-            position: relative;
-            display: flex;
-            gap: 10px;
-            background-color: #5d5d5d;
-            border-radius: 5px;
+            a {
+                .img-container {
+                    &:hover {
+                        filter: opacity(0.5);
+                    }
+                }
 
-            .switch-indicator-songs,
-            .switch-indicator-albums {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 50%;
-                height: 100%;
-                background-color: $color;
-                transition: transform 0.3s ease;
-                z-index: 1;
-                border-radius: 5px;
-            }
+                p {
+                    margin-top: 5px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 100%;
 
-            button {
-                position: relative;
-                flex: 1;
-                background: transparent;
-                border: none;
-                color: #fff;
-                padding: 5px 10px;
-                z-index: 2;
-                cursor: pointer;
-                border-radius: 5px;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
             }
         }
 
-        a {
+        .ver-mas {
             background-color: $color;
-            padding: 5px 8px;
+            padding: 4px 10px;
             border-radius: 5px;
+            display: block;
+            margin-left: auto;
+            width: fit-content;
 
             &:hover {
                 background-color: $color-hover;
@@ -170,98 +160,6 @@
             &:active {
                 background-color: $color-click;
             }
-        }
-    }
-
-    #songs-artist {
-        margin-bottom: 50px;
-        @include background;
-
-        .songs {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-
-            .songs-row {
-                display: grid;
-                grid-template-columns: repeat(1, minmax(0, 1fr));
-                gap: 10px;
-
-                .card-song {
-                    width: 100%;
-
-                    &:hover {
-                        text-decoration: underline;
-                    }
-
-                    .img-container {
-
-                        &:hover {
-                            filter: opacity(0.5);
-                            cursor: pointer;
-                        }
-                    }
-
-                    a {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        max-width: 100%;
-                        display: block;
-                        margin-top: 3px;
-                    }
-                }
-            }
-        }
-
-        .songs.latest {
-            display: none;
-        }
-
-    }
-
-    #albums-artist {
-        @include background;
-
-        .albums {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-
-            .card-album {
-                display: grid;
-                width: 100%;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-
-                .img-container {
-                    background-color: white;
-                    border-radius: 5px;
-
-                    img {
-                        object-fit: contain;
-                    }
-
-                    &:hover {
-                        filter: opacity(0.5);
-                        cursor: pointer;
-                    }
-                }
-
-                a {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    max-width: 100%;
-                    margin-top: 3px;
-                }
-            }
-        }
-
-        .albums.latest {
-            display: none;
         }
     }
 }
@@ -301,30 +199,23 @@
             }
         }
 
-        .header {
-            margin-top: 0;
-        }
-
-        #songs-artist {
-            margin-bottom: 25px;
-
-            .songs {
-                .songs-row {
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
-                }
+        #works-artist {
+            .work-artist.songs {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
-        }
 
-        #albums-artist {
-            .albums {
+            .work-artist.albums {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
     #page-artist {
+        padding-inline: 50px;
+        display: flex;
+        gap: 25px;
 
         #info-artist {
             img {
@@ -332,18 +223,20 @@
             }
         }
 
-        #songs-artist {
-            .songs {
-                .songs-row {
-                    grid-template-columns: repeat(4, minmax(0, 1fr));
-                }
+        #works-artist {
+            .work-artist.songs {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
-        }
 
-        #albums-artist {
-            .albums {
+            .work-artist.albums {
                 grid-template-columns: repeat(6, minmax(0, 1fr));
             }
         }
+    }
+}
+
+@media (min-width: 1200px) {
+    #page-artist {
+        padding-inline: 100px;
     }
 }

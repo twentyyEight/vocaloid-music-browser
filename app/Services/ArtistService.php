@@ -55,7 +55,7 @@ class ArtistService
 
             // Canciones populares
             $popular_songs = [];
-            foreach ($json['relations']['popularSongs'] as $song) {
+            foreach (array_slice($json['relations']['popularSongs'], 0, 6) as $song) {
                 $popular_songs[] = [
                     'name' => $song['name'],
                     'img' => $song['mainPicture']['urlOriginal'] ?? null,
@@ -65,7 +65,7 @@ class ArtistService
 
             // Canciones recientes
             $latest_songs = [];
-            foreach ($json['relations']['latestSongs'] as $song) {
+            foreach (array_slice($json['relations']['latestSongs'], 0, 6) as $song) {
                 $latest_songs[] = [
                     'name' => $song['name'],
                     'img' => $song['mainPicture']['urlOriginal'] ?? null,
