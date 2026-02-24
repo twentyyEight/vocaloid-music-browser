@@ -2,24 +2,6 @@
 @use '../pagination';
 @use '/resources/scss/abstracts/variables' as *;
 
-.ui-widget.ui-widget-content {
-    background-color: #272727;
-    color: white;
-    border-radius: 10px;
-    border: 1px solid #5d5d5d;
-    padding-block: 5px;
-    width: min-content;
-
-    .ui-menu-item {
-        padding-left: 10px;
-
-        &:hover {
-            background-color: $color;
-            cursor: pointer;
-        }
-    }
-}
-
 .filters {
     padding: 10px;
     width: 100%;

@@ -48,22 +48,5 @@ $(function () {
         $(`div.albums.${sort_album}`).css('display', 'grid')
     }
 
-    // Btn populares y recientes
-    $('.switch button').on('click', function () {
-
-        const classes = this.classList
-        const entity = classes[0]
-        const sort = classes[1]
-
-        const index = $(this).index() - 1
-        const indicator = $(`.switch-indicator-${entity}`)
-        indicator.css('transform', `translateX(${index * 100}%)`)
-        $('.switch button').removeClass('active')
-        $(this).addClass('active')
-
-        $(`div.${entity}`).hide()
-        $(`div.${entity}.${sort}`).css('display', 'grid')
-    })
-
     closeAlert()
 })

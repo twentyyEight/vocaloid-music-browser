@@ -83,7 +83,7 @@ export function tagsHandler({
         // Como el array contiene solo ids, se buscan sus nombres por medio de la API
         namingTags(selectedTags)
 
-    } 
+    }
     // Si tags_ids NO tiene ids...
     else {
 
@@ -93,6 +93,7 @@ export function tagsHandler({
 
     /* TAGS INGRESADOS EN FORM 'FILTROS' */
     $(`#${name}`).autocomplete({
+        delay: 1500,
         source: function (request, response) {
             $.ajax({
                 url: `/${name}/autocomplete/${request.term}`,
@@ -106,7 +107,6 @@ export function tagsHandler({
                     $(`.loading.${name}`).hide()
                 },
                 error: function (error) {
-                    console.error(error)
                     response([])
                 }
             });
@@ -132,6 +132,9 @@ export function tagsHandler({
             // Esto permite que el input quede en blanco una vez seleccionado un tag
             $(`#${name}`).val('')
             return false
+        },
+        open: function () {
+            $(this).autocomplete('widget').css('width', $(this).outerWidth());
         }
     })
 }
