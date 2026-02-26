@@ -69,7 +69,9 @@
 
             <div id="info-song">
                 <div>
+                    @if ($song['date'])
                     <p><span class="label">Fecha de lanzamiento</span><span>{{ $song['date'] }}</span></p>
+                    @endif
                     @if ($song['duration'])
                     <p><span>Duración</span><span>{{ $song['duration'] }} min</span></p>
                     @endif

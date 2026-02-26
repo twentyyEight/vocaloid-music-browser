@@ -54,7 +54,10 @@
                 text-align: center;
                 line-height: 1.2;
                 text-transform: lowercase;
-                color: white;
+            }
+
+            &:hover {
+                filter: opacity(0.8);
             }
         }
     }

@@ -9,9 +9,9 @@
 @use 'pages/genres/index.scss' as *;
 @use 'pages/genres/show.scss' as *;
 @use 'pages/home.scss';
-@use 'pages/register-login.scss';
+@use 'pages/auth/register-login.scss';
 @use 'pages/profile.scss';
-@use 'pages/dashboard/index.scss' as *;
-@use 'pages/forgot-password.scss' as *;
+@use 'pages/dashboard.scss' as *;
+@use 'pages/auth/reset-password.scss' as *;
 
 @import "bootstrap-icons/font/bootstrap-icons.css";

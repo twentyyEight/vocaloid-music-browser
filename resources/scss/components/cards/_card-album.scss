@@ -17,12 +17,16 @@
         justify-content: center;
         gap: 5px;
 
+        &:hover {
+            filter: opacity(0.5)
+        }
+
         img {
             @include img-full-border;
             object-fit: cover;
         }
 
-        .icon-no-img {
+        .no-img {
             width: 60px;
         }
 

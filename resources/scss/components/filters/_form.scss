@@ -1,6 +1,7 @@
 @use './input-name';
 @use '../pagination';
 @use '/resources/scss/abstracts/variables' as *;
+@use '../loading';
 
 .filters {
     padding: 10px;

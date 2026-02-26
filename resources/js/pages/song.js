@@ -38,14 +38,11 @@ $(function () {
         if ($(this).innerWidth() <= 991) {
             $('#albums-song').insertAfter('#data-song')
         } else {
-            
+
             $('#video-albums-song').append($('#albums-song'))
         }
     })
 
-    /* Carousel (albumes) */
-    $(window).on('load', function () {
-        carousel($('#covers-albums-song'))
-        closeAlert()
-    })
+    carousel($('#covers-albums-song'))
+    closeAlert()
 })

@@ -4,6 +4,7 @@
 @use '/resources/scss/components/filters/input-dates';
 @use '/resources/scss/components/cards/card-album';
 @use '/resources/scss/components/title-page';
+@use '/resources/scss/components/empty-index';
 
 #page-albums {
     display: grid;
@@ -20,41 +21,6 @@
             &:hover {
                 text-decoration: underline;
             }
-
-            .img-container {
-
-                img {
-                    object-fit: cover;
-                }
-
-                .no-img {
-                    padding: 50px;
-                }
-
-                &:hover {
-                    filter: opacity(0.5);
-                }
-            }
-        }
-    }
-
-    .empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        img {
-            height: 180px;
-        }
-    }
-
-}
-
-@media (min-width: 576px) {
-    #page-albums {
-        #albums {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
 }

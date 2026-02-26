@@ -130,7 +130,7 @@ class SongService
             }
 
             // Fecha de publicación
-            $date = $json['publishDate'] ? date('d-m-Y', strtotime($json['publishDate'])) : null;
+            $date = isset($json['publishDate']) ? date('d-m-Y', strtotime($json['publishDate'])) : null;
 
             // Duración
             $min = floor($json["lengthSeconds"] / 60);

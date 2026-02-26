@@ -31,6 +31,7 @@ $(function () {
                 },
                 error: function (error) {
                     console.error(error)
+                    $('#loading').hide()
                     response([])
                 }
             });

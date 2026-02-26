@@ -14,6 +14,8 @@ export function carousel(container) {
     }
 
     function arrowsVisibility() {
+        console.log(true)
+        
         if (
             container[0].scrollWidth <= container[0].clientWidth ||
             $(window).width() <= 992

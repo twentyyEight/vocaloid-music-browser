@@ -116,7 +116,6 @@
                         <img src="{{ $popular_album['img'] }}" alt="{{ $popular_album['name'] }}">
                         @else
                         <x-carbon-no-image class="no-img" />
-                        <p>Portada no encontrada</p>
                         @endif
                     </div>
                     <p>{{ $popular_album['name'] }}</p>
@@ -141,7 +140,6 @@
                         <img src="{{ $latest_album['img'] }}" alt="{{ $latest_album['name'] }}">
                         @else
                         <x-carbon-no-image class="no-img" />
-                        <p>Portada no encontrada</p>
                         @endif
                     </div>
                     <p>{{ $latest_album['name'] }}</p>

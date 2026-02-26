@@ -1,0 +1,27 @@
+.ui-autocomplete,
+.ui-menu.ui-widget.ui-widget-content {
+    position: absolute;
+    z-index: 2000;
+    max-height: 40vh;
+    box-sizing: border-box;
+    background-color: #353535;
+    margin-top: 10px;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid #5d5d5d;
+    padding-block: 5px;
+    width: auto;
+
+    .ui-menu-item {
+        padding-left: 10px;
+
+        &:hover {
+            background-color: $color;
+            cursor: pointer;
+        }
+    }
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}

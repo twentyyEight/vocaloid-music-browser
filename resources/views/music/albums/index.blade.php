@@ -38,7 +38,7 @@
                 @if ($album['img'])
                 <img src="{{ $album['img'] }}" alt="{{ $album['name'] }}">
                 @else
-                <x-carbon-no-image class="icon-no-img" />
+                <x-carbon-no-image class="no-img" />
                 <p>Portada no <br> disponible</p>
                 @endif
             </div>
