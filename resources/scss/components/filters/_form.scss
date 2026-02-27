@@ -1,7 +1,9 @@
 @use './input-name';
 @use '../pagination';
 @use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/abstracts/mixins' as *;
 @use '../loading';
+@use '../autocomplete';
 
 .filters {
     padding: 10px;
@@ -9,8 +11,7 @@
     margin-right: 10px;
     position: relative;
     height: max-content;
-    display: flex;
-    flex-direction: column;
+    @include column;
     gap: 8px;
 
     .controls {
@@ -23,7 +24,7 @@
         }
 
         .open_filters {
-            background-color: $color;
+            background-color: $aqua;
             border-radius: 5px;
             height: 35px;
             display: flex;
@@ -35,7 +36,7 @@
 
     #filters_modal {
         .modal-content {
-            background-color: #353535;
+            background-color: $gray-bg;
 
             .modal-header {
                 border-bottom: 0;
@@ -46,8 +47,7 @@
             }
 
             .modal-body {
-                display: flex;
-                flex-direction: column;
+                @include column;
                 gap: 10px;
 
                 .input-tags-container {
@@ -64,7 +64,7 @@
 
                 .tag {
                     display: flex;
-                    background-color: $color;
+                    background-color: $aqua;
                     color: white;
                     gap: 5px;
                     width: max-content;
@@ -82,23 +82,23 @@
                 border-top: 0;
 
                 .apply_filters {
-                    background-color: $color;
+                    background-color: $aqua;
                     margin-top: 15px;
                     margin-bottom: 5px;
 
                     &:hover {
-                        background-color: $color-hover;
+                        background-color: $aqua-hover;
                     }
 
                     &:active {
-                        background-color: $color-click;
+                        background-color: $aqua-click;
                     }
                 }
 
                 .reset_filters {
-                    border: 2px solid $color;
+                    border: 2px solid $aqua;
                     text-align: center;
-                    color: $color;
+                    color: $aqua;
                     font-weight: 500;
 
                     &:hover {

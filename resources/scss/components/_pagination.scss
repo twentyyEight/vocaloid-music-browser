@@ -6,7 +6,7 @@
     margin-top: 40px;
 
     .page-item.active .page-link {
-        background-color: $color;
+        background-color: $aqua;
         color: white;
         border-color: transparent;
     }
@@ -16,7 +16,7 @@
     }
 
     .page-item .page-link {
-        background-color: #353535;
+        background-color: $gray-bg;
         border-color: #1e1e1e;
         color: white;
         font-size: 18px;

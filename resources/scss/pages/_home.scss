@@ -1,9 +1,10 @@
 @use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
 @use '../components/loading';
+@use '../components/autocomplete';
 
 #home-page {
-    display: flex;
-    flex-direction: column;
+    @include column;
     align-items: center;
     padding: 10px;
     overflow-x: hidden;
@@ -26,13 +27,12 @@
     }
 
     #container-home {
-        background-color: #353535;
+        background-color: $gray-bg;
         padding: 20px;
         border-radius: 10px;
         text-align: center;
         margin-top: 10px;
-        display: flex;
-        flex-direction: column;
+        @include column;
         gap: 10px;
         width: 100%;
 
@@ -74,17 +74,17 @@
             }
 
             #search-btn {
-                background-color: $color;
+                background-color: $aqua;
                 width: 50px;
                 border-radius: 5px;
                 margin-left: 5px;
 
                 &:hover {
-                    background-color: $color-hover;
+                    background-color: $aqua-hover;
                 }
 
                 &:active {
-                    background-color: $color-click;
+                    background-color: $aqua-click;
                 }
             }
         }
@@ -96,12 +96,12 @@
             margin-top: 10px;
 
             .explore {
-                border: 1px solid #545454;
+                border: 1px solid $gray-border;
                 border-radius: 5px;
                 width: 30%;
                 padding-block: 10px;
                 text-align: center;
-                background-color: #353535;
+                background-color: $gray-bg;
                 cursor: pointer;
 
                 .bi {
@@ -110,11 +110,11 @@
                 }
 
                 &:hover {
-                    background-color: $color-hover;
+                    background-color: $aqua-hover;
                 }
 
                 &:active {
-                    background-color: $color-click;
+                    background-color: $aqua-click;
                 }
             }
         }
@@ -131,8 +131,7 @@
 
         #viewport {
             width: 50vw;
-            display: flex;
-            flex-direction: column;
+            @include column;
             align-items: start;
 
             #squares-up,

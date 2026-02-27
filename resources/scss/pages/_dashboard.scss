@@ -1,4 +1,5 @@
 @use '/resources/scss/abstracts/variables' as *;
+@use '/resources/scss/abstracts/mixins' as *;
 
 #page-dashboard {
     padding: 10px;
@@ -21,11 +22,10 @@
 
             tbody {
                 tr {
-                    display: flex;
-                    flex-direction: column;
-                    border: 1px solid #545454;
+                    @include column;
+                    border: 1px solid $gray-border;
                     border-radius: 5px;
-                    background-color: #353535;
+                    background-color: $gray-bg;
                     padding: 10px;
 
                     td {
@@ -71,14 +71,12 @@
 
                         .btn-dashboard {
                             width: 100%;
-                            display: flex;
                             padding: 5px;
                             margin: 0;
                             flex-direction: row;
                             gap: 5px;
                             border-radius: 5px;
-                            justify-content: center;
-                            align-items: center;
+                            @include center;
                             cursor: pointer;
                             font-size: 14px;
                         }
@@ -108,10 +106,8 @@
 #background-modal-dashboard {
     position: absolute;
     z-index: 1;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include center;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
@@ -144,15 +140,15 @@
             }
 
             #btn-edit-user {
-                background-color: $color;
+                background-color: $aqua;
                 margin-top: 10px;
 
                 &:hover {
-                    background-color: $color-hover;
+                    background-color: $aqua-hover;
                 }
 
                 &:active {
-                    background-color: $color-click;
+                    background-color: $aqua-click;
                 }
             }
         }
@@ -175,7 +171,7 @@
             justify-content: center;
 
             table {
-                background-color: #353535;
+                background-color: $gray-bg;
                 border-radius: 5px;
                 width: auto;
                 border-collapse: collapse;

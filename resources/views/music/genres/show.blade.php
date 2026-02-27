@@ -64,7 +64,7 @@
                     @endif
                 </div>
 
-                <p>{{ $artist['name'] }}</p>
+                <p class="name-artist">{{ $artist['name'] }}</p>
             </a>
             @endforeach
         </div>

@@ -3,16 +3,13 @@
 @use '/resources/scss/components/fav-btn';
 
 #page-album {
-    display: flex;
-    flex-direction: column;
+    @include column;
     padding: 20px;
     position: relative;
 
     #cover-links-album {
-        display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        @include center;
 
         img {
             width: 100%;
@@ -39,7 +36,7 @@
         }
 
         .modal-content {
-            background-color: #353535;
+            background-color: $gray-bg;
 
             .btn-close {
                 filter: invert(1);
@@ -51,19 +48,19 @@
             }
 
             .modal-body {
-                display: flex;
-                flex-direction: column;
+                @include column;
                 text-align: center;
 
                 a {
                     color: white;
                     padding: 5px 10px;
                     border-radius: 5px;
+                    gap: 5px;
+                    border: 1px solid $gray-border;
+
                     display: flex;
                     margin-bottom: 8px;
                     font-weight: 400;
-                    gap: 5px;
-                    border: 1px solid #545454;
                     justify-content: center;
                 }
             }
@@ -77,7 +74,7 @@
     #data-album {
 
         h2 {
-            color: #afafaf;
+            color: $gray-txt;
             font-weight: 400;
         }
 
@@ -98,7 +95,7 @@
             display: flex;
             justify-content: space-between;
             margin-block: 5px;
-            border-bottom: 1px solid #545454;
+            border-bottom: 1px solid $gray-border;
 
             button {
                 width: 100%;
@@ -111,7 +108,7 @@
             }
 
             #btn-tracks-album {
-                border-bottom: 2px solid $color;
+                border-bottom: 2px solid $aqua;
             }
         }
 
@@ -131,7 +128,7 @@
                 button {
                     padding: 5px 10px;
                     border-radius: 5px;
-                    border: 1px solid #545454;
+                    border: 1px solid $gray-border;
 
                     &:hover {
                         background-color: #54545484;
@@ -212,8 +209,7 @@
         align-items: start;
 
         #cover-links-album {
-            display: flex;
-            flex-direction: column;
+            @include column;
             align-items: end;
 
             .fav,
@@ -248,7 +244,7 @@
                         margin-bottom: 8px;
                         font-weight: 400;
                         gap: 5px;
-                        border: 1px solid #545454;
+                        border: 1px solid $gray-border;
                         justify-content: center;
                     }
                 }

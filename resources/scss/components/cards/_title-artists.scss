@@ -1,3 +1,6 @@
+@use '/resources/scss/abstracts/mixins' as *;
+@use '/resources/scss/abstracts/variables' as *;
+
 .data {
     line-height: 1.2;
 
@@ -9,18 +12,12 @@
         font-size: 18px;
         font-weight: 600;
         margin-top: 10px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
+        @include elipsis;
     }
 
     .artists {
-        color: rgb(172, 172, 172);
+        color: $gray-txt;
         font-size: 16px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
+        @include elipsis;
     }
 }

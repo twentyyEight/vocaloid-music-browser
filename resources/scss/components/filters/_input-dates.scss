@@ -1,4 +1,5 @@
+@use '/resources/scss/abstracts/mixins' as *;
+
 .date-container {
-    display: flex;
-    flex-direction: column;
+    @include column;
 }

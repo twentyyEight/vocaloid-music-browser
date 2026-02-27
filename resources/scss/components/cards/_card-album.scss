@@ -11,10 +11,8 @@
         display: flex;
         background-color: $gray;
         border-radius: 5px;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        @include center;
         gap: 5px;
 
         &:hover {

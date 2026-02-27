@@ -13,9 +13,7 @@ export function carousel(container) {
         next.css('opacity', scrollLeft >= maxScroll - 1 ? 0.5 : 1)
     }
 
-    function arrowsVisibility() {
-        console.log(true)
-        
+    function arrowsVisibility() {        
         if (
             container[0].scrollWidth <= container[0].clientWidth ||
             $(window).width() <= 992

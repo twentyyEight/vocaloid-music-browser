@@ -43,6 +43,6 @@ $(function () {
         }
     })
 
-    carousel($('#covers-albums-song'))
+    if (!$('#covers-albums-song').length == 0) carousel($('#covers-albums-song'))
     closeAlert()
 })

@@ -8,7 +8,7 @@
     position: relative;
 
     a {
-        color: $color;
+        color: $aqua;
 
         &:hover {
             text-decoration: underline;
@@ -27,13 +27,11 @@
 
     #no-video-song {
         aspect-ratio: 16/9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include center;
         text-align: center;
         flex-direction: column;
         font-size: 25px;
-        border: 1px solid #545454;
+        border: 1px solid $gray-border;
         margin: 10px;
         border-radius: 5px;
     }
@@ -48,13 +46,13 @@
 
         #artists-song {
             font-weight: 300;
-            color: #c7c7c7;
+            color: $gray-txt;
         }
 
         #type-song {
             font-weight: 400;
             margin-bottom: 8px;
-            background-color: $color;
+            background-color: $aqua;
             width: fit-content;
             padding: 6px 8px;
             border-radius: 5px;
@@ -65,7 +63,7 @@
             display: flex;
             justify-content: space-between;
             margin-top: 10px;
-            border-bottom: 1px solid #545454;
+            border-bottom: 1px solid $gray-border;
 
             button {
                 width: 100%;
@@ -78,7 +76,7 @@
             }
 
             #btn-info-song {
-                border-bottom: 2px solid $color;
+                border-bottom: 2px solid $aqua;
             }
         }
 
@@ -88,7 +86,7 @@
             padding: 10px;
             height: 35vh;
             margin-bottom: 10px;
-            border: 1px solid #545454;
+            border: 1px solid $gray-border;
             border-radius: 5px;
             border-top: transparent;
 
@@ -101,18 +99,17 @@
             }
 
             &::-webkit-scrollbar-thumb {
-                background-color: $color;
+                background-color: $aqua;
                 border-radius: 4px;
 
                 &:hover {
-                    background-color: $color-hover;
+                    background-color: $aqua-hover;
                 }
             }
         }
 
         #info-song {
-            display: flex;
-            flex-direction: column;
+            @include column;
             gap: 20px;
 
             h4 {
@@ -127,7 +124,7 @@
 
             #original-song {
                 a {
-                    color: $color;
+                    color: $aqua;
 
                     &:hover {
                         text-decoration: underline;
@@ -156,7 +153,7 @@
                 button {
                     padding: 5px 10px;
                     border-radius: 5px;
-                    border: 1px solid #545454;
+                    border: 1px solid $gray-border;
 
                     &:hover {
                         background-color: #54545484;
@@ -167,7 +164,7 @@
             .lyric {
                 margin-top: 15px;
                 display: none;
-                background-color: #545454;
+                background-color: $gray-border;
                 padding: 10px;
                 border-radius: 5px;
             }
@@ -194,11 +191,11 @@
             }
 
             &::-webkit-scrollbar-thumb {
-                background-color: $color;
+                background-color: $aqua;
                 border-radius: 2px;
 
                 &:hover {
-                    background-color: $color-hover;
+                    background-color: $aqua-hover;
                 }
             }
 
@@ -229,9 +226,7 @@
 
 @media (min-width: 992px) {
     #page-song {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include center;
         height: calc(100vh - 56px);
         position: relative;
 
@@ -243,8 +238,7 @@
             height: 80vh;
 
             #video-albums-song {
-                display: flex;
-                flex-direction: column;
+                @include column;
                 gap: 10px;
                 width: 45vw;
 
@@ -256,9 +250,7 @@
                 }
 
                 #no-video-song {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    @include center;
                     text-align: center;
                     flex-direction: column;
                     font-size: 25px;
@@ -295,8 +287,7 @@
                 @include background;
                 width: 40vw;
                 padding: 15px 20px;
-                display: flex;
-                flex-direction: column;
+                @include column;
 
                 #info-song,
                 #lyrics-song {

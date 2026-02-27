@@ -4,8 +4,7 @@
 #profile-page {
     padding: 10px 20px;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    @include column;
     gap: 30px;
 
     h1 {
@@ -43,16 +42,16 @@
         margin-bottom: 15px;
 
         button {
-            background-color: $color;
+            background-color: $aqua;
             padding-inline: 10px;
             border-radius: 5px;
 
             &:hover {
-                background-color: $color-hover;
+                background-color: $aqua-hover;
             }
 
             &:active {
-                background-color: $color-click;
+                background-color: $aqua-click;
             }
         }
     }
@@ -99,7 +98,6 @@
             .img-container {
 
                 img {
-                    object-fit: cover;
                     object-position: top;
                     background-color: white;
                 }
@@ -109,9 +107,6 @@
             .artists {
                 display: block;
                 width: 100%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
         }
     }
@@ -126,20 +121,8 @@
             position: relative;
             width: 20vw;
 
-            .img-container {
-
-                img {
-                    object-fit: cover;
-                    object-position: top;
-                    background-color: white;
-                }
-            }
-
             p {
                 margin-top: 3px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
         }
     }
@@ -154,9 +137,7 @@
             @include background;
             width: 100%;
             height: 25vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include center;
         }
     }
 }

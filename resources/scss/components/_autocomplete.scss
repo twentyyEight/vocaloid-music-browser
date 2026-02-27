@@ -1,14 +1,16 @@
+@use '../abstracts/variables' as *;
+
 .ui-autocomplete,
 .ui-menu.ui-widget.ui-widget-content {
     position: absolute;
     z-index: 2000;
     max-height: 40vh;
     box-sizing: border-box;
-    background-color: #353535;
+    background-color: $gray-bg;
     margin-top: 10px;
     color: white;
     border-radius: 10px;
-    border: 1px solid #5d5d5d;
+    border: 1px solid $gray-border;
     padding-block: 5px;
     width: auto;
 
@@ -16,7 +18,7 @@
         padding-left: 10px;
 
         &:hover {
-            background-color: $color;
+            background-color: $aqua;
             cursor: pointer;
         }
     }
